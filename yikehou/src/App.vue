@@ -92,4 +92,8 @@ img {
   width: 100%;
   height: 132px;
 }
+.footer_height{
+  width: 100%;
+  height: 136px;
+}
 </style>

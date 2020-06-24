@@ -65,7 +65,6 @@
 }
 .intro_content{
     line-height: 30px;
-    padding-bottom: 160px;
 }
 </style>
 <template>
@@ -114,6 +113,7 @@
             <p class="intro_title">课程简介</p>
             <div class="intro_content">少儿英语培训是一种针对3到12岁儿童的英语培训课程或项目。提供少儿英语培训的单位有很多，但是切记不要随便给孩子选培训机构，因为3到12岁是少儿英语培训的黄金时期，错过或者耽误这个时期都会让孩子留下遗憾，所以要选择正式的、正规的、受到政府认可的单位。</div>
         </div>
+        <div class="footer_height"></div>
       </el-container>
       <!-- footer -->
       <footer_nav></footer_nav>

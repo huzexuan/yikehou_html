@@ -4,9 +4,6 @@
   width: 100%;
   height: 423px;
 }
-.partner_swiper {
-  padding-bottom: 216px;
-}
 .intro_box {
   padding: 38px 0 157px;
 }
@@ -91,6 +88,7 @@
           <div class="swiper-button-prev"></div>
         </div>
       </div>
+      <div class="footer_height"></div>
       <!-- footer -->
       <footer_nav></footer_nav>
     </el-main>

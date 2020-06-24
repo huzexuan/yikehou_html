@@ -81,7 +81,7 @@
             <p>课程中心</p>
             <p class="height_border"></p>
           </li>
-          <li :class="navId == '4' ?'active':''">
+          <li :class="navId == '4' ?'active':''" @click="navId == 4 ? '':navPage('New')">
             <p>新闻动态</p>
             <p class="height_border"></p>
           </li>

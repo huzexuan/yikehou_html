@@ -119,7 +119,7 @@
 }
 /* 课程中心 */
 .course {
-  padding: 100px 0 135px;
+  padding-top: 100px;
 }
 .courseBox_title {
   font-size: 24px;
@@ -288,6 +288,7 @@
           </div>
         </div>
       </div>
+      <div class="footer_height"></div>
       <!-- footer -->
       <footer_nav></footer_nav>
     </el-main>

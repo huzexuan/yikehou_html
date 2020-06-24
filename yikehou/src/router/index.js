@@ -4,6 +4,7 @@ import Index from '@/views/index/index'
 import Aboutus from '@/views/aboutus/aboutus'
 import Course from '@/views/course/course'
 import CourseDetail from '@/views/course/courseDetail'
+import New from '@/views/new/new'
 import School from '@/views/login/school_login'
 import Student from '@/views/login/student_login'
 
@@ -29,6 +30,10 @@ export default new Router({
             path: '/',
             name: 'CourseDetail',
             component: CourseDetail
+        }, {
+            path: '/',
+            name: 'New',
+            component: New
         }, {
             path: '/',
             name: 'School',

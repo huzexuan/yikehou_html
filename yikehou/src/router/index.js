@@ -14,6 +14,7 @@ import MeCourse from '@/views/student/meCourse'
 import MeCourseDel from '@/views/student/meCourseDel'
 import Feedback from '@/views/student/feedback'
 import SchoolIndex from '@/views/school/index'
+import SeeDegree from '@/views/school/seeDegree'
 
 Vue.use(Router)
 
@@ -82,6 +83,11 @@ export default new Router({
             path: '/',
             name: 'Feedback',
             component: Feedback
+        },
+        {
+            path: '/',
+            name: 'SeeDegree',
+            component: SeeDegree
         }
 
     ]

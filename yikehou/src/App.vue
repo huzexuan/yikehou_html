@@ -5,12 +5,17 @@
 </template>
 
 <script>
+
+
 export default {
   name: "App"
 };
 </script>
 
 <style>
+
+
+
 * {
   margin: 0;
   padding: 0;
@@ -96,4 +101,5 @@ img {
   width: 100%;
   height: 136px;
 }
+
 </style>

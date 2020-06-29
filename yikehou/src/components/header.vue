@@ -53,13 +53,25 @@
 .nav li.active .height_border{
   background: #0168b7;
 }
+.user_student{
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 16px;
+}
+.user_student img{
+  margin-right: 14px;
+}
 </style>
 <template>
   <div>
     <div class="header_top">
       <el-container class="header_top_box flex_justify_content">
         <p>欢迎进入益课后官网！</p>
-        <div class="login_box">
+        <div class="user_student" v-if="user == 1">
+          <img src="./images/user_student.png" alt="">张甜甜
+        </div>
+        <div class="login_box" v-else>
           <div class="login_btn login_btn_active" @click="student_login()">学生登录</div>
           <div class="login_btn" @click="school_login()">学校登录</div>
         </div>
@@ -85,7 +97,7 @@
             <p>新闻动态</p>
             <p class="height_border"></p>
           </li>
-          <li :class="navId == '5' ?'active':''">
+          <li :class="navId == '5' ?'active':''" @click="navId == 5 ? '':navPage('JoinHands')">
             <p>合作共赢</p>
             <p class="height_border"></p>
           </li>
@@ -100,6 +112,9 @@ export default {
   props: {
     navId: {
       type: Number
+    },
+    user:{
+      type:Number
     }
   },
   data() {

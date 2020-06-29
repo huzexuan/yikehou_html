@@ -22,12 +22,14 @@
 .newItem {
   width: 100%;
   box-sizing: border-box;
-  margin: 29px 0;
-  padding: 0 16px 0 24px;
+  /* margin: 29px 0; */
+  padding: 24px 16px 24px 24px;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
+  transition: 0.5s;
 }
+
 .newItem_del {
   display: flex;
   align-items: center;
@@ -45,32 +47,46 @@
   font-size: 18px;
   margin-bottom: 36px;
 }
-.newItem_content_text{
+.newItem_content_text {
   color: #666;
   line-height: 20px;
 }
-.newItem_btn{
+.newItem_btn {
   width: 110px;
   height: 30px;
   border: 1px solid #2b5490;
   color: #2b5490;
   text-align: center;
   line-height: 30px;
-  margin-top:36px;
+  margin-top: 36px;
 }
-.newItem_tag{
+.newItem_tag {
   width: 86px;
   height: 86px;
   background: #f2f2f2;
   text-align: center;
   margin-top: 10px;
 }
-.newItem_tag p:nth-child(1){
+.newItem_tag p:nth-child(1) {
   font-size: 30px;
   margin: 14px 0;
 }
-.newItem_tag p:nth-child(2){
+.newItem_tag p:nth-child(2) {
   color: #999;
+}
+.newItem:hover {
+  transform: scale(1.1);
+  background: #2b5490;
+}
+.newItem:hover .newItem_content_text {
+  color: #fff;
+}
+.newItem:hover .title {
+  color: #fff;
+}
+.newItem:hover .newItem_btn {
+  border: 1px solid #fff;
+  color: #fff;
 }
 </style>
 <template>
@@ -87,8 +103,12 @@
       <!-- 内容 -->
       <el-container>
         <ul class="newTab">
-          <li class="active">最新公告</li>
-          <li>公司新闻</li>
+          <li
+            v-for="(item,index) in tabList"
+            :key="index"
+            :class="[tabId == item.id ?'active':'']"
+            @click="_tab(item.id)"
+          >{{item.title}}</li>
         </ul>
         <div class="newList">
           <div class="newItem">
@@ -98,7 +118,9 @@
                 <p
                   class="title ellipse"
                 >烁炎文化传播有限公司是一家专注于招生领域的教育服务平台烁炎文化传播有限公司是一家专注于招生领域的教育服务平台烁炎文化传播有限公司是一家专注于招生领域的教育服务平台</p>
-                <p class="newItem_content_text ellipse2">为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。z 公司定位为招生专家，以“教育为人民”为理念，用科技和经验驱动教育进步</p>
+                <p
+                  class="newItem_content_text ellipse2"
+                >为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。z 公司定位为招生专家，以“教育为人民”为理念，用科技和经验驱动教育进步</p>
                 <div class="newItem_btn">点击详情</div>
               </div>
             </div>
@@ -106,7 +128,25 @@
               <p>02</p>
               <p>2020-06</p>
             </div>
-          </div> 
+          </div>
+          <div class="newItem">
+            <div class="newItem_del">
+              <img src="./images/newItem.jpg" alt />
+              <div class="newItem_content">
+                <p
+                  class="title ellipse"
+                >烁炎文化传播有限公司是一家专注于招生领域的教育服务平台烁炎文化传播有限公司是一家专注于招生领域的教育服务平台烁炎文化传播有限公司是一家专注于招生领域的教育服务平台</p>
+                <p
+                  class="newItem_content_text ellipse2"
+                >为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。z 公司定位为招生专家，以“教育为人民”为理念，用科技和经验驱动教育进步</p>
+                <div class="newItem_btn">点击详情</div>
+              </div>
+            </div>
+            <div class="newItem_tag">
+              <p>02</p>
+              <p>2020-06</p>
+            </div>
+          </div>
         </div>
         <div class="footer_height"></div>
       </el-container>
@@ -123,10 +163,25 @@ import crumbs_nav from "../../components/crumbsNav.vue";
 export default {
   data() {
     return {
-      breadlist: [{ title: "首页", path: "Index" }, { title: "新闻动态" }]
+      tabId: 1,
+      breadlist: [{ title: "首页", path: "Index" }, { title: "新闻动态" }],
+      tabList: [
+        {
+          id: 1,
+          title: "最新公告"
+        },
+        {
+          id: 2,
+          title: "公司新闻"
+        }
+      ]
     };
   },
-  methods: {},
+  methods: {
+    _tab(id) {
+      this.tabId = id
+    }
+  },
   components: {
     head_nav,
     footer_nav,

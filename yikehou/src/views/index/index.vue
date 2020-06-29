@@ -9,6 +9,9 @@
   width: 100%;
   height: 100%;
 }
+.banner .swiper-pagination .swiper-pagination-bullets {
+  bottom: 40px;
+}
 /*最新公告*/
 .notice {
   width: 100%;
@@ -187,7 +190,7 @@
   line-height: 30px;
   margin: 72px 0 164px;
 }
-.courseItem_btn{
+.courseItem_btn {
   width: 198px;
   height: 53px;
   background: #0168b7;
@@ -201,7 +204,7 @@
 <template>
   <div>
     <el-header>
-      <head_nav :navId='1'></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -238,7 +241,7 @@
       <!-- 新闻中心 -->
       <el-container class="news">
         <div class="news_del">
-          <div class="news_title_box  bounceInLeft wow">
+          <div class="news_title_box bounceInLeft wow">
             <span>新闻中心</span>
             <span>NEWS</span>
           </div>
@@ -256,7 +259,7 @@
       </el-container>
       <!-- 服务 -->
       <div class="serve">
-        <div class="serve_box ">
+        <div class="serve_box">
           <h1 class="wow fadeInUp">课后服务一站式平台</h1>
           <p class="wow fadeInUp">烁炎文化传播有限公司是一家专注于招生领域的教育服务平台。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案...</p>
           <div class="serve_btn wow fadeInUp">MORE</div>
@@ -269,7 +272,11 @@
         </p>
         <p class="courseBox_del wow fadeInUp">益课后 · 丰富多彩的课后服务· 助力学生发展的核心素养</p>
         <div class="courseList">
-          <div class="courseItem clearfix wow fadeInUp" v-for="(item,index) in courseList" :key="index">
+          <div
+            class="courseItem clearfix wow fadeInUp"
+            v-for="(item,index) in courseList"
+            :key="index"
+          >
             <img src="./images/course.jpg" class="courseItem_img" />
             <div class="courseItem_content">
               <div class="float_box">
@@ -352,7 +359,7 @@ export default {
 
   components: {
     head_nav,
-    footer_nav,
+    footer_nav
   }
 };
 </script>

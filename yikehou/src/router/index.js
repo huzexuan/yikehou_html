@@ -6,6 +6,7 @@ import JoinHands from '@/views/aboutus/joinHands'
 import Course from '@/views/course/course'
 import CourseDetail from '@/views/course/courseDetail'
 import New from '@/views/new/new'
+import NewDes from '@/views/new/newDes'
 import School from '@/views/login/school_login'
 import Student from '@/views/login/student_login'
 import Password from '@/views/login/password'
@@ -15,15 +16,15 @@ import MeCourseDel from '@/views/student/meCourseDel'
 import Feedback from '@/views/student/feedback'
 import SchoolIndex from '@/views/school/index'
 import SeeDegree from '@/views/school/seeDegree'
+import SeeCondition from '@/views/school/seeCondition'
+import Information from '@/views/school/information'
+import SchoolSet from '@/views/school/set'
+import Coupleback from '@/views/school/coupleback'
 
 Vue.use(Router)
 
 export default new Router({
     routes: [{
-            path: '/',
-            name: 'SchoolIndex',
-            component: SchoolIndex
-        }, {
             path: '/',
             name: 'Index',
             component: Index
@@ -50,6 +51,10 @@ export default new Router({
             path: '/',
             name: 'New',
             component: New
+        }, {
+            path: '/',
+            name: 'NewDes',
+            component: NewDes
         }, {
             path: '/',
             name: 'School',
@@ -86,8 +91,33 @@ export default new Router({
         },
         {
             path: '/',
+            name: 'SchoolIndex',
+            component: SchoolIndex
+        },
+        {
+            path: '/',
             name: 'SeeDegree',
             component: SeeDegree
+        },
+        {
+            path: '/',
+            name: 'SeeCondition',
+            component: SeeCondition
+        },
+        {
+            path: '/',
+            name: 'Information',
+            component: Information
+        },
+        {
+            path: '/',
+            name: 'SchoolSet',
+            component: SchoolSet
+        },
+        {
+            path: '/',
+            name: 'Coupleback',
+            component: Coupleback
         }
 
     ]

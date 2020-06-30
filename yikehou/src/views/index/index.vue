@@ -1,15 +1,16 @@
 
 <style>
 /* banner */
-.banner {
+.index_banner {
   width: 100%;
   height: 738px;
 }
-.banner .swiper-container {
+.index_banner .swiper-container {
   width: 100%;
   height: 100%;
+  padding: 0;
 }
-.banner .swiper-pagination .swiper-pagination-bullets {
+.index_banner .swiper-pagination .swiper-pagination-bullets {
   bottom: 40px;
 }
 /*最新公告*/
@@ -22,6 +23,7 @@
   width: calc(100% - 29px);
   display: flex;
   align-content: center;
+  height: 104px;
 }
 .notice_title {
   width: 122px;
@@ -34,6 +36,7 @@
   width: auto;
   max-width: calc(100% - 173px);
   height: 104px;
+  padding: 0;
 }
 .notice .swiper-container p {
   width: 100%;
@@ -120,6 +123,7 @@
   margin: 90px auto 0;
   cursor: pointer;
 }
+
 /* 课程中心 */
 .course {
   padding-top: 100px;
@@ -199,6 +203,10 @@
   text-align: center;
   line-height: 53px;
   cursor: pointer;
+  transition: 0.5s;
+}
+.courseItem_btn:hover {
+  transform: scale(1.1);
 }
 </style>
 <template>
@@ -208,7 +216,7 @@
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <div class="banner">
+      <div class="index_banner">
         <swiper ref="mySwiper" :options="swiperOptions">
           <swiper-slide v-for="(item,index) in bannerSwiper" :key="index">
             <img :src="item" style="width:100%;height:100%" />
@@ -245,14 +253,19 @@
             <span>新闻中心</span>
             <span>NEWS</span>
           </div>
-          <img src="./images/news.jpg" class="fadeInLeftBig wow" alt />
+          <img :src="newsList[0].img" class="fadeInLeftBig wow" alt />
         </div>
         <div class="news_content wow fadeInRight">
-          <div class="news_allbtn">MORE</div>
+          <div class="news_allbtn" @click="up_newDesList">MORE</div>
           <div class="newsList_box">
-            <div v-for="(item,index) in newsList" :key="index" class="newsList_item">
+            <div
+              v-for="(item,index) in newsList"
+              :key="index"
+              class="newsList_item"
+              @click="up_newDes(item.id)"
+            >
               <p class="ellipse">{{item.title}}</p>
-              <p>2020-04-13 11:26:45</p>
+              <p>{{item.created_at}}</p>
             </div>
           </div>
         </div>
@@ -305,6 +318,8 @@
 <script>
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
@@ -325,21 +340,7 @@ export default {
         direction: "vertical",
         slidesPerView: "auto"
       },
-      newsList: [
-        {
-          title: "新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心1"
-        },
-        {
-          title: "新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心1"
-        },
-        {
-          title:
-            "新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心1"
-        },
-        {
-          title: "新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心新闻中心1"
-        }
-      ],
+      newsList: [],
       courseList: [
         {
           title: "1"
@@ -356,7 +357,28 @@ export default {
       ]
     };
   },
-
+  async created() {
+    this.init();
+  },
+  methods: {
+    async init() {
+      let params = new URLSearchParams();
+      params.append("cate", 3);
+      params.append("limit", 4);
+      params.append("page", 1);
+      let _res = await ajax.indexNew(params);
+      if (_res.code == 0) {
+        this.newsList = _res.data.data;
+      } else {
+      }
+    },
+    up_newDes(up_id) {
+      this.$router.push({ name: "NewDes", params: { id: up_id } });
+    },
+    up_newDesList() {
+      this.$router.push({ name: "New" });
+    }
+  },
   components: {
     head_nav,
     footer_nav

@@ -55,9 +55,8 @@
   width: calc(100% - 161px);
   box-sizing: border-box;
   height: 1144px;
-  overflow-y: scroll;
   box-sizing: border-box;
-  padding: 10px 40px;
+  padding: 10px 0 10px 40px;
 }
 .courseList_box::-webkit-scrollbar {
   width: 4px;
@@ -139,8 +138,50 @@
             >{{item.text}}</li>
           </ul>
           <div class="courseList_box">
-            <ul class="courseList">
+            <ul class="courseList index_courseList">
               <li @click="_upcourseDetail()">
+                <img src="./images/courseList.jpg" alt />
+                <div class="courseItem">
+                  <p class="ellipse">3D打印</p>
+                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
+                </div>
+              </li>
+              <li>
+                <img src="./images/courseList.jpg" alt />
+                <div class="courseItem">
+                  <p class="ellipse">3D打印</p>
+                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
+                </div>
+              </li>
+              <li>
+                <img src="./images/courseList.jpg" alt />
+                <div class="courseItem">
+                  <p class="ellipse">3D打印</p>
+                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
+                </div>
+              </li>
+              <li>
+                <img src="./images/courseList.jpg" alt />
+                <div class="courseItem">
+                  <p class="ellipse">3D打印</p>
+                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
+                </div>
+              </li>
+              <li>
+                <img src="./images/courseList.jpg" alt />
+                <div class="courseItem">
+                  <p class="ellipse">3D打印</p>
+                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
+                </div>
+              </li>
+              <li>
+                <img src="./images/courseList.jpg" alt />
+                <div class="courseItem">
+                  <p class="ellipse">3D打印</p>
+                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
+                </div>
+              </li>
+              <li>
                 <img src="./images/courseList.jpg" alt />
                 <div class="courseItem">
                   <p class="ellipse">3D打印</p>
@@ -182,6 +223,7 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import crumbs_nav from "../../components/crumbsNav.vue";
+import $ from "jquery";
 export default {
   data() {
     return {
@@ -235,8 +277,14 @@ export default {
     };
   },
   methods: {
+    init() {
+      if ($(".courseList").height() > 1161) {
+        $(".courseList_box").css("overflow-y", "scroll")
+      }
+    },
     gradeTab(id) {
       this.gradeId = id;
+      console.log($(".gradeTab_box").height());
     },
     _courseMenu(id) {
       this.courseMenu_id = id;
@@ -244,6 +292,9 @@ export default {
     _upcourseDetail() {
       this.$router.push({ name: "CourseDetail", params: { id: 1 } });
     }
+  },
+  mounted: function() {
+    this.init();
   },
   components: {
     head_nav,

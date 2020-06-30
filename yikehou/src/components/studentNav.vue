@@ -31,8 +31,8 @@
       >选课中心</li>
       <li :class="[id == 2 ?'studentNav_active':'']" @click="id == 2 ? '':nav_tab('')">开设学生账号</li>
       <li :class="[id == 3 ?'studentNav_active':'']" @click="id == 3 ? '':nav_tab('SeeDegree')">查看信息</li>
-      <li :class="[id == 4 ?'studentNav_active':'']" @click="id == 4 ? '':nav_tab('')">设置</li>
-      <li :class="[id == 5 ?'studentNav_active':'']" @click="id == 5 ? '':nav_tab('')">学生反馈信息</li>
+      <li :class="[id == 4 ?'studentNav_active':'']" @click="id == 4 ? '':nav_tab('SchoolSet')">设置</li>
+      <li :class="[id == 5 ?'studentNav_active':'']" @click="id == 5 ? '':nav_tab('Coupleback')">学生反馈信息</li>
     </ul>
     <ul v-else>
       <li

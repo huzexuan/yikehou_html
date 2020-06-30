@@ -5,8 +5,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: "App"
 };
@@ -101,5 +99,23 @@ img {
   width: 100%;
   height: 136px;
 }
-
+.courseList_box::-webkit-scrollbar,
+.overflow_box::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  scrollbar-arrow-color: red;
+}
+.courseList_box::-webkit-scrollbar-thumb,
+.overflow_box::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background:#ced8e5;
+  scrollbar-arrow-color: red;
+}
+.courseList_box::-webkit-scrollbar-track,
+.overflow_box::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+    background: rgba(255, 255, 255, 0.4);
+}
 </style>

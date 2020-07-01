@@ -97,20 +97,30 @@
   width: 100%;
   height: 978px;
   background: url(./images/serve_bg.jpg) no-repeat 100% 100%;
+  position: relative;
 }
 .serve_box {
-  width: 690px;
-  padding-top: 418px;
-  margin: auto;
+  width: 979px;
+  height: 573px;
+  box-sizing: border-box;
+  padding-top: 168px;
+  background: url(./images/serve_box_bg.png) no-repeat 100% 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -286px;
+  margin-left: -489px;
 }
 .serve_box h1 {
   text-align: center;
   margin-bottom: 54px;
   color: #000;
 }
-.serve_box p {
+.serve_box > p {
   font-size: 16px;
   line-height: 30px;
+  width: 688px;
+  margin-left: 180px;
 }
 .serve_btn {
   width: 145px;
@@ -145,6 +155,11 @@
   color: #666;
   text-align: center;
   margin: 34px 0 120px;
+}
+.courseItem .courseItem_img {
+  width: 958px;
+  height: 620px;
+  display: block;
 }
 .courseItem:nth-child(odd) .courseItem_img,
 .courseItem:nth-child(odd) .courseItem_content {
@@ -208,6 +223,16 @@
 .courseItem_btn:hover {
   transform: scale(1.1);
 }
+.up_courseList {
+  width: 143px;
+  height: 34px;
+  border: 1px solid #7d7d7d;
+  text-align: center;
+  line-height: 36px;
+  font-size: 16px;
+  margin: 95px auto 0;
+  cursor: pointer;
+}
 </style>
 <template>
   <div>
@@ -234,13 +259,8 @@
           <div class="notice_r">
             <p class="notice_title">最新公告</p>
             <swiper ref="mySwiper" :options="notice_swiperOptions">
-              <swiper-slide>
-                <p class="ellipse">开课前15分钟不能更换和取消课程！</p>
-              </swiper-slide>
-              <swiper-slide>
-                <p
-                  class="ellipse"
-                >开课前15分钟不能更换和取消课程！开课前15分钟不能更换和取消课程！开课前15分钟不能更换和取消课程！开课前15分钟不能更换和取消课程！开课前15分钟不能更换和取消课程！</p>
+              <swiper-slide v-for="(item,index) in noticeList" :key="index">
+                <p class="ellipse" v-html="item.content">{{item.content}}</p>
               </swiper-slide>
             </swiper>
           </div>
@@ -249,11 +269,11 @@
       <!-- 新闻中心 -->
       <el-container class="news">
         <div class="news_del">
-          <div class="news_title_box bounceInLeft wow">
+          <div class="news_title_box bounceInLeft wow" v-if="newsList.length">
             <span>新闻中心</span>
             <span>NEWS</span>
           </div>
-          <img :src="newsList[0].img" class="fadeInLeftBig wow" alt />
+          <img src class="fadeInLeftBig wow" alt />
         </div>
         <div class="news_content wow fadeInRight">
           <div class="news_allbtn" @click="up_newDesList">MORE</div>
@@ -264,8 +284,8 @@
               class="newsList_item"
               @click="up_newDes(item.id)"
             >
-              <p class="ellipse">{{item.title}}</p>
-              <p>{{item.created_at}}</p>
+              <!-- <p class="ellipse">{{item.title}}</p> -->
+              <p>{{item.updated_at}}</p>
             </div>
           </div>
         </div>
@@ -273,8 +293,8 @@
       <!-- 服务 -->
       <div class="serve">
         <div class="serve_box">
-          <h1 class="wow fadeInUp">课后服务一站式平台</h1>
-          <p class="wow fadeInUp">烁炎文化传播有限公司是一家专注于招生领域的教育服务平台。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案...</p>
+          <h1 class="wow fadeInUp">{{AboutUs.title}}</h1>
+          <p class="wow fadeInUp" v-html="AboutUs.content">{{AboutUs.content}}</p>
           <div class="serve_btn wow fadeInUp">MORE</div>
         </div>
       </div>
@@ -283,31 +303,27 @@
         <p class="courseBox_title wow bounceInDown">
           <span>课程中心</span>COURES
         </p>
-        <p class="courseBox_del wow fadeInUp">益课后 · 丰富多彩的课后服务· 助力学生发展的核心素养</p>
-        <div class="courseList">
-          <div
-            class="courseItem clearfix wow fadeInUp"
-            v-for="(item,index) in courseList"
-            :key="index"
-          >
-            <img src="./images/course.jpg" class="courseItem_img" />
+        <p class="courseBox_del wow fadeInUp">{{description}}</p>
+        <div class="courseList wow fadeInUp">
+          <div class="courseItem clearfix" v-for="(item,index) in courseList" :key="index">
+            <img :src="item.imgs_arr[0]" class="courseItem_img" />
             <div class="courseItem_content">
               <div class="float_box">
                 <div class="course_title">
-                  <span>无人机主题课程</span>
+                  <span>{{item.title}}</span>
                   <span></span>
                 </div>
-                <p class="courseItem_title_del">3D打印将理想的无人机 打印出来</p>
+                <p class="courseItem_title_del">{{item.description}}</p>
                 <p class="courseItem_p_border"></p>
-                <div
-                  class="courseItem_del ellipse2"
-                >通过3D打印将理想的无人机 打印出来，帮你实现翱翔天际的梦想,通过3D打印将理想的无人机 打印出来，帮你实现翱翔天际的梦想帮你实现翱翔天际的梦想</div>
-                <div class="courseItem_btn">MORE</div>
+                <div class="courseItem_del ellipse2" v-html="item.content">{{item.content}}</div>
+                <div class="courseItem_btn" @click="course_btn(item.id)">MORE</div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="up_courseList" @click="up_courseList">MORE</div>
+
       <div class="footer_height"></div>
       <!-- footer -->
       <footer_nav></footer_nav>
@@ -330,7 +346,6 @@ export default {
         },
         pagination: { el: ".swiper-pagination" }
       },
-      bannerSwiper: [],
       notice_swiperOptions: {
         autoplay: {
           delay: 3000,
@@ -340,36 +355,68 @@ export default {
         direction: "vertical",
         slidesPerView: "auto"
       },
+      // banner
+      bannerSwiper: [],
+      // 新闻中心
       newsList: [],
-      courseList: [
-        {
-          title: "1"
-        },
-        {
-          title: "1"
-        },
-        {
-          title: "1"
-        },
-        {
-          title: "1"
-        }
-      ]
+      // 最新公告
+      noticeList: [],
+      // 关于我们
+      AboutUs: {},
+      courseList: [],
+      description: ""
     };
   },
-  async created() {
+  created() {
     this.init();
+    this.notice();
+    this.About();
+    this.course();
+    this.description_text();
   },
   methods: {
     async init() {
+      // 新闻中心
       let params = new URLSearchParams();
-      params.append("cate", 3);
+      params.append("cate", 3); 
       params.append("limit", 4);
       params.append("page", 1);
-      let _res = await ajax.indexNew(params);
+      let _res = await ajax.Article(params);
       if (_res.code == 0) {
         this.newsList = _res.data.data;
-      } else {
+      }
+    },
+    async notice() {
+      let params = new URLSearchParams();
+      params.append("cate", 4);
+      let _res = await ajax.Article(params);
+      if (_res.code == 0) {
+        this.noticeList = _res.data.data;
+      }
+    },
+    async About() {
+      let params = new URLSearchParams();
+      params.append("cate", 1);
+      params.append("limit", 1);
+      let _res = await ajax.Article(params);
+      if (_res.code == 0) {
+        this.AboutUs = _res.data.data[0];
+      }
+    },
+    async course() {
+      let params = new URLSearchParams();
+      params.append("limit", 3);
+      let _res = await ajax.CateList(params);
+      if (_res.code == 0) {
+        this.courseList = _res.data.data;
+      }
+    },
+    async description_text() {
+      let params = new URLSearchParams();
+      params.append("cate_id", 2);
+      let _res = await ajax.one_CateDetail(params);
+      if (_res.code == 0) {
+        this.description = _res.data.description;
       }
     },
     up_newDes(up_id) {
@@ -377,6 +424,12 @@ export default {
     },
     up_newDesList() {
       this.$router.push({ name: "New" });
+    },
+    course_btn(id_num) {
+      console.log(id_num);
+    },
+    up_courseList() {
+      this.$router.push({ name: "Course" });
     }
   },
   components: {

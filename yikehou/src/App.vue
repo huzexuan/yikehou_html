@@ -118,4 +118,7 @@ img {
   border-radius: 0;
     background: rgba(255, 255, 255, 0.4);
 }
+.el-message{
+  z-index: 1111111111 !important;
+}
 </style>

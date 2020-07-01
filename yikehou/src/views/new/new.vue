@@ -111,40 +111,22 @@
           >{{item.title}}</li>
         </ul>
         <div class="newList">
-          <div class="newItem">
-            <div class="newItem_del">
-              <img src="./images/newItem.jpg" alt />
+          <div class="newItem" v-for="(item,index) in list" :key="index">
+            <div class="newItem_del" >
+              <img :src="item.img" alt />
               <div class="newItem_content">
                 <p
                   class="title ellipse"
-                >烁炎文化传播有限公司是一家专注于招生领域的教育服务平台烁炎文化传播有限公司是一家专注于招生领域的教育服务平台烁炎文化传播有限公司是一家专注于招生领域的教育服务平台</p>
+                >{{item.title}}</p>
                 <p
                   class="newItem_content_text ellipse2"
-                >为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。z 公司定位为招生专家，以“教育为人民”为理念，用科技和经验驱动教育进步</p>
-                <div class="newItem_btn">点击详情</div>
+                v-html="item.description">{{item.description}}</p>
+                <div class="newItem_btn" @click="_newDes(item.id)">点击详情</div>
               </div>
             </div>
             <div class="newItem_tag">
-              <p>02</p>
-              <p>2020-06</p>
-            </div>
-          </div>
-          <div class="newItem">
-            <div class="newItem_del">
-              <img src="./images/newItem.jpg" alt />
-              <div class="newItem_content">
-                <p
-                  class="title ellipse"
-                >烁炎文化传播有限公司是一家专注于招生领域的教育服务平台烁炎文化传播有限公司是一家专注于招生领域的教育服务平台烁炎文化传播有限公司是一家专注于招生领域的教育服务平台</p>
-                <p
-                  class="newItem_content_text ellipse2"
-                >为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。z 公司定位为招生专家，以“教育为人民”为理念，用科技和经验驱动教育进步</p>
-                <div class="newItem_btn">点击详情</div>
-              </div>
-            </div>
-            <div class="newItem_tag">
-              <p>02</p>
-              <p>2020-06</p>
+              <p>{{ item.updated_at.substring(8,10) }}</p>
+              <p>{{ item.updated_at.substring(0,7) }}</p>
             </div>
           </div>
         </div>
@@ -160,27 +142,45 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import crumbs_nav from "../../components/crumbsNav.vue";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
-      tabId: 1,
+      tabId: 4,
       breadlist: [{ title: "首页", path: "Index" }, { title: "新闻动态" }],
       tabList: [
         {
-          id: 1,
+          id: 4,
           title: "最新公告"
         },
         {
-          id: 2,
+          id: 5,
           title: "公司新闻"
         }
-      ]
+      ],
+      list:[]
     };
   },
+  created() {
+    this.init();
+  },
   methods: {
+    async init() {
+      let params = new URLSearchParams();
+      params.append("cate", this.tabId); 
+      let _res = await ajax.Article(params);
+      if (_res.code == 0) {
+        this.list = _res.data.data
+      }
+    },
     _tab(id) {
-      this.tabId = id
-    }
+      this.tabId = id;
+      this.init()
+    },
+    _newDes(up_id) {
+      this.$router.push({ name: "NewDes", params: { id: up_id,type:1 } });
+    },
   },
   components: {
     head_nav,

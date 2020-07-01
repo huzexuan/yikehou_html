@@ -8,11 +8,15 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 import 'wowjs/css/libs/animate.css';
 import { WOW } from 'wowjs';
-new WOW({ live: false }).init()
+new WOW({
+    boxClass: 'wow',
+    animateClass: 'animated',
+    offset: 0,
+    mobile: true
+}).init();
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper);
 import 'swiper/css/swiper.css';
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -21,4 +25,13 @@ new Vue({
     router,
     components: { App },
     template: '<App/>'
+})
+router.beforeEach((to, from, next) => {
+    // chrome
+    document.body.scrollTop = 0
+        // firefox
+    document.documentElement.scrollTop = 0
+        // safari
+    window.pageYOffset = 0
+    next()
 })

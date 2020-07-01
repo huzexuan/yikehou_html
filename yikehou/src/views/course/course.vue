@@ -53,10 +53,13 @@
 }
 .courseList_box {
   width: calc(100% - 161px);
-  box-sizing: border-box;
   height: 1144px;
   box-sizing: border-box;
   padding: 10px 0 10px 40px;
+}
+.courseList {
+  display: flex;
+  flex-wrap: wrap;
 }
 .courseList_box::-webkit-scrollbar {
   width: 4px;
@@ -85,6 +88,7 @@
 .courseList li img {
   width: 100%;
   height: 184px;
+  background: #fff;
 }
 .courseList li .courseItem {
   width: 100%;
@@ -135,78 +139,15 @@
               v-for="(item,index) in courseMenu"
               :key="index"
               @click="_courseMenu(item.id)"
-            >{{item.text}}</li>
+            >{{item.title}}</li>
           </ul>
           <div class="courseList_box">
             <ul class="courseList index_courseList">
-              <li @click="_upcourseDetail()">
-                <img src="./images/courseList.jpg" alt />
+              <li v-for="(item,index) in courseList_data" :key="index" @click="_upcourseDetail()">
+                <img :src="item.imgs_arr[0]" alt />
                 <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
-                </div>
-              </li>
-              <li>
-                <img src="./images/courseList.jpg" alt />
-                <div class="courseItem">
-                  <p class="ellipse">3D打印</p>
-                  <p class="ellipse2">简单介绍简单介绍简单介绍，简单介绍,简单介绍简单介绍...</p>
+                  <p class="ellipse">{{item.title}}</p>
+                  <p class="ellipse2" v-html="item.description">{{item.description}}</p>
                 </div>
               </li>
             </ul>
@@ -224,77 +165,70 @@ import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import crumbs_nav from "../../components/crumbsNav.vue";
 import $ from "jquery";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
       breadlist: [{ title: "首页", path: "Index" }, { title: "课程中心" }],
-      gradeList: [
-        {
-          id: 0,
-          title: "一年级"
-        },
-        {
-          id: 1,
-          title: "二年级"
-        },
-        {
-          id: 2,
-          title: "三年级"
-        },
-        {
-          id: 3,
-          title: "四年级"
-        },
-        {
-          id: 4,
-          title: "五年级"
-        },
-        {
-          id: 5,
-          title: "六年级"
-        }
-      ],
-      gradeId: 0,
-      courseMenu: [
-        {
-          id: 1,
-          text: "语言"
-        },
-        {
-          id: 2,
-          text: "启智"
-        },
-        {
-          id: 3,
-          text: "逻辑"
-        },
-        {
-          id: 4,
-          text: "道德"
-        }
-      ],
-      courseMenu_id: 1
+      gradeList: [],
+      gradeId: "",
+      courseMenu: [],
+      courseMenu_id: "",
+      courseList_data:[]
     };
   },
+  async created() {
+    await this.init();
+    await this.courseClassify();
+    this.courseList();
+  },
+  updated(){
+    if ($(".courseList").height() > 1161) {
+      $(".courseList_box").css("overflow-y", "scroll");
+    }
+  },
   methods: {
-    init() {
-      if ($(".courseList").height() > 1161) {
-        $(".courseList_box").css("overflow-y", "scroll")
+    // 年级分类
+    async init() {
+      let params = new URLSearchParams();
+      let _res = await ajax.NianjiList(params);
+      if (_res.code == 0) {
+        this.gradeList = _res.data;
+        this.gradeId = _res.data[0].id;
+      }
+    },
+    // 课程分类
+    async courseClassify() {
+      let params = new URLSearchParams();
+      let _res = await ajax.CateClassify(params);
+      if (_res.code == 0) {
+        this.courseMenu = _res.data;
+        this.courseMenu_id = _res.data[0].id;
+      }
+    },
+    // 课程列表
+    async courseList() {
+      console.log(this.courseMenu_id)
+      let params = new URLSearchParams();
+      params.append("cate", this.courseMenu_id);
+      params.append("nianji", this.gradeId);
+      let _res = await ajax.CateList(params);
+      if (_res.code == 0) {
+        this.courseList_data = _res.data.data
       }
     },
     gradeTab(id) {
       this.gradeId = id;
-      console.log($(".gradeTab_box").height());
+      this.courseList()
     },
     _courseMenu(id) {
       this.courseMenu_id = id;
+      this.courseList()
     },
     _upcourseDetail() {
       this.$router.push({ name: "CourseDetail", params: { id: 1 } });
     }
-  },
-  mounted: function() {
-    this.init();
   },
   components: {
     head_nav,

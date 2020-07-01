@@ -61,34 +61,34 @@
   margin-top: -192px;
   background: olivedrab;
 }
-.form_box {
+.joinHands .form_box {
   width: 100%;
   box-sizing: border-box;
   padding: 48px 160px 20px 20px;
   margin-top: 22px;
   background: #fff;
 }
-.form_box p {
+.joinHands .form_box p {
   font-size: 24px;
   color: #000;
   font-weight: bold;
   margin-bottom: 38px;
 }
-.form_top{
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+.form_top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
-.form_top>div{
-    width: 33%;
+.form_top > div {
+  width: 33%;
 }
-.button{
-    text-align: right;
-    margin: 40px 0 0 0;
+.button {
+  text-align: right;
+  margin: 40px 0 0 0;
 }
-textarea{
-    height: 94px;
-    resize:none !important;
+textarea {
+  height: 94px;
+  resize: none !important;
 }
 </style>
 <template>
@@ -109,14 +109,14 @@ textarea{
             <img src="./images/phone.png" alt />
             <div>
               <p>益课后服务热线</p>
-              <p>0312-88888888</p>
+              <p>{{item.contact_phone}}</p>
             </div>
           </div>
           <div class="content_top_r">
             <div class="del">
               <div>
                 <img src="./images/mailbox.png" alt />
-                <span>aaaaaaa@126.com</span>
+                <span>{{item.email}}</span>
               </div>
               <div>
                 <img src="./images/Url.png" alt />
@@ -124,16 +124,16 @@ textarea{
               </div>
               <div>
                 <img src="./images/address.png" alt />
-                <span>河北省保定市竞秀区新市场街62号</span>
+                <span>{{item.address}}</span>
               </div>
             </div>
             <div class="code">
               <div>
-                <img src class="code_img" alt />
+                <img :src="item.app_qrcode" class="code_img" alt />
                 <p>微信</p>
               </div>
               <div>
-                <img src alt class="code_img" />
+                <img :src="item.wx_cord" alt class="code_img" />
                 <p>微信</p>
               </div>
             </div>
@@ -141,7 +141,7 @@ textarea{
         </div>
       </el-container>
       <div class="address">
-        <el-container>
+        <el-container class="joinHands">
           <div class="address_box"></div>
           <div class="form_box">
             <p>在线留言</p>
@@ -164,10 +164,10 @@ textarea{
                 </el-form-item>
               </div>
               <el-form-item label="内容" prop="desc">
-                <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+                <el-input type="textarea" minlength="6" v-model="ruleForm.desc"></el-input>
               </el-form-item>
               <el-form-item class="button">
-                <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+                <el-button type="primary" :plain="true" @click="submitForm('ruleForm')">立即创建</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -176,6 +176,7 @@ textarea{
       <!-- footer -->
       <footer_nav></footer_nav>
     </el-main>
+    <!-- <el-button :plain="true" @click="open"></el-button> -->
   </div>
 </template>
 
@@ -183,7 +184,8 @@ textarea{
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import crumbs_nav from "../../components/crumbsNav.vue";
-
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     var userEmail = (rule, value, callback) => {
@@ -227,27 +229,49 @@ export default {
       rules: {
         name: [
           { required: true, message: "请输入姓名", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
+          { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" }
         ],
-        mail: [{required: true, validator: userEmail, trigger: "blur" }],
-        phone: [{required: true, validator: checkPhone, trigger: "blur" }],
-        desc: [{ required: true, message: "请填写留言内容", trigger: "blur" }]
-      }
+        mail: [{ required: true, validator: userEmail, trigger: "blur" }],
+        phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
+        desc: [{ required: true, message: "请填写留言内容", trigger: "blur" },
+        { min: 6,  message: "留言内容不能小于6个字符", trigger: "blur" }]
+      },
+      item:{}
+
     };
   },
+  created() {
+    this.init();
+  },
   methods: {
+    async init() {
+      let params = new URLSearchParams();
+      let _res = await ajax.setting(params);
+      if (_res.code == 0) {
+        this.item = _res.data
+      }
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("提交成功");
+          this.form()
         } else {
-          alert("提交失败");
+          this.$message.error("留言失败");
           return false;
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    async form(){
+      let params = new URLSearchParams();
+      params.append("name", this.ruleForm.name); 
+      params.append("phone", this.ruleForm.phone);
+      params.append("content", this.ruleForm.desc);
+      params.append("email", this.ruleForm.mail);
+      let _res = await ajax.addContact(params);
+      if(_res.code == 0){
+          this.$message.success("留言成功");
+      }
+      
     }
   },
   components: {

@@ -1,7 +1,6 @@
 import axios from 'axios'
 const service = axios.create({
     baseURL: 'http://yikehou.debugk.natapp1.cc',
-    timeout: 50000,
 });
 // request拦截器
 service.interceptors.request.use(config => {

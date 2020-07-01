@@ -36,16 +36,16 @@
   color: #b3b6b8;
   outline: none;
 }
-.partnerList_img{
+.partnerList_img {
   width: 268px;
   height: 132px;
   display: block;
-  box-shadow: 0px 0px 10px  #ececec;
+  box-shadow: 0px 0px 10px #ececec;
 }
-.swiper-container{
+.swiper-container {
   padding: 10px;
 }
-.partnerList_title{
+.partnerList_title {
   margin-top: 22px;
   text-align: center;
   font-size: 16px;
@@ -65,11 +65,13 @@
       <!-- 内容 -->
       <el-container>
         <div class="intro_box">
-          <p class="title">公司简介</p>
+          <p class="title">{{AboutUs.title}}</p>
           <div class="intro">
             <div
               class="intro_text"
-            >烁炎文化传播有限公司是一家专注于招生领域的教育服务平台。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。 公司定位为招生专家，以“教育为人民”为理念，用科技和经验驱动教育进步，完善每一寸缺失，助力每一个学校，帮助每一位学生。烁炎文化传播有限公司是一家专注于招生领域的教育服务平台。为教育培训机构搭建自媒体招生平台，提供一体化学校互联网招生解决方案，设计系列特色招生服务课程，构建立体多渠道招生路径。 公司定位为招生专家，以“教育为人民”为理念，用科技和经验驱动教育进步，完善每一寸缺失，助力每一个学校，帮助每一位学生。</div>
+            v-html="AboutUs.content">
+            {{AboutUs.content}}
+            </div>
             <img src="./images/intro.jpg" alt />
           </div>
         </div>
@@ -80,7 +82,7 @@
           <swiper ref="mySwiper" :options="swiperOptions">
             <swiper-slide v-for="(item,index) in partnerList" :key="index">
               <!-- <img :src='item.img' alt class="partnerList_img" /> -->
-              <img src='./images/partner.jpg' alt class="partnerList_img" />
+              <img src="./images/partner.jpg" alt class="partnerList_img" />
               <p class="partnerList_title">{{item.title}}</p>
             </swiper-slide>
           </swiper>
@@ -99,6 +101,8 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import crumbs_nav from "../../components/crumbsNav.vue";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
@@ -116,7 +120,7 @@ export default {
       breadlist: [{ title: "首页", path: "Index" }, { title: "关于我们" }],
       partnerList: [
         {
-          title: "高开区小学",
+          title: "高开区小学"
         },
         {
           title: "高开区小学"
@@ -133,10 +137,25 @@ export default {
         {
           title: "高开区小学"
         }
-      ]
+      ],
+      AboutUs:{}
     };
   },
-  methods: {},
+  async mounted() {
+    await this.About();
+  },
+
+  methods: {
+    async About() {
+      let params = new URLSearchParams();
+      params.append("cate", 1);
+      params.append("limit", 1);
+      let _res = await ajax.Article(params);
+      if (_res.code == 0) {
+        this.AboutUs = _res.data.data[0];
+      }
+    }
+  },
   components: {
     head_nav,
     footer_nav,

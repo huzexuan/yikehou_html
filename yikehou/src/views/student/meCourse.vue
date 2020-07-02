@@ -8,6 +8,7 @@
   height: 95px;
   margin: 0 auto 108px;
   background: url(./images/meCourse_title.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .meCourse_list {
   max-height: 521px;
@@ -73,6 +74,7 @@
   color: #fff;
   font-size: 18px;
   background: url(./images/me_remark_bg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .me_remark p {
   transform: rotate(-18deg);
@@ -89,6 +91,7 @@
   text-align: center;
   padding-top: 18px;
   background: url(./images/me_name_bg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .meCourse_list .swiper-container-horizontal>.swiper-pagination-bullets{
   bottom: 0;

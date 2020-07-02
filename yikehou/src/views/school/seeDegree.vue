@@ -17,6 +17,7 @@
   width: 100%;
   height: 265px;
   background: url(./images/seeDegree_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
   margin-top: 22px;
   box-sizing: border-box;
   padding: 22px 15px;
@@ -50,6 +51,7 @@
   width: 72px;
   height: 46px;
   background: url(./images/seeDegree_item_bg.jpg)no-repeat 100% 100%;
+  background-size:100% 100%;
   color: #fff;
   text-align: center;
   line-height: 46px;

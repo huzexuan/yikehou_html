@@ -54,6 +54,7 @@
   height: 886px;
   padding-top: 240px;
   background: url(./images/join_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .address_box {
   width: 100%;

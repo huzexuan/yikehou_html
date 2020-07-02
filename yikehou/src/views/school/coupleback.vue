@@ -68,6 +68,7 @@
   width: 135px;
   height: 124px;
   background: url(./images/coupleback_bg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .label p {
   width: 66px;

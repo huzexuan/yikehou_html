@@ -36,6 +36,7 @@ export default {
   width: 100%;
   height: 100vh;
   background: url(./images/password_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
   position: relative;
 }
 .form_box {
@@ -48,6 +49,7 @@ export default {
   width: 753px;
   height: 130px;
   background: url(./images/password_titlebg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .input_box {
   display: flex;

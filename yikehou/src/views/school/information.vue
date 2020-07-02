@@ -4,6 +4,7 @@
   width: 100%;
   height: 843px;
   background: url(./images/information_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .information_box .information_user_img_box {
   width: 281px;
@@ -12,6 +13,7 @@
   top: 267px;
   left: 112px;
   background: url(./images/user_img_bg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .information_box .information_user_img {
   width: 222px;
@@ -34,6 +36,7 @@
   width: 267px;
   height: 132px;
   background: url(./images/all_course_bg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   margin: 16px 0 0 10px;
   box-sizing: border-box;
   padding: 20px;
@@ -61,6 +64,7 @@
   height: 534px;
   background: url(./images/userDel_bg.png) no-repeat 100% 100%;
   margin: -186px 0 0 405px;
+  background-size:100% 100%;
   box-sizing: border-box;
   padding: 62px 38px;
   color: #fff;

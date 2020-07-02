@@ -49,16 +49,18 @@ export default {
   width: 100%;
   height: 100vh;
   background: url(./images/school_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
   position: relative;
 }
 .form_box {
   position: absolute;
   right: 205px;
-  top: 200px;
+  top: 20%;
   width: 499px;
   height: 484px;
   color: #fff;
   background: url(./images/form_bg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .title {
   font-size: 38px;

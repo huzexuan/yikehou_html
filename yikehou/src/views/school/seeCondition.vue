@@ -76,6 +76,7 @@
   box-sizing: border-box;
   padding-left: 34px;
   background: url(./images/seeCondition.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -110,12 +111,15 @@
 }
 .seeCondition_box > li:nth-child(1) .seeCondition_ranking {
   background: url(./images/seeCondition_01.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .seeCondition_box > li:nth-child(2) .seeCondition_ranking {
   background: url(./images/seeCondition_02.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .seeCondition_box > li:nth-child(3) .seeCondition_ranking {
   background: url(./images/seeCondition_03.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 </style>
 <template>

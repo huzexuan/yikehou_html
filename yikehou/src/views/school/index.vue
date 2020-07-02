@@ -4,6 +4,7 @@
   width: 100%;
   height: 402px;
   background: url(./images/index_banner.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
   position: relative;
   z-index: 11;
 }
@@ -78,6 +79,7 @@
   box-sizing: border-box;
   padding-top: 76px;
   background: url(./images/content_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .content_container {
   display: flex;
@@ -91,6 +93,7 @@
   width: 161px;
   height: 79px;
   background: url(./images/course_icon.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   text-align: center;
   line-height: 79px;
   cursor: pointer;
@@ -98,6 +101,7 @@
 }
 .courseUl li.icon_active {
   background: url(./images/course_icon_active.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .courseList_box {
   width: calc(100% - 161px);
@@ -147,6 +151,7 @@
   width: 100%;
   height: 745px;
   background: url(./images/Bottom_content_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .Bottom_courseList_box .title {
   font-size: 24px;

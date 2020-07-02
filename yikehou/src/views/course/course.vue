@@ -29,6 +29,7 @@
   box-sizing: border-box;
   padding-top: 76px;
   background: url(./images/content_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 
 .content_container {
@@ -43,6 +44,7 @@
   width: 161px;
   height: 79px;
   background: url(./images/course_icon.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   text-align: center;
   line-height: 79px;
   cursor: pointer;
@@ -50,6 +52,7 @@
 }
 .courseUl li.icon_active {
   background: url(./images/course_icon_active.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .courseList_box {
   width: calc(100% - 161px);

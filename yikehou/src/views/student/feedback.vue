@@ -2,6 +2,7 @@
 <style>
 .feedback_bg {
   background: url(./images/feedback_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .content_box {
   padding-top: 55px;
@@ -14,6 +15,7 @@
   width: 161px;
   height: 79px;
   background: url(./images/course_icon.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   cursor: pointer;
   margin-left: 62px;
   margin-top: 30px;
@@ -28,6 +30,7 @@
 }
 .feedback_List li.feedback_active {
   background: url(./images/course_icon_active.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .evaluate_box {
   display: flex;
@@ -42,11 +45,13 @@
   width: 16px;
   height: 16px;
   background: url(./images/star.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   cursor: pointer;
   margin-right: 15px;
 }
 .evaluate_box .evaluate span.evaluate_active {
   background: url(./images/star_active.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .evaluate_box .star_num {
   color: #fff;
@@ -85,6 +90,7 @@
     width: 316px;
     height: 100px;
     background: url(./images/feedback_btnBg.png)no-repeat 100% 100%;
+  background-size:100% 100%;
     color: #fff;
     font-size: 24px;
     text-align: center;

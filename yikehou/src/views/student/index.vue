@@ -4,6 +4,7 @@
   width: 100%;
   height: 402px;
   background: url(./images/index_banner.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
   position: relative;
   z-index: 11;
 }
@@ -73,6 +74,7 @@
   width: 557px;
   height: 557px;
   background: url(./images/curricula_bg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   margin-bottom: 52px;
 }
 .curriculaItem {
@@ -189,6 +191,7 @@
   width: 189px;
   height: 71px;
   background: url(./images/curricula.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   margin: 0 0 28px 35px;
   color: #fff;
   cursor: pointer;
@@ -209,6 +212,7 @@
 }
 .curricula_list li.curricula_active {
   background: url(./images/curricula_active.png) no-repeat 100% 100%;
+  background-size:100% 100%;
 }
 .curricula_list li:hover {
   transform: scale(1.2);

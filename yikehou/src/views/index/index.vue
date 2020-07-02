@@ -97,6 +97,7 @@
   width: 100%;
   height: 978px;
   background: url(./images/serve_bg.jpg) no-repeat 100% 100%;
+  background-size:100% 100%;
   position: relative;
 }
 .serve_box {
@@ -105,6 +106,7 @@
   box-sizing: border-box;
   padding-top: 168px;
   background: url(./images/serve_box_bg.png) no-repeat 100% 100%;
+  background-size:100% 100%;
   position: absolute;
   top: 50%;
   left: 50%;

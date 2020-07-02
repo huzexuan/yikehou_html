@@ -112,15 +112,14 @@
         </ul>
         <div class="newList">
           <div class="newItem" v-for="(item,index) in list" :key="index">
-            <div class="newItem_del" >
+            <div class="newItem_del">
               <img :src="item.img" alt />
               <div class="newItem_content">
-                <p
-                  class="title ellipse"
-                >{{item.title}}</p>
+                <p class="title ellipse">{{item.title}}</p>
                 <p
                   class="newItem_content_text ellipse2"
-                v-html="item.description">{{item.description}}</p>
+                  v-html="item.description"
+                >{{item.description}}</p>
                 <div class="newItem_btn" @click="_newDes(item.id)">点击详情</div>
               </div>
             </div>
@@ -133,7 +132,7 @@
         <div class="footer_height"></div>
       </el-container>
       <!-- footer -->
-      <footer_nav></footer_nav>
+      <footer_nav :navId='3'></footer_nav>
     </el-main>
   </div>
 </template>
@@ -148,7 +147,7 @@ export default {
   data() {
     return {
       tabId: 4,
-      breadlist: [{ title: "首页", path: "Index" }, { title: "新闻动态" }],
+      breadlist: [],
       tabList: [
         {
           id: 4,
@@ -159,28 +158,51 @@ export default {
           title: "公司新闻"
         }
       ],
-      list:[]
+      list: [],
+      user: localStorage.getItem("bs")
     };
+  },
+  mounted() {
+    if (this.user == 2) {
+      this.breadlist = [
+        { title: "首页", path: "StudentIndex" },
+        { title: "新闻动态" }
+      ];
+    } else if (this.user == 1) {
+      this.breadlist = [
+        { title: "首页", path: "SchoolIndex" },
+        { title: "新闻动态" }
+      ];
+    } else {
+      this.breadlist = [
+        { title: "首页", path: "Index" },
+        { title: "新闻动态" }
+      ];
+    }
   },
   created() {
     this.init();
   },
   methods: {
     async init() {
+      const { id } = this.$route.params;
+      if (id) {
+        this.tabId = id;
+      }
       let params = new URLSearchParams();
-      params.append("cate", this.tabId); 
+      params.append("cate", this.tabId);
       let _res = await ajax.Article(params);
       if (_res.code == 0) {
-        this.list = _res.data.data
+        this.list = _res.data.data;
       }
     },
     _tab(id) {
       this.tabId = id;
-      this.init()
+      this.init();
     },
     _newDes(up_id) {
-      this.$router.push({ name: "NewDes", params: { id: up_id,type:1 } });
-    },
+      this.$router.push({ name: "NewDes", params: { id: up_id, type: 1 } });
+    }
   },
   components: {
     head_nav,

@@ -146,7 +146,7 @@
           </ul>
           <div class="courseList_box">
             <ul class="courseList index_courseList">
-              <li v-for="(item,index) in courseList_data" :key="index" @click="_upcourseDetail()">
+              <li v-for="(item,index) in courseList_data" :key="index" @click="_upcourseDetail(item.id)">
                 <img :src="item.imgs_arr[0]" alt />
                 <div class="courseItem">
                   <p class="ellipse">{{item.title}}</p>
@@ -158,7 +158,7 @@
         </el-container>
       </div>
       <!-- footer -->
-      <footer_nav></footer_nav>
+      <footer_nav :navId="2"></footer_nav>
     </el-main>
   </div>
 </template>
@@ -178,7 +178,7 @@ export default {
       gradeId: "",
       courseMenu: [],
       courseMenu_id: "",
-      courseList_data:[]
+      courseList_data: []
     };
   },
   async created() {
@@ -186,7 +186,7 @@ export default {
     await this.courseClassify();
     this.courseList();
   },
-  updated(){
+  updated() {
     if ($(".courseList").height() > 1161) {
       $(".courseList_box").css("overflow-y", "scroll");
     }
@@ -209,28 +209,31 @@ export default {
         this.courseMenu = _res.data;
         this.courseMenu_id = _res.data[0].id;
       }
+      const { id } = this.$route.params;
+      if (id) {
+        this.courseMenu_id = id;
+      }
     },
     // 课程列表
     async courseList() {
-      console.log(this.courseMenu_id)
       let params = new URLSearchParams();
       params.append("cate", this.courseMenu_id);
       params.append("nianji", this.gradeId);
       let _res = await ajax.CateList(params);
       if (_res.code == 0) {
-        this.courseList_data = _res.data.data
+        this.courseList_data = _res.data.data;
       }
     },
     gradeTab(id) {
       this.gradeId = id;
-      this.courseList()
+      this.courseList();
     },
     _courseMenu(id) {
       this.courseMenu_id = id;
-      this.courseList()
+      this.courseList();
     },
-    _upcourseDetail() {
-      this.$router.push({ name: "CourseDetail", params: { id: 1 } });
+    _upcourseDetail(up_id) {
+      this.$router.push({ name: "CourseDetail", params: { id: up_id} });
     }
   },
   components: {

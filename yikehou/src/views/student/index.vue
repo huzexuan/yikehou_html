@@ -93,6 +93,11 @@
   width: 50px;
   position: absolute;
 }
+.courseMenu_active {
+  transform: scale(1.2);
+  color: #49fde8;
+  font-weight: bold;
+}
 /* 艺术 */
 .icon01 {
   top: 50px;
@@ -174,18 +179,18 @@
   left: -15px;
 }
 /* 表达 */
-.icon10 {
+.icon010 {
   top: 444px;
   left: 474px;
 }
-.icon10 .icon_text {
+.icon010 .icon_text {
   top: 15px;
   left: 50px;
 }
 /* 列表 */
 .curricula_list {
   width: 645px;
-  position: absolute;
+  position: relative;
 }
 .curricula_list li {
   width: 189px;
@@ -217,11 +222,33 @@
 .curricula_list li:hover {
   transform: scale(1.2);
 }
+
+.pagination {
+  width: 645px;
+  text-align: center;
+}
+.pagination .el-pagination {
+  color: #fff;
+}
+.pagination .el-pagination button:disabled {
+  background: #001235;
+}
+.pagination .el-pagination .btn-prev,
+.pagination .el-pagination .btn-next {
+  background: #001235;
+  color: #ffff;
+}
+.pagination .el-pager li {
+  background: #001235;
+}
+.pagination .el-pager li.active {
+  color: #49fde8;
+}
 </style>
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" :user="1"></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -231,13 +258,17 @@
             <img src alt class="user_img" />
             <div class="user">
               <p>
-                <span class="name">张甜甜</span>
-                <span class="user_msg">河北保定高开区小学 五年级六班</span>
+                <span class="name">{{user_name}}</span>
+                <span
+                  class="user_msg"
+                >{{school_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{nianjie}}{{user_class}}</span>
                 <span class="user_upimg">上传头像</span>
               </p>
               <p>
-                <span>已选课程</span>4
-                <span>剩余可选课程</span>1
+                <span>已选课程</span>
+                {{CourseNum.has_course}}
+                <span>剩余可选课程</span>
+                {{CourseNum.sheng}}
               </p>
             </div>
           </div>
@@ -247,87 +278,46 @@
       <div class="studentcontent_box">
         <el-container style="position: relative;">
           <img src="./images/index_content_bg.png" alt class="index_content_bg" />
-
           <div class="curricula_box">
-            <div class="curriculaItem icon01">
-              <img src="./images/green_icon.png" />
-              <p class="icon_text">艺术</p>
-            </div>
-            <div class="curriculaItem icon02">
-              <img src="./images/pink_icon.png" />
-              <p class="icon_text">道德</p>
-            </div>
-            <div class="curriculaItem icon03">
-              <img src="./images/green_icon.png" style="width:36px;height:36px" />
-              <p class="icon_text">自信</p>
-            </div>
-            <div class="curriculaItem icon04">
-              <img src="./images/green_icon.png" />
-              <p class="icon_text">启智</p>
-            </div>
-            <div class="curriculaItem icon05">
-              <img src="./images/green_icon.png" style="width:30px;height:30px" />
-              <p class="icon_text">逻辑</p>
-            </div>
-            <div class="curriculaItem icon06">
-              <img src="./images/green_icon.png" />
-              <p class="icon_text">语言</p>
-            </div>
-            <div class="curriculaItem icon07">
-              <img src="./images/pink_icon.png" style="width:30px;height:30px" />
-              <p class="icon_text">财商</p>
-            </div>
-            <div class="curriculaItem icon08">
-              <img src="./images/pink_icon.png" style="width:30px;height:30px" />
-              <p class="icon_text">科技</p>
-            </div>
-            <div class="curriculaItem icon09">
-              <img src="./images/green_icon.png" style="width:30px;height:30px" />
-              <p class="icon_text">体能</p>
-            </div>
-            <div class="curriculaItem icon10">
-              <img src="./images/green_icon.png" />
-              <p class="icon_text">表达</p>
+            <div
+              class="curriculaItem"
+              v-for="(item,index) in courseMenu"
+              :key="index"
+              :class="[`icon0${index + 1}`,courseMenu_id==item.id ?'courseMenu_active':'']"
+              @click="up_courseMenu(item.id,$event)"
+            >
+              <img
+                v-if="index + 1 == 2 || index + 1 == 7 || index + 1 == 8"
+                src="./images/pink_icon.png"
+                alt
+                :style="index + 1 == 7 || index + 1 == 8 ?'width:30px;height:30px':''"
+              />
+              <img
+                v-else
+                src="./images/green_icon.png"
+                :style="index + 1 == 3 ?'width:36px;height:36px':index + 1 == 9?'width:30px;height:30px':''"
+              />
+              <p class="icon_text">{{item.title}}</p>
             </div>
           </div>
           <ul class="curricula_list">
-            <li @click="up_detail(1)">
+            <li @click="up_detail(item.id)" v-for="(item,index) in courseList_data" :key="index">
               <p>
-                <span>英语</span>
-                <img src="./images/arrows_icon.png" alt />
-              </p>
-            </li>
-            <li class="curricula_active">
-              <p>
-                <span>英语</span>
-                <img src="./images/arrows_icon.png" alt />
-              </p>
-            </li>
-            <li>
-              <p>
-                <span>英语</span>
-                <img src="./images/arrows_icon.png" alt />
-              </p>
-            </li>
-            <li>
-              <p>
-                <span>英语</span>
-                <img src="./images/arrows_icon.png" alt />
-              </p>
-            </li>
-            <li class="curricula_active">
-              <p>
-                <span>英语</span>
-                <img src="./images/arrows_icon.png" alt />
-              </p>
-            </li>
-            <li>
-              <p>
-                <span>英语</span>
+                <span>{{item.title}}</span>
                 <img src="./images/arrows_icon.png" alt />
               </p>
             </li>
           </ul>
+          <div class="pagination" v-if="total > 9">
+            <div class="block">
+              <el-pagination
+                :page-size="9"
+                layout="prev, pager, next"
+                :total="total"
+                @current-change="changePage"
+              ></el-pagination>
+            </div>
+          </div>
         </el-container>
       </div>
       <!-- footer -->
@@ -340,13 +330,71 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import student_nav from "../../components/studentNav.vue";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
+import $ from "jquery";
 export default {
   data() {
-    return {};
+    return {
+      user_name: localStorage.getItem("user_name"),
+      nianjie: localStorage.getItem("nianjie"),
+      user_class: localStorage.getItem("class"),
+      school_name: localStorage.getItem("school_name"),
+      CourseNum: {},
+      pages: 1,
+      courseMenu: [],
+      courseMenu_id: "",
+      courseList_data: [],
+      total: 0
+    };
+  },
+  async created() {
+    await this.CourseNumber();
+    await this.courseClassify();
+    this.courseList();
   },
   methods: {
-    up_detail(id) {
-      this.$router.push({ name: "MeCourseDel" });
+    // 选课数量
+    async CourseNumber() {
+      let params = new URLSearchParams();
+      params.append("token", localStorage.getItem("token"));
+      let _res = await ajax.getHasCourseNumber(params);
+      if (_res.code == 0) {
+        this.CourseNum = _res.data;
+      }
+    },
+    // 课程分类
+    async courseClassify() {
+      let params = new URLSearchParams();
+      let _res = await ajax.CateClassify(params);
+      if (_res.code == 0) {
+        this.courseMenu = _res.data;
+        this.courseMenu_id = _res.data[0].id;
+      }
+    },
+    // 课程列表
+    async courseList() {
+      let params = new URLSearchParams();
+      params.append("cate", this.courseMenu_id);
+      params.append("nianji", localStorage.getItem("nianji_id"));
+      params.append("limit", 9);
+      params.append("page", this.pages);
+      let _res = await ajax.CateList(params);
+      if (_res.code == 0) {
+        this.courseList_data = _res.data.data;
+        this.total = _res.data.total;
+      }
+    },
+    up_courseMenu(id, event) {
+      var el = event.currentTarget;
+      this.courseMenu_id = id;
+      this.courseList();
+    },
+    up_detail(up_id) {
+      this.$router.push({ name: "MeCourseDel", params: { id: up_id } });
+    },
+    changePage() {
+      this.pages = $(".el-pager .active").html();
     }
   },
   components: {

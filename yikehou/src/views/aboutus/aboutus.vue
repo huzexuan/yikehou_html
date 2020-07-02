@@ -7,7 +7,7 @@
 .intro_box {
   padding: 38px 0 157px;
 }
-.title {
+.aboutus .title {
   font-size: 30px;
   color: #000;
   font-weight: bold;
@@ -63,16 +63,12 @@
       <!-- 面包屑导航 -->
       <crumbs_nav :breadlist="breadlist"></crumbs_nav>
       <!-- 内容 -->
-      <el-container>
+      <el-container class="aboutus">
         <div class="intro_box">
           <p class="title">{{AboutUs.title}}</p>
           <div class="intro">
-            <div
-              class="intro_text"
-            v-html="AboutUs.content">
-            {{AboutUs.content}}
-            </div>
-            <img src="./images/intro.jpg" alt />
+            <div class="intro_text" v-html="AboutUs.content">{{AboutUs.content}}</div>
+            <img :src="AboutUs.img" alt style="width:534px;height:436px" />
           </div>
         </div>
         <p class="title">合作伙伴</p>
@@ -82,7 +78,7 @@
           <swiper ref="mySwiper" :options="swiperOptions">
             <swiper-slide v-for="(item,index) in partnerList" :key="index">
               <!-- <img :src='item.img' alt class="partnerList_img" /> -->
-              <img src="./images/partner.jpg" alt class="partnerList_img" />
+              <img :src="item.img" alt class="partnerList_img" />
               <p class="partnerList_title">{{item.title}}</p>
             </swiper-slide>
           </swiper>
@@ -92,7 +88,7 @@
       </div>
       <div class="footer_height"></div>
       <!-- footer -->
-      <footer_nav></footer_nav>
+      <footer_nav :navId="1"></footer_nav>
     </el-main>
   </div>
 </template>
@@ -109,42 +105,40 @@ export default {
       swiperOptions: {
         slidesPerView: 4,
         spaceBetween: 30,
-        slidesPerGroup: 3,
-        loop: true,
         loopFillGroupWithBlank: true,
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
         }
       },
-      breadlist: [{ title: "首页", path: "Index" }, { title: "关于我们" }],
-      partnerList: [
-        {
-          title: "高开区小学"
-        },
-        {
-          title: "高开区小学"
-        },
-        {
-          title: "高开区小学"
-        },
-        {
-          title: "高开区小学"
-        },
-        {
-          title: "高开区小学"
-        },
-        {
-          title: "高开区小学"
-        }
-      ],
-      AboutUs:{}
+      breadlist:[],
+      partnerList: [],
+      AboutUs: {},
+      user: localStorage.getItem("bs")
     };
   },
-  async mounted() {
-    await this.About();
+  mounted() {
+    if (this.user == 2) {
+      this.breadlist = [
+        { title: "首页", path: "StudentIndex" },
+        { title: "关于我们" }
+      ];
+    } else if (this.user == 1) {
+      this.breadlist = [
+        { title: "首页", path: "SchoolIndex" },
+        { title: "关于我们" }
+      ];
+    } else {
+      this.breadlist = [
+        { title: "首页", path: "Index" },
+        { title: "关于我们" }
+      ];
+    }
   },
-
+  created() {
+    this.About();
+    this.partner();
+  },
   methods: {
     async About() {
       let params = new URLSearchParams();
@@ -153,6 +147,14 @@ export default {
       let _res = await ajax.Article(params);
       if (_res.code == 0) {
         this.AboutUs = _res.data.data[0];
+      }
+    },
+    async partner() {
+      let params = new URLSearchParams();
+      params.append("position_id", 2);
+      let _res = await ajax.advertising(params);
+      if (_res.code == 0) {
+        this.partnerList = _res.data;
       }
     }
   },

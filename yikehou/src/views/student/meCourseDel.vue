@@ -109,7 +109,7 @@
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" :user="1"></head_nav>
+      <head_nav :navId="1" ></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -119,13 +119,17 @@
             <img src alt class="user_img" />
             <div class="user">
               <p>
-                <span class="name">张甜甜</span>
-                <span class="user_msg">河北保定高开区小学 五年级六班</span>
+                <span class="name">{{user_name}}</span>
+                <span
+                  class="user_msg"
+                >{{school_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{nianjie}}{{user_class}}</span>
                 <span class="user_upimg">上传头像</span>
               </p>
               <p>
-                <span>已选课程</span>4
-                <span>剩余可选课程</span>1
+                <span>已选课程</span>
+                {{CourseNum.has_course}}
+                <span>剩余可选课程</span>
+                {{CourseNum.sheng}}
               </p>
             </div>
           </div>
@@ -157,7 +161,7 @@
             </swiper>
           </div>
           <div class="courseDetail_content">
-            <p class="title">英语</p>
+            <p class="title">{{item.title}}</p>
             <p class="courseDetail_content_tag">
               <span>所属分类：语言</span>
               <span>年级：五年级</span>
@@ -199,9 +203,15 @@ import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import crumbs_nav from "../../components/crumbsNav.vue";
 import student_nav from "../../components/studentNav.vue";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
+      user_name: localStorage.getItem("user_name"),
+      nianjie: localStorage.getItem("nianjie"),
+      user_class: localStorage.getItem("class"),
+      school_name: localStorage.getItem("school_name"),
       swiperOptionTop: {
         spaceBetween: 10,
         navigation: {
@@ -215,10 +225,16 @@ export default {
         centeredSlides: true
       },
       breadlist: [
-        { title: "保定市高新区小学", path: "StudentIndex" },
+        { title:localStorage.getItem("school_name"), path: "StudentIndex" },
         { title: "课程详情" }
-      ]
+      ],
+      item:{},
+      CourseNum: {},
     };
+  },
+  created(){
+    this.init()
+    this.CourseNumber()
   },
   mounted() {
     this.$nextTick(() => {
@@ -227,6 +243,27 @@ export default {
       swiperTop.controller.control = swiperThumbs;
       swiperThumbs.controller.control = swiperTop;
     });
+  },
+  methods:{
+    async init(){
+      const { id } = this.$route.params;
+      let params = new URLSearchParams();
+      params.append("id",id);
+      params.append("token",localStorage.getItem("token"));
+      let _res = await ajax.courseDetaill(params);
+      if (_res.code == 0) {
+        this.item = _res.data
+      }
+    },
+    // 选课数量
+    async CourseNumber() {
+      let params = new URLSearchParams();
+      params.append("token", localStorage.getItem("token"));
+      let _res = await ajax.getHasCourseNumber(params);
+      if (_res.code == 0) {
+        this.CourseNum = _res.data;
+      }
+    },
   },
   components: {
     head_nav,

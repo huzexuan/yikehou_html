@@ -22,10 +22,13 @@ import SchoolSet from '@/views/school/set'
 import Coupleback from '@/views/school/coupleback'
 
 Vue.use(Router)
-
+const originalPush = Vue.prototype.push
+Vue.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 export default new Router({
     routes: [{
-            path: '/',
+            path: '/Index',
             name: 'Index',
             component: Index
         },
@@ -71,7 +74,7 @@ export default new Router({
             component: Password
         },
         {
-            path: '/',
+            path: '/StudentIndex',
             name: 'StudentIndex',
             component: StudentIndex
         },
@@ -90,7 +93,7 @@ export default new Router({
             component: Feedback
         },
         {
-            path: '/',
+            path: '/SchoolIndex',
             name: 'SchoolIndex',
             component: SchoolIndex
         },
@@ -120,5 +123,7 @@ export default new Router({
             component: Coupleback
         }
 
-    ]
+    ],
+    mode: 'history',
+    base: '/',
 })

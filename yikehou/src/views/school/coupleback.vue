@@ -81,7 +81,7 @@
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" :user="1"></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -100,7 +100,7 @@
               </p>
             </div>
           </div>
-          <student_nav :id="5" :user="1"></student_nav>
+          <student_nav :id="5" ></student_nav>
         </el-container>
       </div>
       <el-container class="coupleback">

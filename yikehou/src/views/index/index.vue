@@ -246,8 +246,7 @@
       <div class="index_banner">
         <swiper ref="mySwiper" :options="swiperOptions">
           <swiper-slide v-for="(item,index) in bannerSwiper" :key="index">
-            <img :src="item" style="width:100%;height:100%" />
-            <!-- <img src="./images/banner.jpg" style="width:100%;height:100%" /> -->
+            <img :src="item.img" style="width:100%;height:100%" />
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -275,7 +274,7 @@
             <span>新闻中心</span>
             <span>NEWS</span>
           </div>
-          <img src class="fadeInLeftBig wow" alt />
+          <img :src="newsimg" class="fadeInLeftBig wow" style="width:686px;height:380px" alt />
         </div>
         <div class="news_content wow fadeInRight">
           <div class="news_allbtn" @click="up_newDesList">MORE</div>
@@ -286,7 +285,7 @@
               class="newsList_item"
               @click="up_newDes(item.id)"
             >
-              <!-- <p class="ellipse">{{item.title}}</p> -->
+              <p class="ellipse">{{item.title}}</p>
               <p>{{item.updated_at}}</p>
             </div>
           </div>
@@ -305,9 +304,9 @@
         <p class="courseBox_title wow bounceInDown">
           <span>课程中心</span>COURES
         </p>
-        <p class="courseBox_del wow fadeInUp">{{description}}</p>
+        <p class="courseBox_del wow fadeInUp ">{{description}}</p>
         <div class="courseList wow fadeInUp">
-          <div class="courseItem clearfix" v-for="(item,index) in courseList" :key="index">
+          <div class="courseItem clearfix " v-for="(item,index) in courseList" :key="index">
             <img :src="item.imgs_arr[0]" class="courseItem_img" />
             <div class="courseItem_content">
               <div class="float_box">
@@ -338,6 +337,8 @@ import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import axios from "axios";
 import ajax from "../../assets/ajax/api";
+import { WOW } from "wowjs";
+
 export default {
   data() {
     return {
@@ -361,6 +362,7 @@ export default {
       bannerSwiper: [],
       // 新闻中心
       newsList: [],
+      newsimg: "",
       // 最新公告
       noticeList: [],
       // 关于我们
@@ -369,23 +371,33 @@ export default {
       description: ""
     };
   },
+  mounted() {
+    this.$nextTick(() => {
+      let wow = new WOW({
+        live: false
+      });
+      wow.init();
+    });
+  },
   created() {
     this.init();
     this.notice();
     this.About();
     this.course();
     this.description_text();
+    this.banner();
   },
   methods: {
     async init() {
       // 新闻中心
       let params = new URLSearchParams();
-      params.append("cate", 3); 
+      params.append("cate", 3);
       params.append("limit", 4);
       params.append("page", 1);
       let _res = await ajax.Article(params);
       if (_res.code == 0) {
         this.newsList = _res.data.data;
+        this.newsimg = _res.data.data[0].img;
       }
     },
     async notice() {
@@ -419,6 +431,14 @@ export default {
       let _res = await ajax.one_CateDetail(params);
       if (_res.code == 0) {
         this.description = _res.data.description;
+      }
+    },
+    async banner() {
+      let params = new URLSearchParams();
+      params.append("position_id", 1);
+      let _res = await ajax.advertising(params);
+      if (_res.code == 0) {
+        this.bannerSwiper = _res.data;
       }
     },
     up_newDes(up_id) {

@@ -3,7 +3,7 @@
     <div class="form_box">
       <p class="title">学生登录</p>
       <div class="inp_box">
-        <input type="text" name="name" class="inp" />
+        <input type="text" name="name" class="inp" autocomplete="off"/>
         <div class="icon">
           <img src="./images/account.png" alt />
           <span>账号</span>
@@ -85,6 +85,7 @@ export default {
   font-size: 38px;
   text-align: center;
   margin: 54px 0 50px;
+  color: #fff;
 }
 .inp {
   width: 100%;

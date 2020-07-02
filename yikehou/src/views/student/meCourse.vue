@@ -90,14 +90,14 @@
   padding-top: 18px;
   background: url(./images/me_name_bg.png) no-repeat 100% 100%;
 }
-.meCourse_list .swiper-container-horizontal>.swiper-pagination-bullets{
+.meCourse_list .swiper-container-horizontal > .swiper-pagination-bullets {
   bottom: 0;
 }
 </style>
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" :user="1"></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -107,13 +107,17 @@
             <img src alt class="user_img" />
             <div class="user">
               <p>
-                <span class="name">张甜甜</span>
-                <span class="user_msg">河北保定高开区小学 五年级六班</span>
+                <span class="name">{{user_name}}</span>
+                <span
+                  class="user_msg"
+                >{{school_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{nianjie}}{{user_class}}</span>
                 <span class="user_upimg">上传头像</span>
               </p>
               <p>
-                <span>已选课程</span>4
-                <span>剩余可选课程</span>1
+                <span>已选课程</span>
+                {{CourseNum.has_course}}
+                <span>剩余可选课程</span>
+                {{CourseNum.sheng}}
               </p>
             </div>
           </div>
@@ -128,91 +132,11 @@
             <p class="meCourse_title"></p>
             <div class="meCourse_list">
               <swiper ref="mySwiper" :options="swiperOptions">
-                <swiper-slide>
-                  <div class="meCourse_item">
-                    <p class="meCourse_item_title">语言</p>
+                <swiper-slide v-for="(item,index) in meCourseList" :key="index">
+                  <div class="meCourse_item" v-for="(i,num) in item" :key="num">
+                    <p class="meCourse_item_title">{{i.cate}}</p>
                     <ul class="meCourse_item_ul">
-                      <li>英语</li>
-                      <li>俄语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                    </ul>
-                  </div>
-                  <div class="meCourse_item">
-                    <p class="meCourse_item_title">语言</p>
-                    <ul class="meCourse_item_ul">
-                      <li>英语</li>
-                      <li>俄语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                    </ul>
-                  </div>
-                  <div class="meCourse_item">
-                    <p class="meCourse_item_title">语言</p>
-                    <ul class="meCourse_item_ul">
-                      <li>英语英语英</li>
-                      <li>俄语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                    </ul>
-                  </div>
-                </swiper-slide>
-                <swiper-slide>
-                  <div class="meCourse_item">
-                    <p class="meCourse_item_title">语言</p>
-                    <ul class="meCourse_item_ul">
-                      <li>英语</li>
-                      <li>俄语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                    </ul>
-                  </div>
-                  <div class="meCourse_item">
-                    <p class="meCourse_item_title">语言</p>
-                    <ul class="meCourse_item_ul">
-                      <li>英语</li>
-                      <li>俄语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                    </ul>
-                  </div>
-                  <div class="meCourse_item">
-                    <p class="meCourse_item_title">语言</p>
-                    <ul class="meCourse_item_ul">
-                      <li>英语英语英</li>
-                      <li>俄语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
-                      <li>汉语</li>
+                      <li v-for="(li,m) in i.list" :key="m" @click="up_del(li.id)">{{li.title}}</li>
                     </ul>
                   </div>
                 </swiper-slide>
@@ -229,7 +153,7 @@
             <p class="ellipse2">小小辩论家小小辩论家小小辩论家小小辩论家</p>
           </div>
           <div class="me_name">
-            <p>张甜甜</p>
+            <p>{{user_name}}</p>
           </div>
         </el-container>
       </div>
@@ -243,9 +167,15 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import student_nav from "../../components/studentNav.vue";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
+      user_name: localStorage.getItem("user_name"),
+      nianjie: localStorage.getItem("nianjie"),
+      user_class: localStorage.getItem("class"),
+      school_name: localStorage.getItem("school_name"),
       swiperOptions: {
         spaceBetween: 10,
         autoplay: {
@@ -253,10 +183,43 @@ export default {
           disableOnInteraction: false
         },
         pagination: { el: ".swiper-pagination" }
-      }
+      },
+      CourseNum: {},
+      meCourseList:[]
     };
   },
-  methods: {},
+  created() {
+    this.MyCourse();
+    this.CourseNumber()
+  },
+  methods: {
+    async MyCourse() {
+      let params = new URLSearchParams();
+      params.append("token", localStorage.getItem("token"));
+      let _res = await ajax.getMyCourse(params);
+      if (_res.code == 0) {
+        for (var i = 0; i < _res.data.length; i++) {
+          if (String(i / 3).indexOf(".") == -1) {
+            this.meCourseList.push(_res.data.slice(i, i + 3));
+          }
+
+        }
+      }
+    },
+    // 选课数量
+    async CourseNumber() {
+      let params = new URLSearchParams();
+      params.append("token", localStorage.getItem("token"));
+      let _res = await ajax.getHasCourseNumber(params);
+      if (_res.code == 0) {
+        this.CourseNum = _res.data;
+      }
+    },
+    up_del(up_id){
+      this.$router.push({ name: "MeCourseDel", params: { id: up_id} });
+
+    }
+  },
   components: {
     head_nav,
     student_nav,

@@ -2,6 +2,7 @@
 <style>
 .feedback_bg {
   background: url(./images/feedback_bg.jpg) no-repeat 100% 100%;
+  padding-top: 50px;
 }
 .content_box {
   padding-top: 55px;
@@ -45,6 +46,9 @@
   cursor: pointer;
   margin-right: 15px;
 }
+.active_evaluate {
+  background: url(./images/star_active.png) no-repeat 100% 100% !important;
+}
 .evaluate_box .evaluate span.evaluate_active {
   background: url(./images/star_active.png) no-repeat 100% 100%;
 }
@@ -81,21 +85,21 @@
   color: #fff;
   resize: none;
 }
-.feedback_btn{
-    width: 316px;
-    height: 100px;
-    background: url(./images/feedback_btnBg.png)no-repeat 100% 100%;
-    color: #fff;
-    font-size: 24px;
-    text-align: center;
-    line-height: 100px;
-    margin:150px auto 0;
+.feedback_btn {
+  width: 316px;
+  height: 100px;
+  background: url(./images/feedback_btnBg.png) no-repeat 100% 100%;
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+  line-height: 100px;
+  margin: 150px auto 0;
 }
 </style>
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" :user="1"></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -131,25 +135,25 @@
           </ul>
           <div class="evaluate_box">
             <p class="feedback_title">评价课程</p>
-            <div class="evaluate">
-              <span @click="evaluate_course(0)"></span>
-              <span @click="evaluate_course(1)"></span>
-              <span @click="evaluate_course(2)"></span>
-              <span @click="evaluate_course(3)"></span>
-              <span @click="evaluate_course(4)"></span>
+            <div class="evaluate evaluate1">
+              <span @mouseover="mouseOver1(1)"></span>
+              <span @mouseover="mouseOver1(2)"></span>
+              <span @mouseover="mouseOver1(3)"></span>
+              <span @mouseover="mouseOver1(4)"></span>
+              <span @mouseover="mouseOver1(5)"></span>
             </div>
-            <p class="star_num">4 星</p>
+            <p class="star_num">{{courseNum}} 星</p>
           </div>
           <div class="evaluate_box">
             <p class="feedback_title">评价老师</p>
-            <div class="evaluate">
-              <span @click="evaluate_teacher(0)"></span>
-              <span @click="evaluate_teacher(1)"></span>
-              <span @click="evaluate_teacher(2)"></span>
-              <span @click="evaluate_teacher(3)"></span>
-              <span @click="evaluate_teacher(4)"></span>
+            <div class="evaluate evaluate2">
+              <span @mouseover="mouseOver(1)"></span>
+              <span @mouseover="mouseOver(2)"></span>
+              <span @mouseover="mouseOver(3)"></span>
+              <span @mouseover="mouseOver(4)"></span>
+              <span @mouseover="mouseOver(5)"></span>
             </div>
-            <p class="star_num">4 星</p>
+            <p class="star_num">{{teacherNum}} 星</p>
           </div>
           <div class="leave_box">
             <p>留言反馈：</p>
@@ -170,13 +174,32 @@ import footer_nav from "../../components/footer.vue";
 import student_nav from "../../components/studentNav.vue";
 export default {
   data() {
-    return {};
+    return {
+      teacherNum: 0,
+      courseNum: 0
+    };
   },
   methods: {
     //   评价课程
-    evaluate_course(index) {},
+    mouseOver1(index) {
+      this.courseNum = index;
+      $(".evaluate1 span").removeClass("active_evaluate");
+      for (var i = 0; i < index; i++) {
+        $(".evaluate1 span")
+          .eq(i)
+          .addClass("active_evaluate");
+      }
+    },
     //   评价老师
-    evaluate_teacher(index) {}
+    mouseOver(index) {
+      this.teacherNum = index;
+      $(".evaluate2 span").removeClass("active_evaluate");
+      for (var i = 0; i < index; i++) {
+        $(".evaluate2 span")
+          .eq(i)
+          .addClass("active_evaluate");
+      }
+    }
   },
   components: {
     head_nav,

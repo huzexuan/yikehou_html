@@ -52,6 +52,26 @@ const api = {
         const studentLogin = await service.post('/api/auth/studentLogin', _data);
         return studentLogin
     },
+    // 广告位
+    async advertising(_data) {
+        const advertising = await service.post('/api/v1/ad/getList', _data);
+        return advertising
+    },
+    // 课程详情
+    async courseDetaill(_data) {
+        const courseDetaill = await service.post('/api/v1/course/courseDetaill', _data);
+        return courseDetaill
+    },
+    // 学生端课程数量
+    async getHasCourseNumber(_data) {
+        const getHasCourseNumber = await service.post('/api/v1/student/getHasCourseNumber', _data);
+        return getHasCourseNumber
+    },
+    // 所报课程
+    async getMyCourse(_data) {
+        const getMyCourse = await service.post('/api/v1/student/getMyCourse', _data);
+        return getMyCourse
+    },
 };
 
 export default api;

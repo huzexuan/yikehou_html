@@ -85,35 +85,29 @@
         <div class="content_box">
           <div class="courseDetail_imgBox">
             <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
-              <swiper-slide>
-                <img src="./images/1.jpg" alt />
-              </swiper-slide>
-              <swiper-slide>
-                <img src="./images/1.jpg" alt />
+              <swiper-slide v-for="(item,index) in item.imgs_arr" :key="index">
+                <img :src="item" alt />
               </swiper-slide>
             </swiper>
             <swiper class="swiper gallery-thumbs" :options="swiperOptionThumbs" ref="swiperThumbs">
-              <swiper-slide>
-                <img src="./images/1.jpg" alt />
-              </swiper-slide>
-              <swiper-slide>
-                <img src="./images/1.jpg" alt />
+              <swiper-slide v-for="(item,index) in item.imgs_arr" :key="index">
+                <img :src="item" alt />
               </swiper-slide>
               <div class="swiper-button-next" slot="button-next"></div>
               <div class="swiper-button-prev" slot="button-prev"></div>
             </swiper>
           </div>
           <div class="courseDetail_content">
-            <p class="title">英语</p>
+            <p class="title">{{item.title}}</p>
             <p class="courseDetail_content_tag">
-              <span>所属分类：语言</span>
-              <span>年级：五年级</span>
+              <span>所属分类：{{item.cate_text}}</span>
+              <span>年级：{{item.nianji_text}}</span>
             </p>
           </div>
         </div>
         <div class="courseDetail_box">
             <p class="intro_title">课程简介</p>
-            <div class="intro_content">少儿英语培训是一种针对3到12岁儿童的英语培训课程或项目。提供少儿英语培训的单位有很多，但是切记不要随便给孩子选培训机构，因为3到12岁是少儿英语培训的黄金时期，错过或者耽误这个时期都会让孩子留下遗憾，所以要选择正式的、正规的、受到政府认可的单位。</div>
+            <div class="intro_content">{{item.description}}</div>
         </div>
         <div class="footer_height"></div>
       </el-container>
@@ -127,6 +121,8 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import crumbs_nav from "../../components/crumbsNav.vue";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
@@ -143,10 +139,14 @@ export default {
         centeredSlides: true
       },
       breadlist: [
-        { title: "保定市高新区小学", path: "Course" },
+        { title: "课程中心", path: "Course" },
         { title: "课程详情" }
-      ]
+      ],
+      item:{}
     };
+  },
+  created() {
+    this.init();
   },
   mounted() {
     this.$nextTick(() => {
@@ -156,7 +156,17 @@ export default {
       swiperThumbs.controller.control = swiperTop;
     });
   },
-  methods: {},
+  methods: {
+    async init(){
+      const { id } = this.$route.params;
+      let params = new URLSearchParams();
+      params.append("id",id);
+      let _res = await ajax.courseDetaill(params);
+      if (_res.code == 0) {
+        this.item = _res.data
+      }
+    }
+  },
   components: {
     head_nav,
     footer_nav,

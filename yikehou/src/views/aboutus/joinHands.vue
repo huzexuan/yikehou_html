@@ -90,6 +90,9 @@ textarea {
   height: 94px;
   resize: none !important;
 }
+.anchorBL {
+  display: none;
+}
 </style>
 <template>
   <div>
@@ -105,14 +108,14 @@ textarea {
       <!-- 内容 -->
       <el-container>
         <div class="content_top">
-          <div class="content_top_l">
+          <div class="content_top_l wow fadeInLeftBig" >
             <img src="./images/phone.png" alt />
-            <div>
+            <div >
               <p>益课后服务热线</p>
               <p>{{item.contact_phone}}</p>
             </div>
           </div>
-          <div class="content_top_r">
+          <div class="content_top_r wow fadeInUp">
             <div class="del">
               <div>
                 <img src="./images/mailbox.png" alt />
@@ -120,14 +123,14 @@ textarea {
               </div>
               <div>
                 <img src="./images/Url.png" alt />
-                <span>http://www.aaaaaaaa.com</span>
+                <span>{{item.web_url}}</span>
               </div>
               <div>
                 <img src="./images/address.png" alt />
                 <span>{{item.address}}</span>
               </div>
             </div>
-            <div class="code">
+            <div class="code  wow fadeInRightBig">
               <div>
                 <img :src="item.app_qrcode" class="code_img" alt />
                 <p>微信</p>
@@ -142,8 +145,24 @@ textarea {
       </el-container>
       <div class="address">
         <el-container class="joinHands">
-          <div class="address_box"></div>
-          <div class="form_box">
+          <div class="address_box">
+            <baidu-map
+              class="bmView"
+              :scroll-wheel-zoom="true"
+              :center="location"
+              :zoom="zoom"
+              @click="getLocationPoint"
+              ak="cIUKusewZaKmqALQv6lKtIcY"
+              style="width:1200px; height:642px;"
+            >
+              <bm-marker
+                :position="{lng: location.lng, lat: location.lat}"
+              ></bm-marker>
+              <bm-view style="width:1200px; height:642px; flex: 1"></bm-view>
+              <bm-local-search :auto-viewport="true" style="display: none"></bm-local-search>
+            </baidu-map>
+          </div>
+          <div class="form_box  wow fadeInUp">
             <p>在线留言</p>
             <el-form
               :model="ruleForm"
@@ -174,9 +193,8 @@ textarea {
         </el-container>
       </div>
       <!-- footer -->
-      <footer_nav></footer_nav>
+      <footer_nav :navId="4"></footer_nav>
     </el-main>
-    <!-- <el-button :plain="true" @click="open"></el-button> -->
   </div>
 </template>
 
@@ -186,6 +204,7 @@ import footer_nav from "../../components/footer.vue";
 import crumbs_nav from "../../components/crumbsNav.vue";
 import axios from "axios";
 import ajax from "../../assets/ajax/api";
+import { WOW } from "wowjs";
 export default {
   data() {
     var userEmail = (rule, value, callback) => {
@@ -219,7 +238,7 @@ export default {
       }, 100);
     };
     return {
-      breadlist: [{ title: "首页", path: "Index" }, { title: "合作共赢" }],
+      breadlist: [],
       ruleForm: {
         name: "",
         phone: "",
@@ -233,12 +252,44 @@ export default {
         ],
         mail: [{ required: true, validator: userEmail, trigger: "blur" }],
         phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
-        desc: [{ required: true, message: "请填写留言内容", trigger: "blur" },
-        { min: 6,  message: "留言内容不能小于6个字符", trigger: "blur" }]
+        desc: [
+          { required: true, message: "请填写留言内容", trigger: "blur" },
+          { min: 6, message: "留言内容不能小于6个字符", trigger: "blur" }
+        ]
       },
-      item:{}
+      item: {},
+      location: {
+        lng: "",
+        lat: ""
+      },
+      zoom:15,
+      user: localStorage.getItem("bs")
 
     };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      let wow = new WOW({
+        live: false
+      });
+      wow.init();
+    });
+    if (this.user == 2) {
+      this.breadlist = [
+        { title: "首页", path: "StudentIndex" },
+        { title: "新闻动态" }
+      ];
+    } else if (this.user == 1) {
+      this.breadlist = [
+        { title: "首页", path: "SchoolIndex" },
+        { title: "新闻动态" }
+      ];
+    } else {
+      this.breadlist = [
+        { title: "首页", path: "Index" },
+        { title: "新闻动态" }
+      ];
+    }
   },
   created() {
     this.init();
@@ -248,30 +299,47 @@ export default {
       let params = new URLSearchParams();
       let _res = await ajax.setting(params);
       if (_res.code == 0) {
-        this.item = _res.data
+        this.item = _res.data;
+        var arr = _res.data.position.split(",");
+        this.location.lng = arr[1];
+        this.location.lat = arr[0];
       }
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.form()
+          this.form();
         } else {
           this.$message.error("留言失败");
           return false;
         }
       });
     },
-    async form(){
+    async form() {
       let params = new URLSearchParams();
-      params.append("name", this.ruleForm.name); 
+      params.append("name", this.ruleForm.name);
       params.append("phone", this.ruleForm.phone);
       params.append("content", this.ruleForm.desc);
       params.append("email", this.ruleForm.mail);
       let _res = await ajax.addContact(params);
-      if(_res.code == 0){
-          this.$message.success("留言成功");
+      if (_res.code == 0) {
+        this.$message.success("留言成功");
       }
-      
+    },
+    getLocationPoint(e) {
+      this.lng = e.point.lng;
+      this.lat = e.point.lat;
+      /* 创建地址解析器的实例 */
+      let geoCoder = new BMap.Geocoder();
+      /* 获取位置对应的坐标 */
+      geoCoder.getPoint(this.addressKeyword, point => {
+        this.selectedLng = point.lng;
+        this.selectedLat = point.lat;
+      });
+      /* 利用坐标获取地址的详细信息 */
+      geocoder.getLocation(e.point, res => {
+        console.log(res);
+      });
     }
   },
   components: {

@@ -3,14 +3,14 @@
     <div class="form_box">
       <p class="title">学生登录</p>
       <div class="inp_box">
-        <input type="text" name="name" class="inp" autocomplete="off"/>
+        <input type="text" name="name" class="inp" :value="userInfo.user" autocomplete="off"/>
         <div class="icon">
           <img src="./images/account.png" alt />
           <span>账号</span>
         </div>
       </div>
       <div class="inp_box">
-        <input type="password" name="password" class="inp" />
+        <input type="password" name="password" :value="userInfo.pass" class="inp" />
         <div class="icon">
           <img src="./images/password.png" alt />
           <span>密码</span>
@@ -18,7 +18,7 @@
       </div>
       <div class="operation">
         <div class="inp_check">
-          <el-checkbox v-model="checked" style="color:#fff;">记住密码</el-checkbox>
+          <el-checkbox v-model="checked" style="color:#fff;" >记住密码</el-checkbox>
         </div>
         <div class="no_password" @click="password_btn">修改密码</div>
       </div>
@@ -37,8 +37,15 @@ import $ from "jquery";
 export default {
   data() {
     return {
-      checked: false
+      checked: false,
+      userInfo:{
+        user:'',
+        pass:''
+      }
     };
+  },
+  created(){
+    this.getCookie()
   },
   methods: {
     password_btn() {
@@ -51,16 +58,47 @@ export default {
       let _res = await ajax.studentLogin(params);
       if (_res.code == 0) {
         if (this.checked) {
-          console.log("登录成功，并记住密码");
+          this.setCookie(this.userInfo.user, this.userInfo.pass, 7);
+          this.$router.push({ name: "StudentIndex" });
         } else {
           this.$message.success(_res.message);
           this.$router.push({ name: "StudentIndex" });
-          localStorage.setItem('token',_res.data.token);
         }
+          localStorage.setItem('token',_res.data.token);
+          localStorage.setItem('user_name',_res.data.nickname);
+          localStorage.setItem('user_id',_res.data.id);
+          localStorage.setItem('school_id',_res.data.school_id);
+          localStorage.setItem('school_name',_res.data.school_name);
+          localStorage.setItem('bs',_res.data.bs);
+          localStorage.setItem('nianjie',_res.data.nianjie);
+          localStorage.setItem('class',_res.data.class);
+          localStorage.setItem('nianji_id',_res.data.nianji_id);
       } else {
         this.$message.error(_res.message);
       }
-    }
+    },
+    setCookie(c_name, c_pwd, exdays) {
+      var exdate = new Date();
+      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays);
+      window.document.cookie =
+        "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
+      window.document.cookie =
+        "userPwd" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
+    },
+    getCookie: function() {
+      if (document.cookie.length > 0) {
+        this.checked =true
+        var arr = document.cookie.split("; ");
+        for (var i = 0; i < arr.length; i++) {
+          var arr2 = arr[i].split("="); 
+          if (arr2[0] == "userName") {
+            this.userInfo.user = arr2[1];
+          } else if (arr2[0] == "userPwd") {
+            this.userInfo.pass = arr2[1];
+          }
+        }
+      }
+    },
   }
 };
 </script>

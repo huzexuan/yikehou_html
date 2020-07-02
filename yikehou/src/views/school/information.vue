@@ -88,7 +88,7 @@
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" :user="1"></head_nav>
+      <head_nav :navId="1" ></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -107,7 +107,7 @@
               </p>
             </div>
           </div>
-          <student_nav :id="3" :user="1"></student_nav>
+          <student_nav :id="3"></student_nav>
         </el-container>
       </div>
       <div class="information_box">

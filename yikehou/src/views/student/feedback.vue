@@ -2,11 +2,8 @@
 <style>
 .feedback_bg {
   background: url(./images/feedback_bg.jpg) no-repeat 100% 100%;
-<<<<<<< HEAD
   background-size:100% 100%;
-=======
   padding-top: 50px;
->>>>>>> 4b855ab8affb8ec83d615283c1ea9ea42a184502
 }
 .content_box {
   padding-top: 55px;
@@ -93,28 +90,16 @@
   color: #fff;
   resize: none;
 }
-<<<<<<< HEAD
 .feedback_btn{
     width: 316px;
     height: 100px;
     background: url(./images/feedback_btnBg.png)no-repeat 100% 100%;
-  background-size:100% 100%;
+    background-size:100% 100%;
     color: #fff;
     font-size: 24px;
     text-align: center;
     line-height: 100px;
     margin:150px auto 0;
-=======
-.feedback_btn {
-  width: 316px;
-  height: 100px;
-  background: url(./images/feedback_btnBg.png) no-repeat 100% 100%;
-  color: #fff;
-  font-size: 24px;
-  text-align: center;
-  line-height: 100px;
-  margin: 150px auto 0;
->>>>>>> 4b855ab8affb8ec83d615283c1ea9ea42a184502
 }
 </style>
 <template>

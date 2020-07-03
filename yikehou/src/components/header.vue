@@ -80,7 +80,19 @@
               <el-button type="primary" size="mini" @click="is_visible">确定</el-button>
             </div>
             <div slot="reference" class="user_student">
-              <img src="./images/user_student.png" alt />张甜甜
+              <img src="./images/user_student.png" alt />{{user_name}}
+            </div>
+          </el-popover>
+        </div>
+        <div v-else-if="user == 1">
+          <el-popover placement="top" width="160" v-model="visible" >
+            <p>确定退出当前账号吗？</p>
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+              <el-button type="primary" size="mini" @click="is_visible">确定</el-button>
+            </div>
+            <div slot="reference" class="user_student">
+              <img src="./images/user_school.png" alt />{{school_name}}
             </div>
           </el-popover>
         </div>
@@ -93,7 +105,6 @@
     <div class="header_buttom">
       <el-container class="header_buttom_box flex_justify_content">
         <img src="./images/logo.png" alt />
-        
         <ul class="nav"  v-if="user == 2">
           <li :class="navId == '1' ?'active':''" @click="navId == 1 ? '':navPage('StudentIndex')">
             <p>首页</p>
@@ -104,6 +115,28 @@
             <p class="height_border"></p>
           </li>
           <li :class="navId == '3' ?'active':''" @click="navId == 3 ? '':navPage('StudentIndex')">
+            <p>课程中心</p>
+            <p class="height_border"></p>
+          </li>
+          <li :class="navId == '4' ?'active':''" @click="navId == 4 ? '':navPage('New')">
+            <p>新闻动态</p>
+            <p class="height_border"></p>
+          </li>
+          <li :class="navId == '5' ?'active':''" @click="navId == 5 ? '':navPage('JoinHands')">
+            <p>合作共赢</p>
+            <p class="height_border"></p>
+          </li>
+        </ul>
+        <ul class="nav"  v-else-if="user == 1">
+          <li :class="navId == '1' ?'active':''" @click="navId == 1 ? '':navPage('SchoolIndex')">
+            <p>首页</p>
+            <p class="height_border"></p>
+          </li>
+          <li :class="navId == '2' ?'active':''" @click="navId == 2 ? '':navPage('Aboutus')">
+            <p>关于我们</p>
+            <p class="height_border"></p>
+          </li>
+          <li :class="navId == '3' ?'active':''" @click="navId == 3 ? '':navPage('SchoolIndex')">
             <p>课程中心</p>
             <p class="height_border"></p>
           </li>
@@ -152,23 +185,28 @@ export default {
   },
   data() {
     return {
-      user: localStorage.getItem("bs"),
+      user: sessionStorage.getItem("bs"),
+      user_name: sessionStorage.getItem("user_name"),
+      school_name: sessionStorage.getItem("school_name"),
       visible: false,
     };
   },
   created() {},
   methods: {
     student_login() {
-      this.$router.push({ name: "Student" });
+          this.$message.warning('暂未开放');
+
+      // this.$router.push({ name: "Student" });
     },
     school_login() {
-      this.$router.push({ name: "School" });
+          this.$message.warning('暂未开放');
+      // this.$router.push({ name: "School" });
     },
     navPage(namePage) {
       this.$router.push({ name: namePage });
     },
     is_visible(){
-      localStorage.clear();
+      sessionStorage.clear();
       this.visible = false
       this.$router.push({ name: "Index" });
 

@@ -52,10 +52,10 @@
   background: #fd1e23;
 }
 .gradeTab_tab li:nth-child(even) {
-    background: #eff6fb;
+  background: #eff6fb;
 }
-.gradeTab_tab li:nth-child(even) input{
-    background: #eff6fb !important;
+.gradeTab_tab li:nth-child(even) input {
+  background: #eff6fb !important;
 }
 .border_right {
   border-right: 1px solid #bfbfbf;
@@ -115,23 +115,21 @@
 .gradeTab_tab li .li_inputItem4 .el-form-item__content {
   margin-left: 115px !important;
 }
-.gradeTab_tab li .inputItem4_bottom>div{
-    width: 180px;
-    height: 100%;
+.gradeTab_tab li .inputItem4_bottom > div {
+  width: 180px;
+  height: 100%;
 }
-.gradeTab_tab li .inputItem4_bottom .el-form-item__label{
+.gradeTab_tab li .inputItem4_bottom .el-form-item__label {
   width: 75px !important;
-
 }
 .gradeTab_tab li .inputItem4_bottom .el-form-item__content {
   margin-left: 75px !important;
-
 }
 </style>
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" ></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -164,54 +162,54 @@
               @click="gradeTab(item.id)"
             >{{item.title}}</li>
           </ul>
-          <div class="save_btn">保存</div>
+          <div class="save_btn" @click="submit">保存</div>
         </div>
         <el-form ref="form" :model="form" label-width="152px">
           <el-form-item class="gradeTab_num" label="设置学生可报课程数量">
-            <el-input v-model="form.name"></el-input>
+            <el-input type="number" v-model="gradeTab_num" min="0"></el-input>
           </el-form-item>
           <ul class="gradeTab_tab">
-            <li>
-              <div class="li_title">英语</div>
+            <li v-for="(item,i) in courseList_data" :key="i">
+              <div class="li_title">{{item.course_info.title}}</div>
               <div class="li_inputItem1 border_right">
                 <div class="inputItem1_top align_items_center">
                   <el-form-item class="gradeTab_num" label="上课时间">
-                    <el-input v-model="form.name" placeholder="填写上课时间"></el-input>
+                    <el-input v-model="item.start_time" placeholder="填写上课时间"></el-input>
                   </el-form-item>
                 </div>
                 <div class="inputItem1_bottom align_items_center">
                   <el-form-item class="gradeTab_num" label="上课地点">
-                    <el-input v-model="form.name" placeholder="填写上课地点"></el-input>
+                    <el-input v-model="item.place" placeholder="填写上课地点"></el-input>
                   </el-form-item>
                 </div>
               </div>
               <div class="li_inputItem2 border_right">
                 <div class="inputItem1_top align_items_center">
                   <el-form-item class="gradeTab_num" label="上课老师">
-                    <el-input v-model="form.name" placeholder="填写老师"></el-input>
+                    <el-input v-model="item.teacher" placeholder="填写老师"></el-input>
                   </el-form-item>
                 </div>
                 <div class="inputItem1_bottom align_items_center">
                   <el-form-item class="gradeTab_num" label="容纳人数">
-                    <el-input v-model="form.name" placeholder="填写人数"></el-input>
+                    <el-input v-model="item.can_user" placeholder="填写人数"></el-input>
                   </el-form-item>
                 </div>
               </div>
               <div class="li_inputItem3 border_right">
                 <div class="inputItem1_top align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课老师">
-                    <el-input v-model="form.name" placeholder="填写老师"></el-input>
+                  <el-form-item class="gradeTab_num" label="报名人数">
+                    <el-input v-model="item.apply_number" placeholder="填写报名人数"></el-input>
                   </el-form-item>
                 </div>
                 <div class="inputItem1_bottom">
                   <div class="inputItem3_bottom_t align_items_center">
-                    <el-form-item class="gradeTab_num" label="容纳人数">
-                      <el-input v-model="form.name" placeholder="填写人数"></el-input>
+                    <el-form-item class="gradeTab_num" label="监管老师">
+                      <el-input v-model="item.jianguan" placeholder="填写监管老师"></el-input>
                     </el-form-item>
                   </div>
                   <div class="inputItem3_bottom_b align_items_center">
-                    <el-form-item class="gradeTab_num" label="容纳人数">
-                      <el-input v-model="form.name" placeholder="填写人数"></el-input>
+                    <el-form-item class="gradeTab_num" label="联系电话">
+                      <el-input v-model="item.teacher_phone" placeholder="填写联系电话"></el-input>
                     </el-form-item>
                   </div>
                 </div>
@@ -219,157 +217,24 @@
               <div class="li_inputItem4">
                 <div class="inputItem1_top align_items_center">
                   <el-form-item label="是否增加班级">
-                    <el-radio-group v-model="form.resource">
+                    <el-radio-group v-model="item.is_zeng">
                       <el-radio label="是"></el-radio>
-                      <el-radio label="否"></el-radio>
+                      <el-radio label="否" ></el-radio>
                     </el-radio-group>
                   </el-form-item>
                 </div>
                 <div class="inputItem1_bottom inputItem4_bottom align_items_center">
-                  <div class="inputItem4_bottom_l border_right align_items_center">
-                    <el-form-item class="gradeTab_num" label="上课老师">
-                      <el-input v-model="form.name" placeholder="填写老师"></el-input>
+                  <div
+                    class="inputItem4_bottom_l border_right align_items_center"
+                    v-if="item.is_zeng == '是'"
+                  >
+                    <el-form-item class="gradeTab_num" label="增加地点">
+                      <el-input placeholder="填写地点"></el-input>
                     </el-form-item>
                   </div>
-                  <div class="inputItem4_bottom_r align_items_center">
-                    <el-form-item class="gradeTab_num" label="上课老师">
-                      <el-input v-model="form.name" placeholder="填写老师"></el-input>
-                    </el-form-item>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="li_title">英语</div>
-              <div class="li_inputItem1 border_right">
-                <div class="inputItem1_top align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课时间">
-                    <el-input v-model="form.name" placeholder="填写上课时间"></el-input>
-                  </el-form-item>
-                </div>
-                <div class="inputItem1_bottom align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课地点">
-                    <el-input v-model="form.name" placeholder="填写上课地点"></el-input>
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="li_inputItem2 border_right">
-                <div class="inputItem1_top align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课老师">
-                    <el-input v-model="form.name" placeholder="填写老师"></el-input>
-                  </el-form-item>
-                </div>
-                <div class="inputItem1_bottom align_items_center">
-                  <el-form-item class="gradeTab_num" label="容纳人数">
-                    <el-input v-model="form.name" placeholder="填写人数"></el-input>
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="li_inputItem3 border_right">
-                <div class="inputItem1_top align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课老师">
-                    <el-input v-model="form.name" placeholder="填写老师"></el-input>
-                  </el-form-item>
-                </div>
-                <div class="inputItem1_bottom">
-                  <div class="inputItem3_bottom_t align_items_center">
+                  <div class="inputItem4_bottom_r align_items_center" v-if="item.is_zeng ==  '是'">
                     <el-form-item class="gradeTab_num" label="容纳人数">
-                      <el-input v-model="form.name" placeholder="填写人数"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="inputItem3_bottom_b align_items_center">
-                    <el-form-item class="gradeTab_num" label="容纳人数">
-                      <el-input v-model="form.name" placeholder="填写人数"></el-input>
-                    </el-form-item>
-                  </div>
-                </div>
-              </div>
-              <div class="li_inputItem4">
-                <div class="inputItem1_top align_items_center">
-                  <el-form-item label="是否增加班级">
-                    <el-radio-group v-model="form.resource">
-                      <el-radio label="是"></el-radio>
-                      <el-radio label="否"></el-radio>
-                    </el-radio-group>
-                  </el-form-item>
-                </div>
-                <div class="inputItem1_bottom inputItem4_bottom align_items_center">
-                  <div class="inputItem4_bottom_l border_right align_items_center">
-                    <el-form-item class="gradeTab_num" label="上课老师">
-                      <el-input v-model="form.name" placeholder="填写老师"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="inputItem4_bottom_r align_items_center">
-                    <el-form-item class="gradeTab_num" label="上课老师">
-                      <el-input v-model="form.name" placeholder="填写老师"></el-input>
-                    </el-form-item>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="li_title">英语</div>
-              <div class="li_inputItem1 border_right">
-                <div class="inputItem1_top align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课时间">
-                    <el-input v-model="form.name" placeholder="填写上课时间"></el-input>
-                  </el-form-item>
-                </div>
-                <div class="inputItem1_bottom align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课地点">
-                    <el-input v-model="form.name" placeholder="填写上课地点"></el-input>
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="li_inputItem2 border_right">
-                <div class="inputItem1_top align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课老师">
-                    <el-input v-model="form.name" placeholder="填写老师"></el-input>
-                  </el-form-item>
-                </div>
-                <div class="inputItem1_bottom align_items_center">
-                  <el-form-item class="gradeTab_num" label="容纳人数">
-                    <el-input v-model="form.name" placeholder="填写人数"></el-input>
-                  </el-form-item>
-                </div>
-              </div>
-              <div class="li_inputItem3 border_right">
-                <div class="inputItem1_top align_items_center">
-                  <el-form-item class="gradeTab_num" label="上课老师">
-                    <el-input v-model="form.name" placeholder="填写老师"></el-input>
-                  </el-form-item>
-                </div>
-                <div class="inputItem1_bottom">
-                  <div class="inputItem3_bottom_t align_items_center">
-                    <el-form-item class="gradeTab_num" label="容纳人数">
-                      <el-input v-model="form.name" placeholder="填写人数"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="inputItem3_bottom_b align_items_center">
-                    <el-form-item class="gradeTab_num" label="容纳人数">
-                      <el-input v-model="form.name" placeholder="填写人数"></el-input>
-                    </el-form-item>
-                  </div>
-                </div>
-              </div>
-              <div class="li_inputItem4">
-                <div class="inputItem1_top align_items_center">
-                  <el-form-item label="是否增加班级">
-                    <el-radio-group v-model="form.resource">
-                      <el-radio label="是"></el-radio>
-                      <el-radio label="否"></el-radio>
-                    </el-radio-group>
-                  </el-form-item>
-                </div>
-                <div class="inputItem1_bottom inputItem4_bottom align_items_center">
-                  <div class="inputItem4_bottom_l border_right align_items_center">
-                    <el-form-item class="gradeTab_num" label="上课老师">
-                      <el-input v-model="form.name" placeholder="填写老师"></el-input>
-                    </el-form-item>
-                  </div>
-                  <div class="inputItem4_bottom_r align_items_center">
-                    <el-form-item class="gradeTab_num" label="上课老师">
-                      <el-input v-model="form.name" placeholder="填写老师"></el-input>
+                      <el-input placeholder="填写人数"></el-input>
                     </el-form-item>
                   </div>
                 </div>
@@ -390,45 +255,56 @@ import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import student_nav from "../../components/studentNav.vue";
 import $ from "jquery";
-
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
-      gradeList: [
+      gradeList: [],
+      courseList_data: [],
+      gradeId: 0,
+      form: [
         {
-          id: 0,
-          title: "一年级"
-        },
-        {
-          id: 1,
-          title: "二年级"
-        },
-        {
-          id: 2,
-          title: "三年级"
-        },
-        {
-          id: 3,
-          title: "四年级"
-        },
-        {
-          id: 4,
-          title: "五年级"
-        },
-        {
-          id: 5,
-          title: "六年级"
+          name: "haha"
         }
       ],
-      gradeId: 0,
-      form: {
-        name: ""
-      }
+      gradeTab_num:0
     };
   },
+  async created() {
+    await this.init();
+    this.courseList();
+  },
   methods: {
+    // 年级分类
+    async init() {
+      let params = new URLSearchParams();
+      let _res = await ajax.NianjiList(params);
+      if (_res.code == 0) {
+        this.gradeList = _res.data;
+        this.gradeId = _res.data[0].id;
+      }
+    },
+    // 课程列表
+    async courseList() {
+      let params = new URLSearchParams();
+      params.append("nianji", this.gradeId);
+      params.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.getMyCourseList(params);
+      if (_res.code == 0) {
+        this.courseList_data = _res.data.data;
+      }
+    },
     gradeTab(id) {
       this.gradeId = id;
+    },
+    submit() {
+      console.log(this.courseList_data);
+    },
+    histTypeUpdate(i) {
+      console.log(i);
+      console.log(index);
+      console.log($(this)[0]);
     }
   },
   components: {

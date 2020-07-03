@@ -3,10 +3,10 @@
 .screen_box {
   margin: 44px 0 22px;
 }
-.el-select-dropdown__item {
+#screen1 .el-select-dropdown__item {
   display: block;
 }
-.el-select {
+#screen1 .el-select {
   margin-left: 68px;
 }
 .seeCondition_box > li {
@@ -152,7 +152,7 @@
           <li @click="_condition">课程热度排名</li>
           <li class="active">学生报课情况</li>
         </ul>
-        <div class="screen_box">
+        <div class="screen_box" id="screen1">
           <el-select v-model="value" clearable placeholder="请选择年级">
             <el-option
               v-for="item in options"

@@ -1,17 +1,49 @@
 
 <style>
-.account_box{
-    width:100%;
-    height:766px;
-    background: url(./images/account_bg.jpg) no-repeat 100% 100%;
-  background-size:100% 100%;
+.account_box {
+  width: 100%;
+  height: 766px;
+  background: url(./images/account_bg.jpg) no-repeat 100% 100%;
+  background-size: 100% 100%;
 }
-
+.up_account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 260px 0 90px;
+}
+.account_btnbox {
+  width: 382px;
+  height: 92px;
+  border: 1px solid #fff;
+  line-height: 92px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+.account_btnbox p {
+  margin-right: 12px;
+}
+.account_btnbox:last-child {
+  background: #fff;
+  color: #2e3693;
+  margin-left: 100px;
+}
+.account_del{
+  margin-left: 168px;
+  font-size: 16px;
+  color: #fff;
+  line-height: 30px;
+}
 </style>
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" ></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -30,33 +62,31 @@
               </p>
             </div>
           </div>
-          <student_nav :id="1" ></student_nav>
+          <student_nav :id="2"></student_nav>
         </el-container>
       </div>
-        <div class="account_box">
+      <div class="account_box">
         <el-container>
-            <div class="up_account">
-                <el-upload
- 
-          class="upload-demo"
-          ref="upload"
-          :action="uploadUrl()"
-          :data="uploadData"
-          name="excelFile"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :file-list="fileList"
-          :on-error="uploadFalse"
-          :on-success="uploadSuccess"
-          :auto-upload="false"
-          :before-upload="beforeAvatarUpload">
-          <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-          <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">批量导入</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传excel文件</div>
-          </el-upload>
+          <div class="up_account">
+            <div class="account_btnbox">
+              <p>单个增加学生信息</p>
+              <img src="./images/account_btn1.png" />
             </div>
+            <div class="account_btnbox" >
+              <input type="file" id="file" name="myfile" style="display: none" />
+            <!-- <input type="button" @click="upload" value="选择文件上传" />-->
+              <!-- <p @click="upload">{{file_Name ?file_Name :'批量导入学生信息'}}</p> -->
+              <p >{{file_Name ?file_Name :'批量导入学生信息'}}</p>
+              <img  src="./images/account_btn2.png" />
+            </div>
+          </div>
+          <div class="account_del">
+            <p>温馨提示：</p>
+            <p>1、身份证号默认为登录时账号</p>
+            <p>2、初始密码默认为000000，如您需要需改密码请在登录页面自行修改。</p>
+          </div>
         </el-container>
-        </div>
+      </div>
       <!-- footer -->
       <footer_nav></footer_nav>
     </el-main>
@@ -68,67 +98,61 @@ import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import student_nav from "../../components/studentNav.vue";
 import $ from "jquery";
-
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
+      file_Name:''
     };
   },
   methods: {
-      uploadUrl: function() {
-      return (
-        "/fanxing/import/batchInsertShops" +
-        "?businessName=" +
-        this.businessName +
-        "&businessStatus=" +
-        this.businessStatus +
-        "&businessType=" +
-        this.businessType
-      );
-    },
-    uploadSuccess(response, file, fileList) {
-      if (response.status) {
-        alert("文件导入成功");
-      } else {
-        alert("文件导入失败");
+    async UpladFile(fileObj) {
+      console.log(fileObj)
+      var form = new FormData(); // FormData 对象
+      form.append("file", fileObj); // 文件对象
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token")); // 文件对象
+      params.append("excel", form); // 文件对象
+      let _res = await ajax.uploadExcel(params);
+      if (_res.code == 0) {
       }
+      // $.ajax({
+      //     url: 'xxx',                      //url地址
+      //     type: 'POST',                 //上传方式
+      //     data: form,                   // 上传formdata封装的数据
+      //     dataType: 'JSON',
+      //     cache: false,                  // 不缓存
+      //     processData: false,        // jQuery不要去处理发送的数据
+      //     contentType: false,         // jQuery不要去设置Content-Type请求头
+      //     success:function (data) {           //成功回调
+      //         console.log(data);
+      //     },
+      //    error:function (data) {           //失败回调
+      //         console.log(data);
+      //     }
+      // });
     },
-    uploadFalse(response, file, fileList) {
-      alert("文件上传失败！");
-    },
-    // 上传前对文件的大小的判断
-    beforeAvatarUpload(file) {
-      const extension = file.name.split(".")[1] === "xls";
-      const extension2 = file.name.split(".")[1] === "xlsx";
-      const isLt2M = file.size / 1024 / 1024 < 10;
-         if (!extension && !extension2 ) {
-           alert("上传模板只能是 xls、xlsx、doc、docx 格式!");
+    upload() {
+      let _this = this;
+      $("#file").click();
+      $("#file").change(function(e) {
+        var fileName = e.target.files[0];
+        if (fileName !== undefined) {
+          var file_typename = fileName.name.substring(
+            fileName.name.lastIndexOf(".")
+          );
+          if (file_typename === ".xlsx" || file_typename === ".xls") {
+            _this.file_Name = fileName.name
+            _this.UpladFile(fileName);
+          } else {
+            _this.$message.error("请选择正确的文件类型！");
           }
-          if (!isLt2M) {
-           console.log("上传模板大小不能超过 10MB!");
-         }
-        return extension || extension2 || extension3 || (extension4 && isLt2M);
-    },
-    submitUpload() {
-      if (this.businessType != null) {
-        //触发组件的action
-        this.$refs.upload.submit();
-      }
-      if (this.businessType == null) {
-        this.businessType = "businessType不能为空";
-      }
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      if (file.response.status) {
-        alert("此文件导入成功");
-      } else {
-        alert("此文件导入失败");
-      }
+        } else {
+          _this.$message.error("请选择正确的文件！");
+        }
+      });
     }
-
   },
   components: {
     head_nav,

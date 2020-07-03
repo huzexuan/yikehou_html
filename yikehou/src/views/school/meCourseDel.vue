@@ -64,36 +64,36 @@
   padding: 24px 0;
   background: #ecf6ff;
 }
-.courseDel li{
-    width:32%;
-    box-sizing: border-box;
-    border-right: 1px solid #fff;
-    height: 100%;
-    text-align: center;
+.courseDel li {
+  width: 32%;
+  box-sizing: border-box;
+  border-right: 1px solid #fff;
+  height: 100%;
+  text-align: center;
 }
-.courseDel li:last-child{
-    border: 0;
+.courseDel li:last-child {
+  border: 0;
 }
-.courseDel li p:nth-child(1){
-    font-size: 16px;
-    margin-bottom: 30px;
+.courseDel li p:nth-child(1) {
+  font-size: 16px;
+  margin-bottom: 30px;
 }
-.courseDel li p:nth-child(2){
-    font-size: 16px;
-    color: #0168b7;
+.courseDel li p:nth-child(2) {
+  font-size: 16px;
+  color: #0168b7;
 }
-.submit_btn{
-    float: right;
-    width: 203px;
-    height: 58px;
-    border-radius: 50px;
-    background: #0168b7;
-    color: #fff;
-    font-size: 18px;
-    text-align: center;
-    line-height: 58px;
-    margin-top: 42px;
-    cursor: pointer;
+.submit_btn {
+  float: right;
+  width: 203px;
+  height: 58px;
+  border-radius: 50px;
+  background: #0168b7;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  line-height: 58px;
+  margin-top: 42px;
+  cursor: pointer;
 }
 /* 课程简介 */
 .intro_title {
@@ -109,7 +109,7 @@
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" ></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
@@ -119,17 +119,12 @@
             <img src alt class="user_img" />
             <div class="user">
               <p>
-                <span class="name">{{user_name}}</span>
-                <span
-                  class="user_msg"
-                >{{school_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{nianjie}}{{user_class}}</span>
-                <span class="user_upimg">上传头像</span>
+                <span class="name">保定市高新区小学</span>
+                <span class="user_upimg">上传学校LOGO</span>
               </p>
               <p>
-                <span>已选课程</span>
-                {{CourseNum.has_course}}
-                <span>剩余可选课程</span>
-                {{CourseNum.sheng}}
+                <span>已选课程</span>4
+                <span>剩余可选课程</span>1
               </p>
             </div>
           </div>
@@ -163,27 +158,27 @@
             <p class="teacher_title" v-if="item.school_course">上课老师：{{item.school_course.teacher}}</p>
             <ul class="courseDel" v-if="item.school_course">
               <li>
-                  <p>上课地点</p>
-                  <p>{{item.school_course.place}}</p>
+                <p>上课地点</p>
+                <p>{{item.school_course.place}}</p>
               </li>
               <li>
-                  <p>上课时间</p>
-                  <p>{{item.school_course.start_time}}</p>
+                <p>上课时间</p>
+                <p>{{item.school_course.start_time}}</p>
               </li>
               <li>
-                  <p>监管老师</p>
-                  <p>{{item.school_course.jianguan}}</p>
+                <p>监管老师</p>
+                <p>{{item.school_course.jianguan}}</p>
               </li>
             </ul>
-            <div class="submit_btn " v-if="item.bs_select == 1">已选课</div>
-            <div class="submit_btn" v-else @click="xuanke(item.id)">立即选课</div>
+            <div
+              class="submit_btn"
+              @click="xuanke(item.is_select == 1 ? '' :item.id)"
+            >{{ item.is_select == 1 ?'已选课':'立即选课' }}</div>
           </div>
         </div>
         <div class="courseDetail_box">
           <p class="intro_title">课程简介</p>
-          <div
-            class="intro_content"
-          v-html="item.content">{{item.content}}</div>
+          <div class="intro_content" v-html="item.content">{{item.content}}</div>
         </div>
         <div class="footer_height"></div>
       </el-container>
@@ -220,16 +215,16 @@ export default {
         centeredSlides: true
       },
       breadlist: [
-        { title:sessionStorage.getItem("school_name"), path: "StudentIndex" },
+        { title: sessionStorage.getItem("school_name"), path: "SchoolIndex" },
         { title: "课程详情" }
       ],
-      item:{},
-      CourseNum: {},
+      item: {},
+      CourseNum: {}
     };
   },
-  created(){
-    this.init()
-    this.CourseNumber()
+  created() {
+    this.init();
+    this.CourseNumber();
   },
   mounted() {
     this.$nextTick(() => {
@@ -239,15 +234,15 @@ export default {
       swiperThumbs.controller.control = swiperTop;
     });
   },
-  methods:{
-    async init(){
+  methods: {
+    async init() {
       const { id } = this.$route.params;
       let params = new URLSearchParams();
-      params.append("id",id);
-      params.append("token",sessionStorage.getItem("token"));
+      params.append("id", id);
+      params.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.courseDetaill(params);
       if (_res.code == 0) {
-        this.item = _res.data
+        this.item = _res.data;
       }
     },
     // 选课数量
@@ -260,15 +255,19 @@ export default {
       }
     },
     // 选课
-    async xuanke(id){
-      let params = new URLSearchParams();
-      params.append("token", sessionStorage.getItem("token"));
-      params.append("school_course_id", id);
-      let _res = await ajax.getHasCourseNumber(params);
-      if (_res.code == 0) {
-        this.CourseNum = _res.data;
-      }else{
-        this.$message.error(_res.message);
+    async xuanke(id) {
+      if (id == '') {
+          this.$message.warning('已选择该课程');
+      } else {
+        let params = new URLSearchParams();
+        params.append("token", sessionStorage.getItem("token"));
+        params.append("course_id", id);
+        let _res = await ajax.schoolchooseCourse(params);
+        if (_res.code == 0) {
+          this.CourseNum = _res.data;
+        } else {
+          this.$message.error(_res.message);
+        }
       }
     }
   },

@@ -159,7 +159,7 @@ export default {
         }
       ],
       list: [],
-      user: localStorage.getItem("bs")
+      user: sessionStorage.getItem("bs")
     };
   },
   mounted() {

@@ -9,7 +9,7 @@
 export default {
   name: "App",
   created(){
-    const user_type = localStorage.getItem('bs')
+    const user_type = sessionStorage.getItem('bs')
     if(user_type == 2){
           this.$router.push({ path: "/StudentIndex" });
     }else if(user_type == 1){

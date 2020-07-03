@@ -111,7 +111,7 @@
               </p>
             </div>
           </div>
-          <student_nav :id="3"></student_nav>
+          <student_nav></student_nav>
         </el-container>
       </div>
       <div class="information_box">

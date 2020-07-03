@@ -1,6 +1,6 @@
 import axios from 'axios'
 const service = axios.create({
-    baseURL: 'http://yikehou.debugk.natapp1.cc',
+    baseURL: 'http://yikehou.132.chinaapp.cc',
 });
 // request拦截器
 service.interceptors.request.use(config => {

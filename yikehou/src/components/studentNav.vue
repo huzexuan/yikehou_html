@@ -29,7 +29,7 @@
         :class="[id == 1 ?'studentNav_active':'']"
         @click="id == 1 ? '':nav_tab('SchoolIndex')"
       >选课中心</li>
-      <li :class="[id == 2 ?'studentNav_active':'']" @click="id == 2 ? '':nav_tab('MeCourse')">开设学生账号</li>
+      <li :class="[id == 2 ?'studentNav_active':'']" @click="id == 2 ? '':nav_tab('Account')">开设学生账号</li>
       <li :class="[id == 3 ?'studentNav_active':'']" @click="id == 3 ? '':nav_tab('SeeDegree')">查看信息</li>
       <li :class="[id == 4 ?'studentNav_active':'']" @click="id == 4 ? '':nav_tab('SchoolSet')">设置</li>
       <li :class="[id == 5 ?'studentNav_active':'']" @click="id == 5 ? '':nav_tab('Coupleback')">学生反馈信息</li>
@@ -40,7 +40,7 @@
         @click="id == 1 ? '':nav_tab('StudentIndex')"
       >选课中心</li>
       
-      <li :class="[id == 2 ?'studentNav_active':'']" @click="id == 2 ? '':nav_tab('Account')">我的课程</li>
+      <li :class="[id == 2 ?'studentNav_active':'']" @click="id == 2 ? '':nav_tab('MeCourse')">我的课程</li>
       <li :class="[id == 3 ?'studentNav_active':'']" @click="id == 3 ? '':nav_tab('Feedback')">我要反馈</li>
     </ul>
   </div>
@@ -51,13 +51,12 @@ export default {
   props: {
     id: {
       type: Number
-    },
-    user:{
-      type:Number
     }
   },
   data() {
-    return {};
+    return {
+      user:sessionStorage.getItem("bs"),
+    };
   },
   created() {},
   methods: {

@@ -97,120 +97,17 @@
           <li @click="_condition">学生报课情况</li>
         </ul>
         <ul class="seeDegree_list">
-          <li>
+          <li v-for="(item,index) in reduList" :key="index">
             <p class="title">
-              <span>一年级</span>
+              <span>{{item.cate}}</span>
               <span>下学期意向课报名人数：</span>
-              <span>6</span>
+              <span></span>
             </p>
             <ul class="seeDegree_item">
-              <li>
-                <span>1</span>
-                <span>英语英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>2</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>3</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>4</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>5</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>6</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <p class="title">
-              <span>二年级</span>
-              <span>下学期意向课报名人数：</span>
-              <span>6</span>
-            </p>
-            <ul class="seeDegree_item">
-              <li>
-                <span>1</span>
-                <span>英语英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>2</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>3</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>4</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>5</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>6</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <p class="title">
-              <span>三年级</span>
-              <span>下学期意向课报名人数：</span>
-              <span>6</span>
-            </p>
-            <ul class="seeDegree_item">
-              <li>
-                <span>1</span>
-                <span>英语英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>2</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>3</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>4</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>5</span>
-                <span>英语</span>
-                <span>50人</span>
-              </li>
-              <li>
-                <span>6</span>
-                <span>英语</span>
-                <span>50人</span>
+              <li v-for="(i,num) in item.list" :key="num">
+                <span>{{ num + 1 }}</span>
+                <span>{{i.title}}</span>
+                <span>{{i.number}}人</span>
               </li>
             </ul>
           </li>
@@ -227,15 +124,30 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import student_nav from "../../components/studentNav.vue";
-
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
-    return {};
+    return {
+      reduList:[]
+    };
+  },
+  created() {
+    this.init();
   },
   methods: {
     _condition(){
       this.$router.push({ name: "SeeCondition" });
-    }
+    },
+    // 年级分类
+    async init() {
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.seeDegree(params);
+      if (_res.code == 0) {
+        this.reduList = _res.data
+      }
+    },
   },
   components: {
     head_nav,

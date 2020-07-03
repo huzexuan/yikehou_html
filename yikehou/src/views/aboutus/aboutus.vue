@@ -114,7 +114,7 @@ export default {
       breadlist:[],
       partnerList: [],
       AboutUs: {},
-      user: localStorage.getItem("bs")
+      user: sessionStorage.getItem("bs")
     };
   },
   mounted() {

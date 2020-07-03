@@ -2,6 +2,8 @@
 <style>
 .meCourse_content {
   width: 676px;
+  position: relative;
+  z-index: 11111;
 }
 .meCourse_title {
   width: 466px;
@@ -175,10 +177,10 @@ import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
-      user_name: localStorage.getItem("user_name"),
-      nianjie: localStorage.getItem("nianjie"),
-      user_class: localStorage.getItem("class"),
-      school_name: localStorage.getItem("school_name"),
+      user_name: sessionStorage.getItem("user_name"),
+      nianjie: sessionStorage.getItem("nianjie"),
+      user_class: sessionStorage.getItem("class"),
+      school_name: sessionStorage.getItem("school_name"),
       swiperOptions: {
         spaceBetween: 10,
         autoplay: {
@@ -198,7 +200,7 @@ export default {
   methods: {
     async MyCourse() {
       let params = new URLSearchParams();
-      params.append("token", localStorage.getItem("token"));
+      params.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.getMyCourse(params);
       if (_res.code == 0) {
         for (var i = 0; i < _res.data.length; i++) {
@@ -212,7 +214,7 @@ export default {
     // 选课数量
     async CourseNumber() {
       let params = new URLSearchParams();
-      params.append("token", localStorage.getItem("token"));
+      params.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.getHasCourseNumber(params);
       if (_res.code == 0) {
         this.CourseNum = _res.data;

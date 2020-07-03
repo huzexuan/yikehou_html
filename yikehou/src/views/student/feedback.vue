@@ -2,7 +2,7 @@
 <style>
 .feedback_bg {
   background: url(./images/feedback_bg.jpg) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
   padding-top: 50px;
 }
 .content_box {
@@ -16,7 +16,7 @@
   width: 161px;
   height: 79px;
   background: url(./images/course_icon.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
   cursor: pointer;
   margin-left: 62px;
   margin-top: 30px;
@@ -31,7 +31,7 @@
 }
 .feedback_List li.feedback_active {
   background: url(./images/course_icon_active.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .evaluate_box {
   display: flex;
@@ -46,7 +46,7 @@
   width: 16px;
   height: 16px;
   background: url(./images/star.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
   cursor: pointer;
   margin-right: 15px;
 }
@@ -55,7 +55,7 @@
 }
 .evaluate_box .evaluate span.evaluate_active {
   background: url(./images/star_active.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .evaluate_box .star_num {
   color: #fff;
@@ -90,16 +90,17 @@
   color: #fff;
   resize: none;
 }
-.feedback_btn{
-    width: 316px;
-    height: 100px;
-    background: url(./images/feedback_btnBg.png)no-repeat 100% 100%;
-    background-size:100% 100%;
-    color: #fff;
-    font-size: 24px;
-    text-align: center;
-    line-height: 100px;
-    margin:150px auto 0;
+.feedback_btn {
+  width: 316px;
+  height: 100px;
+  background: url(./images/feedback_btnBg.png) no-repeat 100% 100%;
+  background-size: 100% 100%;
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+  line-height: 100px;
+  margin: 150px auto 0;
+  cursor: pointer;
 }
 </style>
 <template>
@@ -115,13 +116,17 @@
             <img src alt class="user_img" />
             <div class="user">
               <p>
-                <span class="name">张甜甜</span>
-                <span class="user_msg">河北保定高开区小学 五年级六班</span>
+                <span class="name">{{user_name}}</span>
+                <span
+                  class="user_msg"
+                >{{school_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{nianjie}}{{user_class}}</span>
                 <span class="user_upimg">上传头像</span>
               </p>
               <p>
-                <span>已选课程</span>4
-                <span>剩余可选课程</span>1
+                <span>已选课程</span>
+                {{CourseNum.has_course}}
+                <span>剩余可选课程</span>
+                {{CourseNum.sheng}}
               </p>
             </div>
           </div>
@@ -132,12 +137,12 @@
         <el-container>
           <p class="feedback_title">选择评价的课程</p>
           <ul class="feedback_List">
-            <li class="feedback_active">英语</li>
-            <li>油画</li>
-            <li>油画</li>
-            <li>油画</li>
-            <li>油画</li>
-            <li>油画油画油画</li>
+            <li
+              v-for="(item,index) in MyCourse"
+              :key="index"
+              :class="[MyCourse_id == item.id ? 'feedback_active':'']"
+              @click="feedbackCourse(item.id)"
+            >{{item.title}}</li>
           </ul>
           <div class="evaluate_box">
             <p class="feedback_title">评价课程</p>
@@ -165,7 +170,7 @@
             <p>留言反馈：</p>
             <textarea class="leave_inp"></textarea>
           </div>
-          <div class="feedback_btn">提交</div>
+          <div class="feedback_btn" @click="up_form">提交</div>
         </el-container>
       </div>
       <!-- footer -->
@@ -178,14 +183,46 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import student_nav from "../../components/studentNav.vue";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
+      user_name: sessionStorage.getItem("user_name"),
+      nianjie: sessionStorage.getItem("nianjie"),
+      user_class: sessionStorage.getItem("class"),
+      school_name: sessionStorage.getItem("school_name"),
       teacherNum: 0,
-      courseNum: 0
+      courseNum: 0,
+      MyCourse: [],
+      MyCourse_id: "",
+      CourseNum: {},
     };
   },
+  created() {
+    this.init();
+    this.CourseNumber()
+  },
   methods: {
+    async init() {
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token"));
+      params.append("result", 2);
+      let _res = await ajax.getMyCourse(params);
+      if (_res.code == 0) {
+        this.MyCourse = _res.data;
+        this.MyCourse_id = _res.data[0].id;
+      }
+    },
+    // 选课数量
+    async CourseNumber() {
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.getHasCourseNumber(params);
+      if (_res.code == 0) {
+        this.CourseNum = _res.data;
+      }
+    },
     //   评价课程
     mouseOver1(index) {
       this.courseNum = index;
@@ -204,6 +241,21 @@ export default {
         $(".evaluate2 span")
           .eq(i)
           .addClass("active_evaluate");
+      }
+    },
+    feedbackCourse(id) {
+      this.MyCourse_id = id;
+    },
+    async up_form() {
+      let content = $(".leave_inp").val();
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token"));
+      params.append("course_id", this.MyCourse_id);
+      params.append("course_star", this.courseNum);
+      params.append("teacher_star", this.teacherNum);
+      params.append("content", content);
+      let _res = await ajax.FeedBack(params);
+      if (_res.code == 0) {
       }
     }
   },

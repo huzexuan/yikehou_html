@@ -64,15 +64,15 @@ export default {
           this.$message.success(_res.message);
           this.$router.push({ name: "StudentIndex" });
         }
-          localStorage.setItem('token',_res.data.token);
-          localStorage.setItem('user_name',_res.data.nickname);
-          localStorage.setItem('user_id',_res.data.id);
-          localStorage.setItem('school_id',_res.data.school_id);
-          localStorage.setItem('school_name',_res.data.school_name);
-          localStorage.setItem('bs',_res.data.bs);
-          localStorage.setItem('nianjie',_res.data.nianjie);
-          localStorage.setItem('class',_res.data.class);
-          localStorage.setItem('nianji_id',_res.data.nianji_id);
+          sessionStorage.setItem('token',_res.data.token);
+          sessionStorage.setItem('user_name',_res.data.nickname);
+          sessionStorage.setItem('user_id',_res.data.id);
+          sessionStorage.setItem('school_id',_res.data.school_id);
+          sessionStorage.setItem('school_name',_res.data.school_name);
+          sessionStorage.setItem('bs',_res.data.bs);
+          sessionStorage.setItem('nianjie',_res.data.nianjie);
+          sessionStorage.setItem('class',_res.data.class);
+          sessionStorage.setItem('nianji_id',_res.data.nianji_id);
       } else {
         this.$message.error(_res.message);
       }

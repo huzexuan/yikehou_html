@@ -264,7 +264,7 @@ export default {
         lat: ""
       },
       zoom:15,
-      user: localStorage.getItem("bs")
+      user: sessionStorage.getItem("bs")
 
     };
   },

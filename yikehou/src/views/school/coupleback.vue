@@ -5,6 +5,10 @@
   display: flex;
   justify-content: space-between;
 }
+.screen_box .el-input {
+  width: 250px !important;
+  /* margin-left: 68px; */
+}
 .el-select-dropdown__item {
   display: block;
 }
@@ -14,6 +18,8 @@
   padding: 40px 0 0;
   display: flex;
   position: relative;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 38px;
 }
 .coupleback_userImg {
   width: 107px;
@@ -68,7 +74,7 @@
   width: 135px;
   height: 124px;
   background: url(./images/coupleback_bg.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .label p {
   width: 66px;
@@ -100,41 +106,34 @@
               </p>
             </div>
           </div>
-          <student_nav :id="5" ></student_nav>
+          <student_nav :id="5"></student_nav>
         </el-container>
       </div>
       <el-container class="coupleback">
         <div class="screen_box">
-          <el-select v-model="value" clearable placeholder="请选择年级">
+          <el-select v-model="nianjivalue" clearable placeholder="请选择年级" @change="nianjichange">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in gradeList"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
             ></el-option>
           </el-select>
-          <el-select v-model="value" clearable placeholder="请选择班级">
+          <el-select v-model="kechengvalue" clearable placeholder="请选择课程" @change="kechengchange">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in kechengoptions"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
             ></el-option>
           </el-select>
-          <el-select v-model="value" clearable placeholder="请选择学生">
+          <el-input v-model="banjivalue" placeholder="请填写班级" @change="banjichange"></el-input>
+          <el-select v-model="timevalue" clearable placeholder="时间顺序"  @change="timechange">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <el-select v-model="value" clearable placeholder="请选择学生">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in valuelist"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
             ></el-option>
           </el-select>
         </div>
@@ -216,29 +215,89 @@
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
 import student_nav from "../../components/studentNav.vue";
-
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
+      gradeList: [],
+      nianjivalue: [],
+      banjivalue: '',
+      timevalue: [],
+      kechengvalue:[],
+      kechengoptions: [{
+          id: 1,
+          title: "正序"
         },
         {
-          value: "选项2",
-          label: "双皮奶"
+          id: 2,
+          title: "倒序"
         }
       ],
-      value: ""
+      valuelist: [
+        {
+          id: 1,
+          title: "正序"
+        },
+        {
+          id: 2,
+          title: "倒序"
+        }
+      ],
+      kecheng_id:'',
+      gradeId:'',
+      bianji_id:'',
+      time_id:''
     };
   },
+  created() {
+    this.init();
+  },
   methods: {
+    // 年级分类
+    async init() {
+      let params = new URLSearchParams();
+      let _res = await ajax.NianjiList(params);
+      if (_res.code == 0) {
+        this.gradeList = _res.data;
+      }
+    },
+    // 课程
+    async MyCoursePluck() {
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.getMyCoursePluck(params);
+      if (_res.code == 0) {
+      }
+    },
     _condition() {
       this.$router.push({ name: "SeeDegree" });
     },
     _information() {
       this.$router.push({ name: "Information" });
+    },
+    nianjichange(e){
+      this.gradeId = e
+      this.list()
+    },
+    banjichange(e){
+      this.bianji_id = e
+      this.list()
+    },
+    timechange(e){
+      this.time_id = e
+      this.list()
+    },
+    kechengchange(e){
+      this.kecheng_id = e
+      this.list()
+    },  
+    async list (){
+
+      console.log('班级：'+this.bianji_id)
+      console.log('课程：'+this.kecheng_id)
+      console.log('年级：'+this.gradeId)
+      console.log('时间顺序：'+this.time_id)
     }
   },
   components: {

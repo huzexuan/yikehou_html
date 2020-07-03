@@ -75,7 +75,25 @@
   height: 557px;
   background: url(./images/curricula_bg.png) no-repeat 100% 100%;
   background-size:100% 100%;
+  /* animation:turn 1s linear infinite;       */
   margin-bottom: 52px;
+}
+@keyframes turn {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(90deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+  75% {
+    -webkit-transform: rotate(270deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 .curriculaItem {
   position: absolute;
@@ -301,9 +319,9 @@
             </div>
           </div>
           <ul class="curricula_list">
-            <li @click="up_detail(item.id)" v-for="(item,index) in courseList_data" :key="index">
+            <li @click="up_detail(item.course_info.id)" v-for="(item,index) in courseList_data" :key="index" :class="[item.is_select == 1 ?'curricula_active':'']">
               <p>
-                <span>{{item.title}}</span>
+                <span>{{item.course_info.title}}</span>
                 <img src="./images/arrows_icon.png" alt />
               </p>
             </li>
@@ -336,10 +354,10 @@ import $ from "jquery";
 export default {
   data() {
     return {
-      user_name: localStorage.getItem("user_name"),
-      nianjie: localStorage.getItem("nianjie"),
-      user_class: localStorage.getItem("class"),
-      school_name: localStorage.getItem("school_name"),
+      user_name: sessionStorage.getItem("user_name"),
+      nianjie: sessionStorage.getItem("nianjie"),
+      user_class: sessionStorage.getItem("class"),
+      school_name: sessionStorage.getItem("school_name"),
       CourseNum: {},
       pages: 1,
       courseMenu: [],
@@ -357,7 +375,7 @@ export default {
     // 选课数量
     async CourseNumber() {
       let params = new URLSearchParams();
-      params.append("token", localStorage.getItem("token"));
+      params.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.getHasCourseNumber(params);
       if (_res.code == 0) {
         this.CourseNum = _res.data;
@@ -375,11 +393,10 @@ export default {
     // 课程列表
     async courseList() {
       let params = new URLSearchParams();
-      params.append("cate", this.courseMenu_id);
-      params.append("nianji", localStorage.getItem("nianji_id"));
-      params.append("limit", 9);
-      params.append("page", this.pages);
-      let _res = await ajax.CateList(params);
+      params.append("token", sessionStorage.getItem("token"));
+      params.append("nianji",sessionStorage.getItem("nianji_id"));
+      params.append("cate",this.courseMenu_id);
+      let _res = await ajax.studentCateList(params);
       if (_res.code == 0) {
         this.courseList_data = _res.data.data;
         this.total = _res.data.total;

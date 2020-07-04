@@ -4,7 +4,7 @@
   width: 100%;
   height: 843px;
   background: url(./images/information_bg.jpg) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .information_box .information_user_img_box {
   width: 281px;
@@ -13,13 +13,12 @@
   top: 267px;
   left: 112px;
   background: url(./images/user_img_bg.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .information_box .information_user_img {
   width: 222px;
   height: 222px;
   border-radius: 50%;
-  background: #000;
   margin: 30px 32px;
 }
 .border_1 {
@@ -36,7 +35,7 @@
   width: 267px;
   height: 132px;
   background: url(./images/all_course_bg.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
   margin: 16px 0 0 10px;
   box-sizing: border-box;
   padding: 20px;
@@ -64,72 +63,51 @@
   height: 534px;
   background: url(./images/userDel_bg.png) no-repeat 100% 100%;
   margin: -186px 0 0 405px;
-  background-size:100% 100%;
+  background-size: 100% 100%;
   box-sizing: border-box;
   padding: 62px 38px;
   color: #fff;
 }
-.userDel_box>p{
-    margin-top: 34px;
-    font-size: 16px;
-    line-height:26px;
+.userDel_box > p {
+  margin-top: 34px;
+  font-size: 16px;
+  line-height: 26px;
 }
-.userDel_box>p:nth-child(1){
-    margin: 0;
+.userDel_box > p:nth-child(1) {
+  margin: 0;
 }
 .userDel_name {
   font-size: 24px !important;
   font-weight: bold;
 }
 .sex {
-    display: inline-block;
-    margin-right: 70px;
+  display: inline-block;
+  margin-right: 70px;
 }
-.userDel_box>p .block{
-    display: block;
+.userDel_box > p .block {
+  display: block;
 }
 </style>
 <template>
   <div>
     <el-header>
-      <head_nav :navId="1" ></head_nav>
+      <head_nav :navId="1"></head_nav>
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <div class="student_banner">
-        <el-container>
-          <div class="user_box">
-            <img src alt class="user_img" />
-            <div class="user">
-              <p>
-                <span class="name">保定市高新区小学</span>
-                <span class="user_upimg">上传学校LOGO</span>
-              </p>
-              <p>
-                <span>已选课程</span>4
-                <span>剩余可选课程</span>1
-              </p>
-            </div>
-          </div>
-          <student_nav></student_nav>
-        </el-container>
-      </div>
+      <bannerdel :id="1"></bannerdel>
       <div class="information_box">
         <el-container style="position: relative;">
           <div class="information_user_img_box">
             <img src alt class="information_user_img" />
           </div>
-          <div class="border_1">
+          <div class="border_1" v-if="item.has_course > 0">
             <img src="./images/border_1.png" alt />
             <p>所报课程</p>
             <div class="all_course">
               <div class="overflow_box">
                 <ul>
-                  <li>英语</li>
-                  <li>美术</li>
-                  <li>美术</li>
-                  <li>美术</li>
-                  <li>美术</li>
+                  <li v-for="(i,index) in item.course" :key="index">{{i.title}}</li>
                 </ul>
               </div>
             </div>
@@ -138,20 +116,20 @@
             <img src="./images/border_2.png" alt />
             <p>个人资料</p>
             <div class="userDel_box">
-              <p class="userDel_name">张甜甜</p>
+              <p class="userDel_name">{{item.nickname}}</p>
               <p class="userDel_des">
-                <span class="sex">性别：女</span>
-                <span>年龄：10</span>
+                <span class="sex">性别：{{item.sex == 1 ?'男':'女'}}</span>
+                <span>年龄：{{item.age}}</span>
               </p>
-              <p>班级：二年级三班</p>
-              <p>家长电话：15003128899</p>
+              <p>班级：{{item.nianji}}{{item.class}}</p>
+              <p>家长电话：{{item.phone}}</p>
               <p>
-                  <span class="block">身份证号：</span>
-                  <span>123456789000000000</span>
+                <span class="block">身份证号：</span>
+                <span>{{item.card_number}}</span>
               </p>
               <p>
-                  <span class="block">家庭住址：</span>
-                  <span>河北省保定市竞秀区高新园1-3-401</span>
+                <span class="block">家庭住址：</span>
+                <span>{{item.address}}</span>
               </p>
             </div>
           </div>
@@ -166,17 +144,35 @@
 <script>
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
-import student_nav from "../../components/studentNav.vue";
-import $ from "jquery";
+import bannerdel from "../../components/herder_bannerdel.vue";
 
+import $ from "jquery";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
-    return {};
+    return {
+      item:{}
+    };
   },
-  methods: {},
+  created() {
+    this.init();
+  },
+  methods: {
+    async init() {
+      const { id } = this.$route.params;
+      let params = new URLSearchParams();
+      params.append("id", id);
+      params.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.getStudentDetail(params);
+      if (_res.code == 0) {
+        this.item = _res.data
+      }
+    }
+  },
   components: {
     head_nav,
-    student_nav,
+    bannerdel,
     footer_nav
   }
 };

@@ -52,12 +52,15 @@ export default {
       this.$router.push({ name: "Password" });
     },
     async submit() {
+      let card_number =  $("input[name='name']").val()
+      let pas =  $("input[name='password']").val()
       let params = new URLSearchParams();
-      params.append("name", $("input[name='name']").val());
-      params.append("password", $("input[name='password']").val());
+      params.append("card_number",card_number);
+      params.append("password", pas);
       let _res = await ajax.studentLogin(params);
       if (_res.code == 0) {
         if (this.checked) {
+          console.log(this.userInfo)
           this.setCookie(this.userInfo.user, this.userInfo.pass, 7);
           this.$router.push({ name: "StudentIndex" });
         } else {

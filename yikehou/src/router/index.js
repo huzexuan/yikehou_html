@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import indexUpload from '@/views/index/upload'
 import Index from '@/views/index/index'
 import Aboutus from '@/views/aboutus/aboutus'
 import JoinHands from '@/views/aboutus/joinHands'
@@ -22,6 +23,7 @@ import SchoolSet from '@/views/school/set'
 import Coupleback from '@/views/school/coupleback'
 import Account from '@/views/school/account'
 import schoolMeCourseDel from '@/views/school/meCourseDel'
+import Increase from '@/views/school/increase'
 
 Vue.use(Router)
 const originalPush = Vue.prototype.push
@@ -30,6 +32,11 @@ Vue.prototype.push = function push(location) {
 }
 export default new Router({
     routes: [{
+            path: '/indexUpload',
+            name: 'indexUpload',
+            component: indexUpload
+        },
+        {
             path: '/Index',
             name: 'Index',
             component: Index
@@ -131,6 +138,10 @@ export default new Router({
             path: '/',
             name: 'schoolMeCourseDel',
             component: schoolMeCourseDel
+        }, {
+            path: '/',
+            name: 'Increase',
+            component: Increase
         }
 
     ],

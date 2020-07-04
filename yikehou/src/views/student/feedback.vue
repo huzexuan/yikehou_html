@@ -110,29 +110,7 @@
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <div class="student_banner">
-        <el-container>
-          <div class="user_box">
-            <img src alt class="user_img" />
-            <div class="user">
-              <p>
-                <span class="name">{{user_name}}</span>
-                <span
-                  class="user_msg"
-                >{{school_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{nianjie}}{{user_class}}</span>
-                <span class="user_upimg">上传头像</span>
-              </p>
-              <p>
-                <span>已选课程</span>
-                {{CourseNum.has_course}}
-                <span>剩余可选课程</span>
-                {{CourseNum.sheng}}
-              </p>
-            </div>
-          </div>
-          <student_nav :id="3"></student_nav>
-        </el-container>
-      </div>
+      <bannerdel :navid="3"></bannerdel>
       <div class="studentcontent_box feedback_bg">
         <el-container>
           <p class="feedback_title">选择评价的课程</p>
@@ -182,26 +160,21 @@
 <script>
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
-import student_nav from "../../components/studentNav.vue";
+import bannerdel from "../../components/herder_bannerdel.vue";
 import axios from "axios";
 import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
       user_name: sessionStorage.getItem("user_name"),
-      nianjie: sessionStorage.getItem("nianjie"),
-      user_class: sessionStorage.getItem("class"),
-      school_name: sessionStorage.getItem("school_name"),
       teacherNum: 0,
       courseNum: 0,
       MyCourse: [],
       MyCourse_id: "",
-      CourseNum: {},
     };
   },
   created() {
     this.init();
-    this.CourseNumber()
   },
   methods: {
     async init() {
@@ -212,15 +185,6 @@ export default {
       if (_res.code == 0) {
         this.MyCourse = _res.data;
         this.MyCourse_id = _res.data[0].id;
-      }
-    },
-    // 选课数量
-    async CourseNumber() {
-      let params = new URLSearchParams();
-      params.append("token", sessionStorage.getItem("token"));
-      let _res = await ajax.getHasCourseNumber(params);
-      if (_res.code == 0) {
-        this.CourseNum = _res.data;
       }
     },
     //   评价课程
@@ -261,7 +225,7 @@ export default {
   },
   components: {
     head_nav,
-    student_nav,
+    bannerdel,
     footer_nav
   }
 };

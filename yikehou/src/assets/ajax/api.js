@@ -102,10 +102,25 @@ const api = {
         const getStudentDetail = await service.post('/api/v1/student/getStudentDetail', _data);
         return getStudentDetail
     },
-    // 导入学生信息
+    // 单个增加学生
+    async addUser(_data) {
+        const addUser = await service.post('/api/v1/student/addUser', _data);
+        return addUser
+    },
+    // 上传学生信息
     async uploadExcel(_data) {
         const uploadExcel = await service.post('/api/v1/school/uploadExcel', _data);
         return uploadExcel
+    },
+    // 效验
+    async daoruChcek(_data) {
+        const daoruChcek = await service.post('/api/v1/school/daoruChcek', _data);
+        return daoruChcek
+    },
+    // 导入
+    async daoru(_data) {
+        const daoru = await service.post('/api/v1/school/daoru', _data);
+        return daoru
     },
     // 学校设置课程列表
     async getMyCourseList(_data) {
@@ -119,8 +134,39 @@ const api = {
     },
     // 课程热度
     async seeDegree(_data) {
-        const seeDegree = await service.post('api/v1/school/reduList', _data);
+        const seeDegree = await service.post('/api/v1/school/reduList', _data);
         return seeDegree
+    },
+    // 学校上传图片
+    async updateLogo(_data) {
+        const updateLogo = await service.post('/api/v1/school/updateLogo', _data);
+        return updateLogo
+    },
+    // 学生更改头像
+
+    async updateImg(_data) {
+        const updateImg = await service.post('/api/v1/student/updateImg', _data);
+        return updateImg
+    },
+    // 获取学生详情
+    async getStudentDetail(_data) {
+        const getStudentDetail = await service.post('/api/v1/student/getStudentDetail', _data);
+        return getStudentDetail
+    },
+    // 获取学生报课情况
+    async getStudentList(_data) {
+        const getStudentList = await service.post('/api/v1/school/getStudentList', _data);
+        return getStudentList
+    },
+    // 获取学生反馈信息
+    async getFeedBack(_data) {
+        const getFeedBack = await service.post('/api/v1/school/getFeedBack', _data);
+        return getFeedBack
+    },
+    // 学校选课数量
+    async SchoolcourseNumber(_data) {
+        const SchoolcourseNumber = await service.post('api/v1/school/courseNumber', _data);
+        return SchoolcourseNumber
     },
 };
 

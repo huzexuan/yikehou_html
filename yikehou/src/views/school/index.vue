@@ -1,60 +1,6 @@
 
 <style>
-.student_banner {
-  width: 100%;
-  height: 402px;
-  background: url(./images/index_banner.jpg) no-repeat 100% 100%;
-  background-size: 100% 100%;
-  position: relative;
-  z-index: 11;
-}
-.user_img {
-  width: 134px;
-  height: 134px;
-  border-radius: 50%;
-  background: #fff;
-  margin-right: 25px;
-}
-.user_box {
-  display: flex;
-  align-items: center;
-  padding: 95px 0 108px;
-}
-.user {
-  color: #fff;
-}
-.user > p:nth-child(1) {
-  margin-bottom: 50px;
-  display: flex;
-  align-items: center;
-}
-.name {
-  font-size: 24px;
-}
-.user_upimg {
-  display: inline-block;
-  padding: 0 15px;
-  height: 30px;
-  background: #fff;
-  text-align: center;
-  line-height: 30px;
-  font-size: 16px;
-  color: #0168b7;
-  cursor: pointer;
-  margin-left: 20px;
-  width: auto !important;
-}
-.user > p:nth-child(2) {
-  font-size: 24px;
-}
-.user > p:nth-child(2) span {
-  font-size: 16px;
-  display: inline-block;
-  margin-right: 16px;
-}
-.user > p:nth-child(2) span:nth-child(2) {
-  margin-left: 122px;
-}
+
 /* 选择年级 */
 .gradeTab_box {
   padding: 38px 0;
@@ -189,24 +135,7 @@
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <div class="student_banner">
-        <el-container>
-          <div class="user_box">
-            <img src alt class="user_img" />
-            <div class="user">
-              <p>
-                <span class="name">保定市高新区小学</span>
-                <span class="user_upimg">上传学校LOGO</span>
-              </p>
-              <p>
-                <span>已选课程</span>4
-                <span>剩余可选课程</span>1
-              </p>
-            </div>
-          </div>
-          <student_nav :id="1"></student_nav>
-        </el-container>
-      </div>
+      <bannerdel :id="1" :navid='1'></bannerdel>
       <!-- 选择年级 -->
       <el-container>
         <div class="gradeTab_box">
@@ -333,7 +262,6 @@
           </div>
         </el-container>
       </div>
-
       <!-- footer -->
       <footer_nav></footer_nav>
     </el-main>
@@ -343,7 +271,7 @@
 <script>
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
-import student_nav from "../../components/studentNav.vue";
+import bannerdel from "../../components/herder_bannerdel.vue";
 import $ from "jquery";
 import axios from "axios";
 import ajax from "../../assets/ajax/api";
@@ -354,7 +282,8 @@ export default {
       gradeId: "",
       courseMenu: [],
       courseMenu_id: "",
-      courseList_data: []
+      courseList_data: [],
+      imageUrl: ""
     };
   },
   async created() {
@@ -363,6 +292,14 @@ export default {
     this.courseList();
   },
   methods: {
+    async courseNumber(){
+      const form = new FormData();
+      form.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.SchoolcourseNumber(form);
+      if(_res.code == 0){
+      }
+    },
+    
     // 年级分类
     async init() {
       let params = new URLSearchParams();
@@ -408,7 +345,7 @@ export default {
       this.$router.push({ name: "schoolMeCourseDel", params: { id: up_id } });
     },
     async _upcourse(id) {
-      if (id == '') {
+      if (id == "") {
         this.$message.warning("已选择该课程");
       } else {
         let params = new URLSearchParams();
@@ -425,8 +362,8 @@ export default {
   },
   components: {
     head_nav,
-    student_nav,
-    footer_nav
+    footer_nav,
+    bannerdel
   },
   updated() {
     if ($(".courseList").height() > 1161) {

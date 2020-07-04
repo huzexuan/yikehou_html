@@ -9,14 +9,7 @@
 export default {
   name: "App",
   created(){
-    const user_type = sessionStorage.getItem('bs')
-    if(user_type == 2){
-          this.$router.push({ path: "/StudentIndex" });
-    }else if(user_type == 1){
-          this.$router.push({ path: "/SchoolIndex" });
-    }else{
-          this.$router.push({ path: "/Index" });
-    }
+    this.$router.push({ path: "/indexUpload" })
   }
 };
 </script>
@@ -63,7 +56,7 @@ button.active.focus {
 }
 .el-header,
 .el-main {
-  padding: 0;
+  padding: 0 !important;
 }
 .flex_justify_content {
   display: flex;

@@ -1,60 +1,6 @@
 
 <style>
-.student_banner {
-  width: 100%;
-  height: 402px;
-  background: url(./images/index_banner.jpg) no-repeat 100% 100%;
-  background-size:100% 100%;
-  position: relative;
-  z-index: 11;
-}
-.user_img {
-  width: 134px;
-  height: 134px;
-  border-radius: 50%;
-  background: #fff;
-  margin-right: 25px;
-}
-.user_box {
-  display: flex;
-  align-items: center;
-  padding: 95px 0 108px;
-}
-.user {
-  color: #fff;
-}
-.user > p:nth-child(1) {
-  margin-bottom: 50px;
-}
-.name {
-  font-size: 24px;
-}
-.user_msg {
-  font-size: 16px;
-  margin: 0 42px 0 32px;
-}
-.user_upimg {
-  display: inline-block;
-  width: 100px;
-  height: 30px;
-  background: #fff;
-  text-align: center;
-  line-height: 30px;
-  font-size: 16px;
-  color: #0168b7;
-  cursor: pointer;
-}
-.user > p:nth-child(2) {
-  font-size: 24px;
-}
-.user > p:nth-child(2) span {
-  font-size: 16px;
-  display: inline-block;
-  margin-right: 16px;
-}
-.user > p:nth-child(2) span:nth-child(2) {
-  margin-left: 122px;
-}
+
 .studentcontent_box {
   width: 100%;
   height: 1197px;
@@ -270,29 +216,7 @@
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <div class="student_banner">
-        <el-container>
-          <div class="user_box">
-            <img src alt class="user_img" />
-            <div class="user">
-              <p>
-                <span class="name">{{user_name}}</span>
-                <span
-                  class="user_msg"
-                >{{school_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{nianjie}}{{user_class}}</span>
-                <span class="user_upimg">上传头像</span>
-              </p>
-              <p>
-                <span>已选课程</span>
-                {{CourseNum.has_course}}
-                <span>剩余可选课程</span>
-                {{CourseNum.sheng}}
-              </p>
-            </div>
-          </div>
-          <student_nav :id="1"></student_nav>
-        </el-container>
-      </div>
+      <bannerdel :navid="1"></bannerdel>
       <div class="studentcontent_box">
         <el-container style="position: relative;">
           <img src="./images/index_content_bg.png" alt class="index_content_bg" />
@@ -347,18 +271,13 @@
 <script>
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
-import student_nav from "../../components/studentNav.vue";
+import bannerdel from "../../components/herder_bannerdel.vue";
 import axios from "axios";
 import ajax from "../../assets/ajax/api";
 import $ from "jquery";
 export default {
   data() {
     return {
-      user_name: sessionStorage.getItem("user_name"),
-      nianjie: sessionStorage.getItem("nianjie"),
-      user_class: sessionStorage.getItem("class"),
-      school_name: sessionStorage.getItem("school_name"),
-      CourseNum: {},
       pages: 1,
       courseMenu: [],
       courseMenu_id: "",
@@ -367,20 +286,11 @@ export default {
     };
   },
   async created() {
-    await this.CourseNumber();
     await this.courseClassify();
     this.courseList();
   },
   methods: {
-    // 选课数量
-    async CourseNumber() {
-      let params = new URLSearchParams();
-      params.append("token", sessionStorage.getItem("token"));
-      let _res = await ajax.getHasCourseNumber(params);
-      if (_res.code == 0) {
-        this.CourseNum = _res.data;
-      }
-    },
+    
     // 课程分类
     async courseClassify() {
       let params = new URLSearchParams();
@@ -416,7 +326,7 @@ export default {
   },
   components: {
     head_nav,
-    student_nav,
+    bannerdel,
     footer_nav
   }
 };

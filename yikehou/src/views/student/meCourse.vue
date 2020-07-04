@@ -10,7 +10,7 @@
   height: 95px;
   margin: 0 auto 108px;
   background: url(./images/meCourse_title.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .meCourse_list {
   max-height: 521px;
@@ -76,7 +76,7 @@
   color: #fff;
   font-size: 18px;
   background: url(./images/me_remark_bg.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .me_remark p {
   transform: rotate(-18deg);
@@ -93,7 +93,7 @@
   text-align: center;
   padding-top: 18px;
   background: url(./images/me_name_bg.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .meCourse_list .swiper-container-horizontal > .swiper-pagination-bullets {
   bottom: 0;
@@ -106,29 +106,7 @@
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <div class="student_banner">
-        <el-container>
-          <div class="user_box">
-            <img src alt class="user_img" />
-            <div class="user">
-              <p>
-                <span class="name">{{user_name}}</span>
-                <span
-                  class="user_msg"
-                >{{school_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{nianjie}}{{user_class}}</span>
-                <span class="user_upimg">上传头像</span>
-              </p>
-              <p>
-                <span>已选课程</span>
-                {{CourseNum.has_course}}
-                <span>剩余可选课程</span>
-                {{CourseNum.sheng}}
-              </p>
-            </div>
-          </div>
-          <student_nav :id="2"></student_nav>
-        </el-container>
-      </div>
+      <bannerdel :navid="2"></bannerdel>
       <div class="studentcontent_box">
         <el-container style="position: relative;">
           <img src="./images/index_content_bg.png" alt class="index_content_bg" />
@@ -149,13 +127,11 @@
               </swiper>
             </div>
             <div class="remark">
-              <p
-                class="remark_title ellipse2"
-              >课程建议：您报的课程未有体能类的，建议您可以选择体能类的课程报名您报的课程未有体能类的，建议您可以选择体能类的课程报名您报的课程未有体能类的，建议您可以选择体能类的课程报名您报的课程未有体能类的，建议您可以选择体能类的课程报名您报的课程未有体能类的，建议您可以选择体能类的课程报名</p>
+              <p class="remark_title ellipse2">课程建议：暂无建议</p>
             </div>
           </div>
           <div class="me_remark">
-            <p class="ellipse2">小小辩论家小小辩论家小小辩论家小小辩论家</p>
+            <p class="ellipse2">请耐心等待老师的评价</p>
           </div>
           <div class="me_name">
             <p>{{user_name}}</p>
@@ -171,16 +147,12 @@
 <script>
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
-import student_nav from "../../components/studentNav.vue";
+import bannerdel from "../../components/herder_bannerdel.vue";
 import axios from "axios";
 import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
-      user_name: sessionStorage.getItem("user_name"),
-      nianjie: sessionStorage.getItem("nianjie"),
-      user_class: sessionStorage.getItem("class"),
-      school_name: sessionStorage.getItem("school_name"),
       swiperOptions: {
         spaceBetween: 10,
         autoplay: {
@@ -189,13 +161,12 @@ export default {
         },
         pagination: { el: ".swiper-pagination" }
       },
-      CourseNum: {},
-      meCourseList:[]
+      user_name: sessionStorage.getItem("user_name"),
+      meCourseList: []
     };
   },
   created() {
     this.MyCourse();
-    this.CourseNumber()
   },
   methods: {
     async MyCourse() {
@@ -207,27 +178,16 @@ export default {
           if (String(i / 3).indexOf(".") == -1) {
             this.meCourseList.push(_res.data.slice(i, i + 3));
           }
-
         }
       }
     },
-    // 选课数量
-    async CourseNumber() {
-      let params = new URLSearchParams();
-      params.append("token", sessionStorage.getItem("token"));
-      let _res = await ajax.getHasCourseNumber(params);
-      if (_res.code == 0) {
-        this.CourseNum = _res.data;
-      }
-    },
-    up_del(up_id){
-      this.$router.push({ name: "MeCourseDel", params: { id: up_id} });
-
+    up_del(up_id) {
+      this.$router.push({ name: "MeCourseDel", params: { id: up_id } });
     }
   },
   components: {
     head_nav,
-    student_nav,
+    bannerdel,
     footer_nav
   }
 };

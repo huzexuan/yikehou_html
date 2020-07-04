@@ -63,7 +63,7 @@
 .user_student img {
   margin-right: 14px;
 }
-.el-popover{
+.el-popover {
   z-index: 1111111 !important;
 }
 </style>
@@ -73,26 +73,28 @@
       <el-container class="header_top_box flex_justify_content">
         <p>欢迎进入益课后官网！</p>
         <div v-if="user == 2">
-          <el-popover placement="top" width="160" v-model="visible" >
+          <el-popover placement="top" width="160" v-model="visible">
             <p>确定退出当前账号吗？</p>
             <div style="text-align: right; margin: 0">
               <el-button size="mini" type="text" @click="visible = false">取消</el-button>
               <el-button type="primary" size="mini" @click="is_visible">确定</el-button>
             </div>
             <div slot="reference" class="user_student">
-              <img src="./images/user_student.png" alt />{{user_name}}
+              <img src="./images/user_student.png" alt />
+              {{user_name}}
             </div>
           </el-popover>
         </div>
         <div v-else-if="user == 1">
-          <el-popover placement="top" width="160" v-model="visible" >
+          <el-popover placement="top" width="160" v-model="visible">
             <p>确定退出当前账号吗？</p>
             <div style="text-align: right; margin: 0">
               <el-button size="mini" type="text" @click="visible = false">取消</el-button>
               <el-button type="primary" size="mini" @click="is_visible">确定</el-button>
             </div>
             <div slot="reference" class="user_student">
-              <img src="./images/user_school.png" alt />{{school_name}}
+              <img src="./images/user_school.png" alt />
+              {{school_name}}
             </div>
           </el-popover>
         </div>
@@ -105,7 +107,7 @@
     <div class="header_buttom">
       <el-container class="header_buttom_box flex_justify_content">
         <img src="./images/logo.png" alt />
-        <ul class="nav"  v-if="user == 2">
+        <ul class="nav" v-if="user == 2">
           <li :class="navId == '1' ?'active':''" @click="navId == 1 ? '':navPage('StudentIndex')">
             <p>首页</p>
             <p class="height_border"></p>
@@ -127,7 +129,7 @@
             <p class="height_border"></p>
           </li>
         </ul>
-        <ul class="nav"  v-else-if="user == 1">
+        <ul class="nav" v-else-if="user == 1">
           <li :class="navId == '1' ?'active':''" @click="navId == 1 ? '':navPage('SchoolIndex')">
             <p>首页</p>
             <p class="height_border"></p>
@@ -188,32 +190,29 @@ export default {
       user: sessionStorage.getItem("bs"),
       user_name: sessionStorage.getItem("user_name"),
       school_name: sessionStorage.getItem("school_name"),
-      visible: false,
+      visible: false
     };
   },
   created() {},
   methods: {
     student_login() {
-          this.$message.warning('暂未开放');
-
-      // this.$router.push({ name: "Student" });
+      // this.$message.warning('暂未开放');
+      this.$router.push({ name: "Student" });
     },
     school_login() {
-          this.$message.warning('暂未开放');
-      // this.$router.push({ name: "School" });
+      // this.$message.warning('暂未开放');
+      this.$router.push({ name: "School" });
     },
     navPage(namePage) {
       this.$router.push({ name: namePage });
     },
-    is_visible(){
+    is_visible() {
       sessionStorage.clear();
-      this.visible = false
+      this.visible = false;
       this.$router.push({ name: "Index" });
-
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 

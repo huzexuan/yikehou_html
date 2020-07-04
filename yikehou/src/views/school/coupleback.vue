@@ -91,27 +91,10 @@
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <div class="student_banner">
-        <el-container>
-          <div class="user_box">
-            <img src alt class="user_img" />
-            <div class="user">
-              <p>
-                <span class="name">保定市高新区小学</span>
-                <span class="user_upimg">上传学校LOGO</span>
-              </p>
-              <p>
-                <span>已选课程</span>4
-                <span>剩余可选课程</span>1
-              </p>
-            </div>
-          </div>
-          <student_nav :id="5"></student_nav>
-        </el-container>
-      </div>
+      <bannerdel :id="1" :navid='5'></bannerdel>
       <el-container class="coupleback">
         <div class="screen_box">
-          <el-select v-model="nianjivalue" clearable placeholder="请选择年级" @change="nianjichange">
+          <el-select v-model="gradeId"  clearable placeholder="请选择年级" @change="nianjichange">
             <el-option
               v-for="item in gradeList"
               :key="item.id"
@@ -119,16 +102,16 @@
               :value="item.id"
             ></el-option>
           </el-select>
-          <el-select v-model="kechengvalue" clearable placeholder="请选择课程" @change="kechengchange">
+          <el-select v-model="bianji_id" clearable placeholder="请选择课程" @change="kechengchange">
             <el-option
               v-for="item in kechengoptions"
-              :key="item.id"
-              :label="item.title"
-              :value="item.id"
+              :key="item.course_id"
+              :label="item.course_name"
+              :value="item.course_id"
             ></el-option>
           </el-select>
           <el-input v-model="banjivalue" placeholder="请填写班级" @change="banjichange"></el-input>
-          <el-select v-model="timevalue" clearable placeholder="时间顺序"  @change="timechange">
+          <el-select v-model="time_id" clearable placeholder="时间顺序"  @change="timechange">
             <el-option
               v-for="item in valuelist"
               :key="item.id"
@@ -138,68 +121,36 @@
           </el-select>
         </div>
         <ul class="seeCondition_box">
-          <li>
-            <img src class="coupleback_userImg" alt />
+          <li v-for="(item,index) in li_list" :key="index">
+            <img :src="item.student_info.img" class="coupleback_userImg" alt />
             <div class="coupleback_userDes">
               <p class="name_user">
-                <span>张甜甜</span>5年级4班
+                <span>{{item.student_info.nickname}}</span>{{item.nianji_text}}{{item.class}}
               </p>
               <div class="evaluate">
                 <div class="evaluate_l">
                   课程评价：
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star.png" alt />
-                  <img src="./images/star.png" alt />
-                  <span>3星</span>
+                  <img :src="item.course_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img :src="item.course_star >= 2 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img :src="item.course_star >= 3 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img :src="item.course_star >= 4 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img :src="item.course_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <span>{{item.course_star}}星</span>
                 </div>
                 <div class="evaluate_r">
                   教师评价：
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star.png" alt />
-                  <img src="./images/star.png" alt />
-                  <span>3星</span>
+                  <img :src="item.teacher_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img :src="item.teacher_star >= 2 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img :src="item.teacher_star >= 3 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img :src="item.teacher_star >= 4 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img :src="item.teacher_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <span>{{item.teacher_star}}星</span>
                 </div>
               </div>
-              <p class="leave_p">留言：课程很好，能学到很多正式课以为的东西，希望下学期还开此课</p>
+              <p class="leave_p">留言：{{item.content}}</p>
             </div>
             <div class="label">
-              <p>未来人才计划</p>
-            </div>
-          </li>
-          <li>
-            <img src class="coupleback_userImg" alt />
-            <div class="coupleback_userDes">
-              <p class="name_user">
-                <span>张甜甜</span>5年级4班
-              </p>
-              <div class="evaluate">
-                <div class="evaluate_l">
-                  课程评价：
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star.png" alt />
-                  <img src="./images/star.png" alt />
-                  <span>3星</span>
-                </div>
-                <div class="evaluate_r">
-                  教师评价：
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star_active.png" alt />
-                  <img src="./images/star.png" alt />
-                  <img src="./images/star.png" alt />
-                  <span>3星</span>
-                </div>
-              </div>
-              <p class="leave_p">留言：课程很好，能学到很多正式课以为的东西，希望下学期还开此课</p>
-            </div>
-            <div class="label">
-              <p>英语</p>
+              <p>{{item.course_text}}</p>
             </div>
           </li>
         </ul>
@@ -214,44 +165,36 @@
 <script>
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
-import student_nav from "../../components/studentNav.vue";
+import bannerdel from "../../components/herder_bannerdel.vue";
 import axios from "axios";
 import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
       gradeList: [],
-      nianjivalue: [],
       banjivalue: '',
-      timevalue: [],
-      kechengvalue:[],
-      kechengoptions: [{
-          id: 1,
-          title: "正序"
-        },
-        {
-          id: 2,
-          title: "倒序"
-        }
-      ],
+      kechengoptions: [],
       valuelist: [
         {
-          id: 1,
+          id: 'asc',
           title: "正序"
         },
         {
-          id: 2,
+          id: 'desc',
           title: "倒序"
         }
       ],
       kecheng_id:'',
       gradeId:'',
       bianji_id:'',
-      time_id:''
+      time_id:'',
+      li_list:[]
     };
   },
-  created() {
-    this.init();
+  async created() {
+    await this.init();
+    this.MyCoursePluck()
+    this.list()
   },
   methods: {
     // 年级分类
@@ -260,6 +203,7 @@ export default {
       let _res = await ajax.NianjiList(params);
       if (_res.code == 0) {
         this.gradeList = _res.data;
+        this.gradeId=_res.data[0].id;
       }
     },
     // 课程
@@ -268,8 +212,10 @@ export default {
       params.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.getMyCoursePluck(params);
       if (_res.code == 0) {
+        this.kechengoptions = _res.data
       }
     },
+    
     _condition() {
       this.$router.push({ name: "SeeDegree" });
     },
@@ -293,16 +239,21 @@ export default {
       this.list()
     },  
     async list (){
-
-      console.log('班级：'+this.bianji_id)
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token"));
+      params.append("nianji", this.gradeId);
+      params.append("class", this.bianji_id);
+      params.append("sort", this.time_id);
+      let _res = await ajax.getFeedBack(params);
+      if (_res.code == 0) {
+        this.li_list = _res.data.data
+      }
       console.log('课程：'+this.kecheng_id)
-      console.log('年级：'+this.gradeId)
-      console.log('时间顺序：'+this.time_id)
     }
   },
   components: {
     head_nav,
-    student_nav,
+    bannerdel,
     footer_nav
   }
 };

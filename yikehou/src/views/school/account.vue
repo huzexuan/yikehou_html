@@ -25,6 +25,18 @@
   font-size: 24px;
   cursor: pointer;
 }
+.account_box .image-uploader {
+  width: 382px;
+  height: 92px;
+}
+.account_btnbox .el-upload-dragger {
+  width: 382px;
+  height: 92px;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .account_btnbox p {
   margin-right: 12px;
 }
@@ -33,7 +45,7 @@
   color: #2e3693;
   margin-left: 100px;
 }
-.account_del{
+.account_del {
   margin-left: 168px;
   font-size: 16px;
   color: #fff;
@@ -47,37 +59,31 @@
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <div class="student_banner">
-        <el-container>
-          <div class="user_box">
-            <img src alt class="user_img" />
-            <div class="user">
-              <p>
-                <span class="name">保定市高新区小学</span>
-                <span class="user_upimg">上传学校LOGO</span>
-              </p>
-              <p>
-                <span>已选课程</span>4
-                <span>剩余可选课程</span>1
-              </p>
-            </div>
-          </div>
-          <student_nav :id="2"></student_nav>
-        </el-container>
-      </div>
+      <bannerdel :id="1" :navid='2'></bannerdel>
       <div class="account_box">
         <el-container>
           <div class="up_account">
-            <div class="account_btnbox">
+            <div class="account_btnbox" @click="up_one">
               <p>单个增加学生信息</p>
               <img src="./images/account_btn1.png" />
             </div>
-            <div class="account_btnbox" >
-              <input type="file" id="file" name="myfile" style="display: none" />
-            <!-- <input type="button" @click="upload" value="选择文件上传" />-->
-              <!-- <p @click="upload">{{file_Name ?file_Name :'批量导入学生信息'}}</p> -->
-              <p >{{file_Name ?file_Name :'批量导入学生信息'}}</p>
-              <img  src="./images/account_btn2.png" />
+            <div class="account_btnbox">
+              <el-upload
+                class="image-uploader"
+                :multiple="false"
+                :auto-upload="true"
+                list-type="xlsx"
+                :show-file-list="true"
+                :before-upload="beforeUpload"
+                :drag="true"
+                action
+                :limit="1"
+                :on-exceed="handleExceed"
+                :http-request="uploadFile"
+              >
+                <p>批量导入学生信息</p>
+                <img src="./images/account_btn2.png" />
+              </el-upload>
             </div>
           </div>
           <div class="account_del">
@@ -96,67 +102,59 @@
 <script>
 import head_nav from "../../components/header.vue";
 import footer_nav from "../../components/footer.vue";
-import student_nav from "../../components/studentNav.vue";
+import bannerdel from "../../components/herder_bannerdel.vue";
 import $ from "jquery";
 import axios from "axios";
 import ajax from "../../assets/ajax/api";
 export default {
   data() {
-    return {
-      file_Name:''
-    };
+    return {};
   },
   methods: {
-    async UpladFile(fileObj) {
-      console.log(fileObj)
-      var form = new FormData(); // FormData 对象
-      form.append("file", fileObj); // 文件对象
-      let params = new URLSearchParams();
-      params.append("token", sessionStorage.getItem("token")); // 文件对象
-      params.append("excel", form); // 文件对象
-      let _res = await ajax.uploadExcel(params);
-      if (_res.code == 0) {
+    beforeUpload(file) {
+      let hz = file.name.split(".")[1];
+      if (hz != "xlsx" && hz != "xls") {
+        this.$message.error("请选择正确的文件类型！");
       }
-      // $.ajax({
-      //     url: 'xxx',                      //url地址
-      //     type: 'POST',                 //上传方式
-      //     data: form,                   // 上传formdata封装的数据
-      //     dataType: 'JSON',
-      //     cache: false,                  // 不缓存
-      //     processData: false,        // jQuery不要去处理发送的数据
-      //     contentType: false,         // jQuery不要去设置Content-Type请求头
-      //     success:function (data) {           //成功回调
-      //         console.log(data);
-      //     },
-      //    error:function (data) {           //失败回调
-      //         console.log(data);
-      //     }
-      // });
     },
-    upload() {
-      let _this = this;
-      $("#file").click();
-      $("#file").change(function(e) {
-        var fileName = e.target.files[0];
-        if (fileName !== undefined) {
-          var file_typename = fileName.name.substring(
-            fileName.name.lastIndexOf(".")
-          );
-          if (file_typename === ".xlsx" || file_typename === ".xls") {
-            _this.file_Name = fileName.name
-            _this.UpladFile(fileName);
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，请删除后继续上传`);
+    },
+    // 上传文件
+    async uploadFile(item) {
+      let fileObj = item.file;
+      const form = new FormData();
+      form.append("excel", fileObj);
+      form.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.uploadExcel(form);
+      if (_res.code == 0) {
+        let params = new URLSearchParams();
+        params.append("name", _res.data.newname);
+        params.append("token", sessionStorage.getItem("token"));
+        let _res2 = await ajax.daoruChcek(params);
+        if (_res2.code == 0) {
+          let params2 = new URLSearchParams();
+          params2.append("name", _res2.data.file_name);
+          params2.append("check", _res2.data.check);
+          params2.append("token", sessionStorage.getItem("token"));
+          let _res3 = await ajax.daoru(params);
+          if (_res3.code == 0) {
+            this.$message.success("上传成功");
           } else {
-            _this.$message.error("请选择正确的文件类型！");
+            this.$message.error("上传失败");
           }
         } else {
-          _this.$message.error("请选择正确的文件！");
+          this.$message.warning("当前文件不符合要求，请仔细查阅");
         }
-      });
-    }
+      }
+    },
+    up_one() {
+      this.$router.push({ name: "Increase" });
+    },
   },
   components: {
     head_nav,
-    student_nav,
+    bannerdel,
     footer_nav
   }
 };

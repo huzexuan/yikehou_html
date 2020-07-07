@@ -296,7 +296,7 @@
         <div class="serve_box">
           <h1 class="wow fadeInUp">{{AboutUs.title}}</h1>
           <p class="wow fadeInUp" v-html="AboutUs.content">{{AboutUs.content}}</p>
-          <div class="serve_btn wow fadeInUp">MORE</div>
+          <div class="serve_btn wow fadeInUp" @click='up_aboutUs'>MORE</div>
         </div>
       </div>
       <!-- 课程中心 -->
@@ -447,8 +447,11 @@ export default {
     up_newDesList() {
       this.$router.push({ name: "New" });
     },
+    up_aboutUs(){
+      this.$router.push({ name: "Aboutus" });
+    },
     course_btn(id_num) {
-      console.log(id_num);
+      this.$router.push({ name: "CourseDetail", params: { id: id_num} });
     },
     up_courseList() {
       this.$router.push({ name: "Course" });

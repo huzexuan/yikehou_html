@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     password_btn() {
-      this.$router.push({ name: "Password" });
+      this.$router.push({ name: "Password", params: { id: 1} });
     },
     async submit() {
       let params = new URLSearchParams();
@@ -67,6 +67,8 @@ export default {
         sessionStorage.setItem("school_name", _res.data.nickname);
         sessionStorage.setItem("school_id", _res.data.id);
         sessionStorage.setItem("bs", _res.data.bs);
+        sessionStorage.setItem("user_can_number", _res.data.user_can_number);
+        sessionStorage.setItem("school_img", _res.data.img);
       } else {
         this.$message.error(_res.message);
       }

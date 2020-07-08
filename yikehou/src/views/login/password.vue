@@ -15,7 +15,7 @@
         <input type="password" placeholder="再次输入新密码" class="inp" />
       </div>
       <div class="register_btn">
-        <button type="submit" class="register">确认修改</button>
+        <button type="submit" @click="submit" class="register">确认修改</button>
       </div>
     </div>
   </div>
@@ -27,6 +27,17 @@ export default {
     return {
       checked: false
     };
+  },
+  methods: {
+    async submit() {
+      const { id } = this.$route.params;
+      if (id == 1) {
+        // 学校
+        
+      } else {
+        // 学生
+      }
+    }
   }
 };
 </script>
@@ -36,7 +47,7 @@ export default {
   width: 100%;
   height: 100vh;
   background: url(./images/password_bg.jpg) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
   position: relative;
 }
 .form_box {
@@ -49,7 +60,7 @@ export default {
   width: 753px;
   height: 130px;
   background: url(./images/password_titlebg.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
 }
 .input_box {
   display: flex;

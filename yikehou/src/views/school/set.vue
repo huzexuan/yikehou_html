@@ -203,23 +203,23 @@
                 <div class="inputItem1_top align_items_center">
                   <el-form-item label="是否增加班级">
                     <el-radio-group v-model="item.is_zeng">
-                      <el-radio label="是"></el-radio>
-                      <el-radio label="否" ></el-radio>
+                      <el-radio label="1">是</el-radio>
+                      <el-radio label="0">否</el-radio>
                     </el-radio-group>
                   </el-form-item>
                 </div>
                 <div class="inputItem1_bottom inputItem4_bottom align_items_center">
                   <div
                     class="inputItem4_bottom_l border_right align_items_center"
-                    v-if="item.is_zeng == '是'"
+                    v-if="item.is_zeng == '1'"
                   >
                     <el-form-item class="gradeTab_num" label="增加地点">
-                      <el-input placeholder="填写地点"></el-input>
+                      <el-input v-model="item.zeng_place" placeholder="填写地点"></el-input>
                     </el-form-item>
                   </div>
-                  <div class="inputItem4_bottom_r align_items_center" v-if="item.is_zeng ==  '是'">
+                  <div class="inputItem4_bottom_r align_items_center" v-if="item.is_zeng ==  '1'">
                     <el-form-item class="gradeTab_num" label="容纳人数">
-                      <el-input placeholder="填写人数"></el-input>
+                      <el-input v-model="item.zeng_can_user" placeholder="填写人数"></el-input>
                     </el-form-item>
                   </div>
                 </div>
@@ -253,7 +253,7 @@ export default {
           name: "haha"
         }
       ],
-      gradeTab_num:0
+      gradeTab_num: sessionStorage.getItem("user_can_number")
     };
   },
   async created() {
@@ -277,16 +277,34 @@ export default {
       params.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.getMyCourseList(params);
       if (_res.code == 0) {
+        for (var i = 0; i < _res.data.data.length; i++) {
+          _res.data.data[i].is_zeng = String(_res.data.data[i].is_zeng);
+        }
         this.courseList_data = _res.data.data;
       }
     },
     gradeTab(id) {
       this.gradeId = id;
-      this.courseList()
+      this.courseList();
     },
-    submit() {
-      console.log(this.courseList_data);
-    },
+    async submit() {
+      let params = new URLSearchParams();
+      params.append("school_course_json", JSON.stringify(this.courseList_data));
+      params.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.updateCourseInfo(params);
+
+      let params2 = new URLSearchParams();
+      params2.append("student_choose_number", this.gradeTab_num);
+      params2.append("token", sessionStorage.getItem("token"));
+      let _res2 = await ajax.setStudentChooseNumber(params2);
+      if (_res2.code == 0) {
+        sessionStorage.setItem("user_can_number", _res2.data.student_choose_number);
+      }
+      if (_res.code == 0 && _res2.code == 0) {
+        this.$message.success(_res.message);
+        this.created();
+      }
+    }
   },
   components: {
     head_nav,

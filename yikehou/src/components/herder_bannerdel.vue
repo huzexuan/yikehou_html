@@ -70,7 +70,7 @@
   <div class="student_banner" v-if="id == 1">
     <el-container>
       <div class="user_box">
-        <img :src="imageUrl" alt class="user_img school_user_img" />
+        <img :src="school_img" alt class="user_img school_user_img" />
         <div class="user">
           <p>
             <span class="name">{{school_name}}</span>
@@ -98,7 +98,7 @@
   <div class="student_banner" v-else>
     <el-container>
       <div class="user_box">
-        <img src alt class="user_img student_user_img" />
+        <img :src='user_img' alt class="user_img student_user_img" />
         <div class="user">
           <p>
             <span class="name">{{user_name}}</span>
@@ -146,13 +146,13 @@ export default {
       nianjie: sessionStorage.getItem("nianjie"),
       user_class: sessionStorage.getItem("class"),
       school_name: sessionStorage.getItem("school_name"),
-      imageUrl: "",
+      school_img: sessionStorage.getItem("school_img"),
+      user_img: sessionStorage.getItem("user_img"),
       CourseNum: {},
       item: {}
     };
   },
   created() {
-    console.log(this.id)
     if(this.id == 1){
       this.init()
     }else{

@@ -83,7 +83,7 @@
           <li v-for="(item,index) in reduList" :key="index">
             <p class="title">
               <span>{{item.cate}}</span>
-              <span>下学期意向课报名人数：</span>
+              <!-- <span>下学期意向课报名人数：</span> -->
               <span></span>
             </p>
             <ul class="seeDegree_item">

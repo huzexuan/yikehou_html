@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     password_btn() {
-      this.$router.push({ name: "Password" });
+      this.$router.push({ name: "Password", params: { id: 2} });
     },
     async submit() {
       let card_number =  $("input[name='name']").val()
@@ -76,6 +76,7 @@ export default {
           sessionStorage.setItem('nianjie',_res.data.nianjie);
           sessionStorage.setItem('class',_res.data.class);
           sessionStorage.setItem('nianji_id',_res.data.nianji_id);
+          sessionStorage.setItem('user_img',_res.data.img);
       } else {
         this.$message.error(_res.message);
       }

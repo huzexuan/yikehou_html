@@ -143,7 +143,6 @@ const api = {
         return updateLogo
     },
     // 学生更改头像
-
     async updateImg(_data) {
         const updateImg = await service.post('/api/v1/student/updateImg', _data);
         return updateImg
@@ -165,8 +164,23 @@ const api = {
     },
     // 学校选课数量
     async SchoolcourseNumber(_data) {
-        const SchoolcourseNumber = await service.post('api/v1/school/courseNumber', _data);
+        const SchoolcourseNumber = await service.post('/api/v1/school/courseNumber', _data);
         return SchoolcourseNumber
+    },
+    // 设置
+    async updateCourseInfo(_data) {
+        const updateCourseInfo = await service.post('/api/v1/school/updateCourseInfo', _data);
+        return updateCourseInfo
+    },
+    // 可报数量
+    async setStudentChooseNumber(_data) {
+        const setStudentChooseNumber = await service.post('/api/v1/school/setStudentChooseNumber', _data);
+        return setStudentChooseNumber
+    },
+    // 学生下拉框
+    async studentPullDownList(_data) {
+        const studentPullDownList = await service.post('/api/v1/student/studentPullDownList', _data);
+        return studentPullDownList
     },
 };
 

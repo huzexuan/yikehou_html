@@ -211,29 +211,21 @@ export default {
   data() {
     return {
       gradeList: [],
-      studentList: [
-        {
-          id: 1,
-          name: "正序"
-        },
-        {
-          id: 2,
-          name: "倒序"
-        }
-      ],
+      studentList: [],
       gradeId: "",
       banjivalue: "",
       student_id: "",
       bianji_id: "",
-      li_list: []
+      li_list: [],
     };
   },
   created() {
     this.init();
     this.list();
+    this.student()
   },
   methods: {
-    // 年级分类
+    // 年级
     async init() {
       let params = new URLSearchParams();
       let _res = await ajax.NianjiList(params);
@@ -241,7 +233,7 @@ export default {
         this.gradeList = _res.data;
       }
     },
-    // 年级分类
+    // 列表
     async list() {
       let params = new URLSearchParams();
       params.append("token", sessionStorage.getItem("token"));
@@ -250,6 +242,15 @@ export default {
       let _res = await ajax.getStudentList(params);
       if (_res.code == 0) {
         this.li_list = _res.data.data;
+      }
+    },
+    // 学生下拉
+    async student(){
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.studentPullDownList(params);
+      if (_res.code == 0) {
+        this.studentList =_res.data.data
       }
     },
     _condition() {

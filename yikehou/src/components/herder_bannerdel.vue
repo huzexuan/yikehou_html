@@ -152,8 +152,12 @@ export default {
     };
   },
   created() {
-    this.init();
-    this.CourseNumber();
+    console.log(this.id)
+    if(this.id == 1){
+      this.init()
+    }else{
+      this.CourseNumber()
+    }
   },
   methods: {
     // 学校端

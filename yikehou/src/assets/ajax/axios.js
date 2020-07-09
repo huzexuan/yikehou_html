@@ -5,11 +5,9 @@ const service = axios.create({
 });
 // request拦截器
 service.interceptors.request.use(config => {
-    // Do something before request is sent
     return config
 }, error => {
-    // Do something with request error
-    console.log(error); // for debug
+    console.log(error);
     Promise.reject(error)
 });
 

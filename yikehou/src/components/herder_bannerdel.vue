@@ -208,6 +208,7 @@ export default {
       let _res = await ajax.updateImg(form);
       if (_res.code == 0) {
         this.user_img = _res.data.img
+        console.log(_res.data.img)
         this.$message.success(_res.message);
         sessionStorage.setItem("user_img", _res.data.img);
       }

@@ -250,7 +250,8 @@ export default {
       params.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.studentPullDownList(params);
       if (_res.code == 0) {
-        this.studentList =_res.data.data
+        this.studentList = _res.data
+        console.log(_res.data.data)
       }
     },
     _condition() {

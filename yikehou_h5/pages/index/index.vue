@@ -81,13 +81,32 @@
 	.noticeTitle_img{
 		width: 104rpx;
 		height: 25rpx;
+		margin-left: 30rpx;
 	}
 	.noticeswiper{
 		width: 430rpx;
 		height: 95rpx;
+		margin: 0 10rpx 0 27rpx;
 	}
 	.noticeText{
 		line-height: 95rpx;
+	}
+	.noticeBtn{
+		font-size: 22rpx;
+		color: #999;
+	}
+	/* 菜单 */
+	.index_menu{
+		padding: 50rpx 0;
+	}
+	.index_menu ul{
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+	}
+	.index_menu_icon{
+		width: 121rpx;
+		height: 121rpx;
 	}
 </style>
 <template>
@@ -121,12 +140,35 @@
 			<image src="./images/noticeTitle.png" class="noticeTitle_img"/>
 			<swiper class="noticeswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :vertical="vertical" :interval="interval" :duration="duration">
 				<swiper-item>
-					<p class="noticeText ellipse">课程开始15分钟前不能更换和取消课程课程开始15分钟前不能更换和取消课程</p>
+					<p class="noticeText ellipse">1课程开始15分钟前不能更换和取消课程课程开始15分钟前不能更换和取消课程</p>
+				</swiper-item>
+				<swiper-item>
+					<p class="noticeText ellipse">2课程开始15分钟前不能更换和取消课程课程开始15分钟前不能更换和取消课程</p>
 				</swiper-item>
 			</swiper>
 			<navigator url="" class="noticeBtn" open-type="navigate">
-				更多
+				更多<span style="font-size: 22rpx;" class="iconfont iconiconset0420"></span>
 			</navigator>
+		</view>
+		<view class="index_menu">
+			<ul>
+				<li>
+					<image src="./images/menu01.png" class="index_menu_icon"/>
+					<p>全部课程</p>
+				</li>
+				<li>
+					<image src="./images/menu01.png" class="index_menu_icon"/>
+					<p>全部课程</p>
+				</li>
+				<li>
+					<image src="./images/menu01.png" class="index_menu_icon"/>
+					<p>全部课程</p>
+				</li>
+				<li>
+					<image src="./images/menu01.png" class="index_menu_icon"/>
+					<p>全部课程</p>
+				</li>
+			</ul>
 		</view>
 	</view>
 </template>

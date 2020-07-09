@@ -12,14 +12,11 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "/static/iconfont.css";
 * {
   font-size: 24rpx;
   color: #333;
-}
-@font-face {
-  font-family: uniicons;
-  src: url("/static/uni.ttf");
 }
 .content {
   width: 680rpx;
@@ -41,5 +38,16 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+input {
+  outline: none;
+  border: none;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
 }
 </style>

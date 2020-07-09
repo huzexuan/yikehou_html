@@ -1,17 +1,19 @@
 {
-    "pages": [{
-        "path": "pages/index/index"
-    }, {
-        "path": "pages/login/student_login"
-    }, {
-        "path": "pages/login/school_login"
-    }, {
-        "path": "component/pages_header"
-    }],
-    "globalStyle": {
-        "navigationBarTextStyle": "white",
-        "navigationStyle": "custom",
-        "navigationBarBackgroundColor": "#007AFF",
-        "backgroundColor": "#FFFFFF"
-    }
+	"pages": [{
+		"path": "pages/index/index"
+	}, {
+		"path": "pages/login/student_login"
+	}, {
+		"path": "pages/login/school_login"
+	}, {
+		"path": "pages/course/index"
+	}, {
+		"path": "component/pages_header"
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationStyle": "custom",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#FFFFFF"
+	}
 }

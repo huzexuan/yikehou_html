@@ -8,9 +8,6 @@
 <script>
 	export default {
 		props: {
-				id: {
-					type: String,
-				},
 			},
 		data() {
 			return {
@@ -36,6 +33,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	z-index:111;
 }
 .logo_img{
 	width: 91rpx;

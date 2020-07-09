@@ -235,10 +235,12 @@ export default {
     },
     // 列表
     async list() {
+    
       let params = new URLSearchParams();
       params.append("token", sessionStorage.getItem("token"));
       params.append("nianji", this.gradeId);
       params.append("class", this.bianji_id);
+      params.append("id", this.student_id);
       let _res = await ajax.getStudentList(params);
       if (_res.code == 0) {
         this.li_list = _res.data.data;

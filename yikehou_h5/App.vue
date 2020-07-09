@@ -27,6 +27,12 @@ export default {
   width: 100%;
   height: 87rpx;
 }
+// 有背景色的撑高
+.bg_height{
+  width: 100%;
+  background: #f4f4f4;
+  height: 10rpx;
+}
 .ellipse {
   overflow: hidden;
   text-overflow: ellipsis;

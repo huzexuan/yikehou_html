@@ -1,26 +1,45 @@
 <script>
 export default {
-	onLaunch: function() {
-		console.log('App Launch');
-	},
-	onShow: function() {
-		console.log('App Show');
-	},
-	onHide: function() {
-		console.log('App Hide');
-	}
+  onLaunch: function() {
+    console.log("App Launch");
+  },
+  onShow: function() {
+    console.log("App Show");
+  },
+  onHide: function() {
+    console.log("App Hide");
+  }
 };
 </script>
 
 <style>
-/* 解决头条小程序组件内引入字体不生效的问题 */
-/* #ifdef MP-TOUTIAO */
-@font-face {
-	font-family: uniicons;
-	src: url('/static/uni.ttf');
+* {
+  font-size: 24rpx;
+  color: #333;
 }
-/* #endif */
-.content{
-	width: 1360upx;
+@font-face {
+  font-family: uniicons;
+  src: url("/static/uni.ttf");
+}
+.content {
+  width: 680rpx;
+  margin: auto;
+}
+/* 顶部高度 */
+.top_height {
+  width: 100%;
+  height: 87rpx;
+}
+.ellipse {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ellipse2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 </style>

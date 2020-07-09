@@ -1,13 +1,16 @@
 {
     "pages": [{
-        "path": "pages/index/index",
-        "style": {
-            "navigationBarTitleText": "uni-ui基础项目"
-        }
+        "path": "pages/index/index"
+    }, {
+        "path": "pages/login/student_login"
+    }, {
+        "path": "pages/login/school_login"
+    }, {
+        "path": "component/pages_header"
     }],
     "globalStyle": {
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "uni-app",
+        "navigationStyle": "custom",
         "navigationBarBackgroundColor": "#007AFF",
         "backgroundColor": "#FFFFFF"
     }

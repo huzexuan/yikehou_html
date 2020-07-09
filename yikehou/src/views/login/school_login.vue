@@ -82,7 +82,6 @@ export default {
         "school_userPwd" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
     },
     getCookie: function() {
-      console.log(document.cookie)
       if (document.cookie.length > 0) {
         this.checked = true;
         var arr = document.cookie.split("; ");

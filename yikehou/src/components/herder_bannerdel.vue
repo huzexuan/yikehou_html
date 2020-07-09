@@ -175,7 +175,9 @@ export default {
       form.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.updateLogo(form);
       if (_res.code == 0) {
-        console.log(_res);
+        this.school_img = _res.data.img
+        this.$message.success(_res.message);
+        sessionStorage.setItem("school_img", _res.data.img);
       }
     },
 
@@ -205,7 +207,9 @@ export default {
       form.append("token", sessionStorage.getItem("token"));
       let _res = await ajax.updateImg(form);
       if (_res.code == 0) {
-        console.log(_res);
+        this.user_img = _res.data.img
+        this.$message.success(_res.message);
+        sessionStorage.setItem("user_img", _res.data.img);
       }
     },
 

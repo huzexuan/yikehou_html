@@ -160,7 +160,7 @@
             <el-option
               v-for="item in studentList"
               :key="item.id"
-              :label="item.name"
+              :label="item.nickname"
               :value="item.id"
             ></el-option>
           </el-select>

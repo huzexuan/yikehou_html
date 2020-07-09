@@ -187,7 +187,7 @@ export default {
       kecheng_id:'',
       gradeId:'',
       bianji_id:'',
-      time_id:'',
+      time_id:'asc',
       li_list:[]
     };
   },
@@ -242,7 +242,7 @@ export default {
       let params = new URLSearchParams();
       params.append("token", sessionStorage.getItem("token"));
       params.append("nianji", this.gradeId);
-      params.append("class", this.bianji_id);
+      params.append("class", this.bianji_id || 0);
       params.append("sort", this.time_id);
       let _res = await ajax.getFeedBack(params);
       if (_res.code == 0) {

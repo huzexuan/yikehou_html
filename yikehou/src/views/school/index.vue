@@ -1,6 +1,5 @@
 
 <style>
-
 /* 选择年级 */
 .gradeTab_box {
   padding: 38px 0;
@@ -135,7 +134,7 @@
     </el-header>
     <el-main>
       <div class="height_div"></div>
-      <bannerdel :id="1" :navid='1'></bannerdel>
+      <bannerdel :id="1" :navid="1"></bannerdel>
       <!-- 选择年级 -->
       <el-container>
         <div class="gradeTab_box">
@@ -193,69 +192,10 @@
           <p class="title">已选课程</p>
           <div class="overflow_box">
             <div class="Bottom_box">
-              <div class="Bottom_courseList">
-                <p>一年级</p>
+              <div class="Bottom_courseList" v-for="(item,index) in reduList" :key="index">
+                <p>{{item.cate}}</p>
                 <ul>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                </ul>
-              </div>
-              <div class="Bottom_courseList">
-                <p>二年级</p>
-                <ul>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                </ul>
-              </div>
-              <div class="Bottom_courseList">
-                <p>二年级</p>
-                <ul>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                </ul>
-              </div>
-              <div class="Bottom_courseList">
-                <p>二年级</p>
-                <ul>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                </ul>
-              </div>
-              <div class="Bottom_courseList">
-                <p>二年级</p>
-                <ul>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
-                  <li>英语</li>
+                  <li v-for="(i,num) in item.list" :key="num">{{i.title}}</li>
                 </ul>
               </div>
             </div>
@@ -283,23 +223,18 @@ export default {
       courseMenu: [],
       courseMenu_id: "",
       courseList_data: [],
-      imageUrl: ""
+      imageUrl: "",
+      reduList:[]
     };
   },
   async created() {
     await this.init();
     await this.courseClassify();
     this.courseList();
+    this.seeDegree()
   },
   methods: {
-    async courseNumber(){
-      const form = new FormData();
-      form.append("token", sessionStorage.getItem("token"));
-      let _res = await ajax.SchoolcourseNumber(form);
-      if(_res.code == 0){
-      }
-    },
-    
+
     // 年级分类
     async init() {
       let params = new URLSearchParams();
@@ -331,6 +266,15 @@ export default {
       let _res = await ajax.CateList(params);
       if (_res.code == 0) {
         this.courseList_data = _res.data.data;
+      }
+    },
+    // 已选课程
+    async seeDegree() {
+      let params = new URLSearchParams();
+      params.append("token", sessionStorage.getItem("token"));
+      let _res = await ajax.seeDegree(params);
+      if (_res.code == 0) {
+        this.reduList = _res.data
       }
     },
     gradeTab(id) {

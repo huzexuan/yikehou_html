@@ -52,7 +52,7 @@ button.active.focus {
 .el-container {
   width: 1200px;
   margin: auto;
-  display: block;
+  display: block !important;
 }
 .el-header,
 .el-main {

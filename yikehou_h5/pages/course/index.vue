@@ -32,6 +32,8 @@
 		color: #0168b7;
 	}		
 	.courseItem{
+		width: 95%;
+		box-sizing: border-box;
 		padding: 34rpx 0 27rpx;
 		border-bottom: 0.5rpx solid #ededed;
 		display: flex;
@@ -50,9 +52,18 @@
 	.btn_icon{
 		width: 33rpx;
 		height: 33rpx;
+		float: right;
 	}
 	.courseItemContent{
-		width: 100%;
+		width:calc(100% - 205rpx);
+	}
+	.courseItemDetail{
+		font-size: 22rpx;
+		color: #999;
+		margin: 34rpx 0 14rpx;
+	}
+	.courseScrollView{
+		max-height: 960rpx;
 	}
 </style>
 <template>
@@ -64,6 +75,9 @@
 				<span>请选择年级</span>
 				<span style="font-size:24rpx;color: #000;font-weight: bold;" class="iconfont iconiconset0420"></span>
 			</view>
+			<view class="as_courseClassBox">
+				
+			</view>
 		</view>
 		<view class="courseBox">
 			<ul class="courseClassify">
@@ -71,12 +85,36 @@
 				<li>启智</li>
 				<li>启智</li>
 			</ul>
-			<scroll-view scroll-y>
+			<scroll-view class="courseScrollView" scroll-y>
 				<view class="courseItem">
 					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">英语</p>
-						<p class="courseItemDetail">英语</p>
+						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
+						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
+					</view>
+				</view>
+				<view class="courseItem">
+					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
+					<view class="courseItemContent">
+						<p class="courseItemTitle">英语</p>
+						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
+						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
+					</view>
+				</view>
+				<view class="courseItem">
+					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
+					<view class="courseItemContent">
+						<p class="courseItemTitle">英语</p>
+						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
+						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
+					</view>
+				</view>
+				<view class="courseItem">
+					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
+					<view class="courseItemContent">
+						<p class="courseItemTitle">英语</p>
+						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
 						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
 					</view>
 				</view>

@@ -49,10 +49,9 @@ button.active.focus {
   outline: none;
   box-shadow: none;
 }
-.el-container {
+.Box_content {
   width: 1200px;
   margin: auto;
-  display: block !important;
 }
 .el-header,
 .el-main {

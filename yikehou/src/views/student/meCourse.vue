@@ -108,7 +108,7 @@
       <div class="height_div"></div>
       <bannerdel :navid="2"></bannerdel>
       <div class="studentcontent_box">
-        <el-container style="position: relative;">
+        <div class="Box_content" style="position: relative;">
           <img src="./images/index_content_bg.png" alt class="index_content_bg" />
 
           <div class="meCourse_content">
@@ -136,7 +136,7 @@
           <div class="me_name">
             <p>{{user_name}}</p>
           </div>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav></footer_nav>

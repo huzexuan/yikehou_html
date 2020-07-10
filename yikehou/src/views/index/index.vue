@@ -253,7 +253,7 @@
       </div>
       <!-- 公告 -->
       <div class="notice">
-        <el-container class="flex_justify_content">
+        <div class="flex_justify_content Box_content">
           <div class="notice_l">
             <img src="./images/notice_icon.png" alt />
           </div>
@@ -265,10 +265,10 @@
               </swiper-slide>
             </swiper>
           </div>
-        </el-container>
+        </div>
       </div>
       <!-- 新闻中心 -->
-      <el-container class="news">
+      <div class="news Box_content">
         <div class="news_del">
           <div class="news_title_box bounceInLeft wow" v-if="newsList.length">
             <span>新闻中心</span>
@@ -290,7 +290,7 @@
             </div>
           </div>
         </div>
-      </el-container>
+      </div>
       <!-- 服务 -->
       <div class="serve">
         <div class="serve_box">

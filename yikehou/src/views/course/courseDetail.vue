@@ -81,7 +81,7 @@
       <!-- 面包屑导航 -->
       <crumbs_nav :breadlist="breadlist"></crumbs_nav>
       <!-- 内容 -->
-      <el-container>
+      <div class="Box_content">
         <div class="content_box">
           <div class="courseDetail_imgBox">
             <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
@@ -110,7 +110,7 @@
             <div class="intro_content">{{item.description}}</div>
         </div>
         <div class="footer_height"></div>
-      </el-container>
+      </div>
       <!-- footer -->
       <footer_nav></footer_nav>
     </el-main>

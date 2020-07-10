@@ -97,7 +97,7 @@
       <div class="height_div"></div>
       <bannerdel :id="1"></bannerdel>
       <div class="information_box">
-        <el-container style="position: relative;">
+        <div class="Box_content" style="position: relative;">
           <div class="information_user_img_box">
             <img src alt class="information_user_img" />
           </div>
@@ -133,7 +133,7 @@
               </p>
             </div>
           </div>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav></footer_nav>

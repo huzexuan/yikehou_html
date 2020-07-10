@@ -92,7 +92,7 @@
     <el-main>
       <div class="height_div"></div>
       <bannerdel :id="1" :navid='5'></bannerdel>
-      <el-container class="coupleback">
+      <div class="coupleback Box_content">
         <div class="screen_box">
           <el-select v-model="gradeId"  clearable placeholder="请选择年级" @change="nianjichange">
             <el-option
@@ -154,7 +154,7 @@
             </div>
           </li>
         </ul>
-      </el-container>
+      </div>
       <div class="footer_height" style="height:458px"></div>
       <!-- footer -->
       <footer_nav></footer_nav>

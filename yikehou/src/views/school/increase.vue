@@ -72,7 +72,7 @@
       <div class="height_div"></div>
       <bannerdel :id="1"></bannerdel>
       <div class="account_box increase">
-        <el-container>
+        <div class="Box_content">
           <el-form
             :model="ruleForm"
             :rules="rules"
@@ -122,7 +122,7 @@
               <el-button type="primary" :plain="true" @click="submitForm('ruleForm')">确定增加</el-button>
             </el-form-item>
           </el-form>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav></footer_nav>

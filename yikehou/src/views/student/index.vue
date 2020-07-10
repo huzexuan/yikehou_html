@@ -218,7 +218,7 @@
       <div class="height_div"></div>
       <bannerdel :navid="1"></bannerdel>
       <div class="studentcontent_box">
-        <el-container style="position: relative;">
+        <div class="Box_content" style="position: relative;">
           <img src="./images/index_content_bg.png" alt class="index_content_bg" />
           <div class="curricula_box">
             <div
@@ -260,7 +260,7 @@
               ></el-pagination>
             </div>
           </div>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav></footer_nav>

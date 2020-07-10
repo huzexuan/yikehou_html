@@ -27,7 +27,7 @@
       <!-- 面包屑导航 -->
       <crumbs_nav :breadlist="breadlist"></crumbs_nav>
       <!-- 内容 -->
-      <el-container class="newDes">
+      <div class="newDes Box_content">
         <h1>{{detail.title}}</h1>
         <p class="des">
           <span v-if="detail.author">文章作者：{{detail.author}}</span>
@@ -35,7 +35,7 @@
         </p>
         <p v-html="detail.content">{{detail.content}}</p>
         <div class="footer_height"></div>
-      </el-container>
+      </div>
       <!-- footer -->
       <footer_nav></footer_nav>
     </el-main>

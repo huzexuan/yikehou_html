@@ -136,7 +136,7 @@
       <div class="height_div"></div>
       <bannerdel :id="1" :navid="1"></bannerdel>
       <!-- 选择年级 -->
-      <el-container>
+      <div class="Box_content">
         <div class="gradeTab_box">
           <span>请选择年级</span>
           <ul>
@@ -148,10 +148,10 @@
             >{{item.title}}</li>
           </ul>
         </div>
-      </el-container>
+      </div>
       <!-- 课程列表 -->
       <div class="content">
-        <el-container class="content_container">
+        <div class="content_container Box_content">
           <ul class="courseUl">
             <li
               :class="[courseMenu_id == item.id ? 'icon_active':'']"
@@ -185,10 +185,10 @@
               </li>
             </ul>
           </div>
-        </el-container>
+        </div>
       </div>
       <div class="Bottom_courseList_box">
-        <el-container>
+        <div class="Box_content">
           <p class="title">已选课程</p>
           <div class="overflow_box">
             <div class="Bottom_box">
@@ -200,7 +200,7 @@
               </div>
             </div>
           </div>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav></footer_nav>

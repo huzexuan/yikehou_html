@@ -78,7 +78,7 @@
 </style>
 <template>
   <div class="footer">
-    <el-container>
+    <div class="Box_content">
       <div class="footer_top">
         <div class="footer_menu_box clearfix">
           <ul class="footer_menu">
@@ -131,7 +131,7 @@
       <div
         class="footer_bottom"
       >{{item.copyright}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.icp}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.support ? '技术支持：'+item.support:''}}</div>
-    </el-container>
+    </div>
   </div>
 </template>
 

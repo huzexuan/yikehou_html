@@ -114,7 +114,7 @@
     <el-main>
       <div class="height_div"></div>
       <div class="student_banner">
-        <el-container>
+        <div class="Box_content">
           <div class="user_box">
             <img src alt class="user_img" />
             <div class="user">
@@ -134,11 +134,11 @@
             </div>
           </div>
           <student_nav :id="1"></student_nav>
-        </el-container>
+        </div>
       </div>
       <!-- 面包屑导航 -->
       <crumbs_nav :breadlist="breadlist"></crumbs_nav>
-      <el-container>
+      <div class="Box_content">
         <div class="content_box">
           <div class="courseDetail_imgBox">
             <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
@@ -186,7 +186,7 @@
           v-html="item.content">{{item.content}}</div>
         </div>
         <div class="footer_height"></div>
-      </el-container>
+      </div>
       <!-- footer -->
       <footer_nav></footer_nav>
     </el-main>

@@ -112,7 +112,7 @@
       <div class="height_div"></div>
       <bannerdel :navid="3"></bannerdel>
       <div class="studentcontent_box feedback_bg">
-        <el-container>
+        <div class="Box_content">
           <p class="feedback_title">选择评价的课程</p>
           <ul class="feedback_List">
             <li
@@ -149,7 +149,7 @@
             <textarea class="leave_inp"></textarea>
           </div>
           <div class="feedback_btn" @click="up_form">提交</div>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav></footer_nav>

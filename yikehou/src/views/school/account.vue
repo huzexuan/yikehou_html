@@ -61,7 +61,7 @@
       <div class="height_div"></div>
       <bannerdel :id="1" :navid='2'></bannerdel>
       <div class="account_box">
-        <el-container>
+        <div class="Box_content">
           <div class="up_account">
             <div class="account_btnbox" @click="up_one">
               <p>单个增加学生信息</p>
@@ -91,7 +91,7 @@
             <p>1、身份证号默认为登录时账号</p>
             <p>2、初始密码默认为000000，如您需要需改密码请在登录页面自行修改。</p>
           </div>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav></footer_nav>

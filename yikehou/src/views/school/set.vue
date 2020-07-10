@@ -137,7 +137,7 @@
         <bannerdel :id="1" :navid="4"></bannerdel>
       </div>
       <!-- 选择年级 -->
-      <el-container class="set">
+      <div class="set Box_content">
         <div class="gradeTab_box">
           <ul>
             <li
@@ -227,7 +227,7 @@
             </li>
           </ul>
         </el-form>
-      </el-container>
+      </div>
       <div class="footer_height"></div>
       <!-- footer -->
       <footer_nav></footer_nav>

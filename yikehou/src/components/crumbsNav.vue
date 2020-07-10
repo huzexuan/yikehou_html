@@ -1,6 +1,6 @@
 <template>
   <div id="bread">
-    <el-container>
+    <div class="Box_content">
       当前位置：
       <div
         v-for="(item, index) in breadlist"
@@ -12,7 +12,7 @@
         <span v-if="item.path" @click="navBtn(item.path)">{{item.title}}</span>
         <span v-else>{{item.title}}</span>
       </div>
-    </el-container>
+    </div>
   </div>
 </template>
 <script>

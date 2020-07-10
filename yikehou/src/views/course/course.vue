@@ -120,7 +120,7 @@
       <!-- 面包屑导航 -->
       <crumbs_nav :breadlist="breadlist"></crumbs_nav>
       <!-- 选择年级 -->
-      <el-container>
+      <div class="Box_content">
         <div class="gradeTab_box">
           <span>请选择年级</span>
           <ul>
@@ -132,10 +132,10 @@
             >{{item.title}}</li>
           </ul>
         </div>
-      </el-container>
+      </div>
       <!-- 课程列表 -->
       <div class="content">
-        <el-container class="content_container">
+        <div class="content_container Box_content">
           <ul class="courseUl">
             <li
               :class="[courseMenu_id == item.id ? 'icon_active':'']"
@@ -155,7 +155,7 @@
               </li>
             </ul>
           </div>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav :navId="2"></footer_nav>

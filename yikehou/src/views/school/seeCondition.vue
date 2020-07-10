@@ -135,7 +135,7 @@
     <el-main>
       <div class="height_div"></div>
       <bannerdel :id='1' :navid="3"></bannerdel>
-      <el-container>
+      <div class="Box_content">
         <ul class="tab">
           <li @click="_condition">课程热度排名</li>
           <li class="active">学生报课情况</li>
@@ -193,7 +193,7 @@
             </div>
           </li>
         </ul>
-      </el-container>
+      </div>
       <div class="footer_height" style="height:458px"></div>
       <!-- footer -->
       <footer_nav></footer_nav>

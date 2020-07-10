@@ -70,7 +70,7 @@
 <template>
   <div>
     <div class="header_top">
-      <el-container class="header_top_box flex_justify_content">
+      <div class="header_top_box flex_justify_content Box_content">
         <p>欢迎进入益课后官网！</p>
         <div v-if="user == 2">
           <el-popover placement="top" width="160" v-model="visible">
@@ -102,10 +102,10 @@
           <div class="login_btn login_btn_active" @click="student_login()">学生登录</div>
           <div class="login_btn" @click="school_login()">学校登录</div>
         </div>
-      </el-container>
+      </div>
     </div>
     <div class="header_buttom">
-      <el-container class="header_buttom_box flex_justify_content">
+      <div class="header_buttom_box flex_justify_content Box_content">
         <img src="./images/logo.png" alt />
         <ul class="nav" v-if="user == 2">
           <li :class="navId == '1' ?'active':''" @click="navId == 1 ? '':navPage('StudentIndex')">
@@ -173,7 +173,7 @@
             <p class="height_border"></p>
           </li>
         </ul>
-      </el-container>
+      </div>
     </div>
   </div>
 </template>

@@ -68,7 +68,7 @@
 </style>
 <template>
   <div class="student_banner" v-if="id == 1">
-    <el-container>
+    <div class="Box_content">
       <div class="user_box">
         <img :src="school_img" alt class="user_img school_user_img" />
         <div class="user">
@@ -93,10 +93,10 @@
         </div>
       </div>
       <student_nav :id="navid"></student_nav>
-    </el-container>
+    </div>
   </div>
   <div class="student_banner" v-else>
-    <el-container>
+    <div class="Box_content">
       <div class="user_box">
         <img :src='user_img' alt class="user_img student_user_img" />
         <div class="user">
@@ -122,7 +122,7 @@
         </div>
       </div>
       <student_nav :id="navid"></student_nav>
-    </el-container>
+    </div>
   </div>
 </template>
 

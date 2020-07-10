@@ -107,7 +107,7 @@ textarea {
       <!-- 面包屑导航 -->
       <crumbs_nav :breadlist="breadlist"></crumbs_nav>
       <!-- 内容 -->
-      <el-container>
+      <div class="Box_content">
         <div class="content_top">
           <div class="content_top_l wow fadeInLeftBig" >
             <img src="./images/phone.png" alt />
@@ -143,9 +143,9 @@ textarea {
             </div>
           </div>
         </div>
-      </el-container>
+      </div>
       <div class="address">
-        <el-container class="joinHands">
+        <div class="joinHands Box_content">
           <div class="address_box">
             <baidu-map
               class="bmView"
@@ -191,7 +191,7 @@ textarea {
               </el-form-item>
             </el-form>
           </div>
-        </el-container>
+        </div>
       </div>
       <!-- footer -->
       <footer_nav :navId="4"></footer_nav>

@@ -101,7 +101,7 @@
       <!-- 面包屑导航 -->
       <crumbs_nav :breadlist="breadlist"></crumbs_nav>
       <!-- 内容 -->
-      <el-container>
+      <div class="Box_content">
         <ul class="newTab">
           <li
             v-for="(item,index) in tabList"
@@ -130,7 +130,7 @@
           </div>
         </div>
         <div class="footer_height"></div>
-      </el-container>
+      </div>
       <!-- footer -->
       <footer_nav :navId='3'></footer_nav>
     </el-main>

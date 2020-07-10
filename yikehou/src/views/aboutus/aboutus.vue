@@ -63,7 +63,7 @@
       <!-- 面包屑导航 -->
       <crumbs_nav :breadlist="breadlist"></crumbs_nav>
       <!-- 内容 -->
-      <el-container class="aboutus">
+      <div class="aboutus Box_content">
         <div class="intro_box">
           <p class="title">{{AboutUs.title}}</p>
           <div class="intro">
@@ -72,7 +72,7 @@
           </div>
         </div>
         <p class="title">合作伙伴</p>
-      </el-container>
+      </div>
       <div class="partner_swiper">
         <div style="position: relative;padding:0 50px">
           <swiper ref="mySwiper" :options="swiperOptions">

@@ -1,21 +1,21 @@
 <style>
-	.index_banner {
+	#indexBox .index_banner {
 		width: 100%;
 		height: 630rpx;
 		position: relative;
 	}
 
-	.bannerswiper {
+	#indexBox .bannerswiper {
 		width: 100%;
 		height: 535rpx;
 	}
 
-	.index_banner_img {
+	#indexBox .index_banner_img {
 		width: 100%;
 		height: 100%;
 	}
 
-	.searchBox {
+	#indexBox .searchBox {
 		width: 666rpx;
 		height: 70rpx;
 		box-sizing: border-box;
@@ -31,39 +31,39 @@
 		justify-content: space-between;
 	}
 
-	.searchInput {
+	#indexBox .searchInput {
 		width: 100%;
 		height: 100%;
 		font-size: 24rpx;
 		color: #666
 	}
 
-	.search_icon {
+	#indexBox .search_icon {
 		width: 26rpx;
 		height: 26rpx;
 		margin: 0 28rpx 0 38rpx
 	}
 
-	.banner_bg {
+	#indexBox .banner_bg {
 		width: 100%;
 		height: 220rpx;
 		position: absolute;
 		top: 406rpx
 	}
-	.loginBox{
+	#indexBox .loginBox{
 		padding:44rpx 0;
 		display:flex;
 		align-items: center;
 		justify-content: space-evenly;
 	}
-	.loginBtn{
+	#indexBox .loginBtn{
 		width: 243rpx;
 		height: 78rpx;
 		box-sizing: border-box;
 		padding: 2rpx;
 		border: 1rpx solid #0168b7;
 	}
-	.loginBtn>view{
+	#indexBox .loginBtn>view{
 		width: 100%;
 		height: 100%;
 		background: #0168b7;
@@ -72,58 +72,58 @@
 		text-align: center;
 		line-height: 70rpx;
 	}
-	.noticeBox{
+	#indexBox .noticeBox{
 		height: 95rpx;
 		box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.1);
 		display: flex;
 		align-items: center;
 	}
-	.noticeTitle_img{
+	#indexBox .noticeTitle_img{
 		width: 104rpx;
 		height: 25rpx;
 		margin-left: 30rpx;
 	}
-	.noticeswiper{
+	#indexBox .noticeswiper{
 		width: 430rpx;
 		height: 95rpx;
 		margin: 0 10rpx 0 27rpx;
 	}
-	.noticeText{
+	#indexBox .noticeText{
 		line-height: 95rpx;
 	}
-	.noticeBtn{
+	#indexBox .noticeBtn{
 		font-size: 22rpx;
 		color: #999;
 	}
 	/* 菜单 */
-	.index_menu{
+	#indexBox .index_menu{
 		padding: 50rpx 0;
 	}
-	.index_menu ul{
+	#indexBox .index_menu ul{
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
 	}
-	.index_menu ul li p{
+	#indexBox .index_menu ul li p{
 		text-align: center;
 		line-height: 1;
 		margin-top: 26rpx;
 	}
-	.index_menu_icon{
+	#indexBox .index_menu_icon{
 		width: 121rpx;
 		height: 121rpx;
 	}
 	/* 关于我们 */
-	.AboutUsBox{
+	#indexBox .AboutUsBox{
 		padding: 42rpx 0 ;
 	}
-	.AboutUs_bg{
+	#indexBox .AboutUs_bg{
 		width: 100%;
 		height: 368rpx;
 		background: url(./images/AboutUsBox_bg.jpg) no-repeat 100% 100%;
 		background-size: 100% 100%;
 	}
-	.AboutUs_content{
+	#indexBox .AboutUs_content{
 		width: 527rpx;
 		height: 368rpx;
 		box-sizing: border-box;
@@ -132,18 +132,18 @@
 		background: url(./images/AboutUs_contentBg.png) no-repeat 100% 100%;
 		background-size: 100% 100%;
 	}
-	.AboutUsTitle{
+	#indexBox .AboutUsTitle{
 		font-size: 28rpx;
 		color: #000;
 		font-weight: bold;
 		text-align: center;
 	}
-	.AboutUsText{
+	#indexBox .AboutUsText{
 		font-size: 22rpx;
 		margin:18rpx 0 20rpx;
 		line-height: 36rpx;
 	}
-	.AboutUsBtn{
+	#indexBox .AboutUsBtn{
 		width: 117rpx;
 		height: 35rpx;
 		box-sizing: border-box;
@@ -153,26 +153,26 @@
 		line-height: 35rpx;
 		margin: auto;
 	}
-	.courseBoxTitle{
+	#indexBox .courseBoxTitle{
 		display:flex;
 		align-items: center;
 		justify-content:space-between;
 		padding:46rpx 0 60rpx
 	}
-	.courseBoxTitle>view{
+	#indexBox .courseBoxTitle>view{
 		font-weight:bold
 	}
-	.courseBoxTitle>view span:nth-child(1){
+	#indexBox .courseBoxTitle>view span:nth-child(1){
 		font-size:32rpx;
 		color:#000;
 		display:inline-block;
 		margin-right:14rpx;
 	}
-	.courseBoxTitle>view span:nth-child(2){
+	#indexBox .courseBoxTitle>view span:nth-child(2){
 		font-size:24rpx;
 		color:#666;
 	}
-	.courseAllBtn{
+	#indexBox .courseAllBtn{
 		width:108rpx;
 		height:38rpx;
 		text-align:center;
@@ -182,51 +182,51 @@
 		border:1rpx solid #7d7d7d;
 		box-shadow:inset  0 0 1px 1px rgba(0,0,0,0.3)
 	}
-	.courseList li{
+	#indexBox .courseList li{
 		display:block;
 		overflow: hidden;
 		margin-bottom:60rpx;
 	}
-	.courseItem_img{
+	#indexBox .courseItem_img{
 		width:100%;
 		height:438rpx;
 		margin-bottom:54rpx;
 	}
-	.courseItemTitle{
+	#indexBox .courseItemTitle{
 		display:flex;
 		align-items: center;
 		margin-bottom:40rpx;
 	}
-	.courseItemTitle span{
+	#indexBox .courseItemTitle span{
 		display:inline-block;
 	}
-	.courseItemTitle span:nth-child(1){
+	#indexBox .courseItemTitle span:nth-child(1){
 		font-size:28rpx;
 		color:#000;
 		margin-right:24rpx;
 		font-weight:bold;
 	}
-	.courseItemTitle span:nth-child(2){
+	#indexBox .courseItemTitle span:nth-child(2){
 		width:68rpx;
 		height:1rpx;
 		background:#5e5e5e;
 	}
-	.courseItemBrief p:nth-child(1){
+	#indexBox .courseItemBrief p:nth-child(1){
 		font-size:26rpx;
 	}
-	.courseItemBrief p:nth-child(2){
+	#indexBox .courseItemBrief p:nth-child(2){
 		width:88rpx;
 		height:2rpx;
 		background:#626262;
 		margin:17rpx 0 33rpx;
 	}
-	.courseItemDetails{
+	#indexBox .courseItemDetails{
 		font-size:24rpx;
 		color:#666;
 		line-height:40rpx;
 		margin-bottom:46rpx;
 	}
-	.courseItemBtn{
+	#indexBox .courseItemBtn{
 		width:198rpx;
 		height:53rpx;
 		background:#0168b7;
@@ -237,13 +237,13 @@
 	}
 </style>
 <template>
-	<view class="indexBox">
+	<view id="indexBox">
 		<view class="top_height"></view>
 		<page_head></page_head>
 		<view class="index_banner">
 			<view class="searchBox">
 				<image src="./images/search_icon.png" mode="" class="search_icon"></image>
-				<input type="text" class="searchInput" :value="search" placeholder="你想学的课程" ></input>
+				<input type="text" class="searchInput" :value="search" placeholder="你想学的课程"></input>
 			</view>
 			<swiper class="bannerswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item>
@@ -265,7 +265,8 @@
 		</view>
 		<view class="content noticeBox">
 			<image src="./images/noticeTitle.png" class="noticeTitle_img"></image>
-			<swiper class="noticeswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :vertical="vertical" :interval="interval" :duration="duration">
+			<swiper class="noticeswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :vertical="vertical" :interval="interval"
+			 :duration="duration">
 				<swiper-item>
 					<p class="noticeText ellipse">1课程开始15分钟前不能更换和取消课程课程开始15分钟前不能更换和取消课程</p>
 				</swiper-item>
@@ -381,11 +382,16 @@
 				autoplay: true,
 				interval: 3000,
 				duration: 300,
-				vertical:true,
+				vertical: true,
 				search: ''
 			};
 		},
-		onLoad() {},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: "益课后-首页"
+			})
+			this.init()
+		},
 		onReachBottom() {
 			/* 到底部加载 */
 		},
@@ -393,9 +399,14 @@
 			// 下拉刷新
 		},
 		methods: {
-
+			async init() {
+				// let _res = await API.postJson('Article', {
+				// 	"cate": 3,
+				// 	"limit": 4,
+				// 	"page": 1
+				// });
+				// console.log(_res)
+			},
 		}
 	};
 </script>
-
-

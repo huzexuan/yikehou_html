@@ -4,15 +4,19 @@
       <div class="title"></div>
       <div class="input_box">
         <img src="./images/pass_icon01.jpg" alt />
-        <input type="text" placeholder="请输入账号" class="inp" />
+        <input type="text" id="number" autocomplete="off" placeholder="请输入账号" class="inp" />
       </div>
       <div class="input_box">
         <img src="./images/pass_icon02.jpg" alt />
-        <input type="password" placeholder="请输入新密码" class="inp" />
+        <input type="password" id="Ypassword" placeholder="请输入原密码" class="inp" />
+      </div>
+      <div class="input_box">
+        <img src="./images/pass_icon02.jpg" alt />
+        <input type="password" id="password" placeholder="请输入新密码" class="inp" />
       </div>
       <div class="input_box">
         <img src="./images/pass_icon03.jpg" alt />
-        <input type="password" placeholder="再次输入新密码" class="inp" />
+        <input type="password" id="newpassword" placeholder="再次输入新密码" class="inp" />
       </div>
       <div class="register_btn">
         <button type="submit" @click="submit" class="register">确认修改</button>
@@ -22,6 +26,9 @@
 </template>
 
 <script>
+import $ from "jquery";
+import axios from "axios";
+import ajax from "../../assets/ajax/api";
 export default {
   data() {
     return {
@@ -30,12 +37,41 @@ export default {
   },
   methods: {
     async submit() {
+      var num = $("#number").val();
+      var pas = $("#password").val();
+      var Ypas = $("#Ypassword").val(); 
+      var newpas = $("#newpassword").val();
       const { id } = this.$route.params;
-      if (id == 1) {
-        // 学校
-        
-      } else {
-        // 学生
+      if (pas === newpas) {
+        if (id == 1) {
+          // 学校
+          let params = new URLSearchParams();
+          params.append("name", num);
+          params.append("password", Ypas);
+          params.append("new_password", newpas);
+          let _res = await ajax.schoolPassword(params);
+          if (_res.code == 0) {
+            this.$message.success(_res.message);
+            this.$router.push({ name: "School" });
+          } else {
+            this.$message.error(_res.message);
+          }
+        } else {
+          // 学生
+          let params = new URLSearchParams();
+          params.append("card_number", num);
+          params.append("password", Ypas);
+          params.append("new_password", newpas);
+          let _res = await ajax.studentPassword(params);
+          if (_res.code == 0) {
+            this.$message.success(_res.message);
+            this.$router.push({ name: "Student" });
+          } else {
+            this.$message.error(_res.message);
+          }
+        }
+      }else{
+            this.$message.error('密码不一致');
       }
     }
   }

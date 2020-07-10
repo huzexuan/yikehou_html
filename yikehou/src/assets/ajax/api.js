@@ -182,6 +182,17 @@ const api = {
         const studentPullDownList = await service.post('/api/v1/student/studentPullDownList', _data);
         return studentPullDownList
     },
+    // 修改密码学校端
+    async schoolPassword(_data) {
+        const schoolPassword = await service.post('/api/v1/school/updatePassword', _data);
+        return schoolPassword
+    },
+    // 修改密码学生端
+    async studentPassword(_data) {
+        const studentPassword = await service.post('/api/v1/student/updatePassword', _data);
+        return studentPassword
+    },
+
 };
 
 export default api;

@@ -1,7 +1,7 @@
 <template>
 	<view class="footer_box">
         <view class="footerTopBox">
-            <p>TOP<span class="iconfont iconxiangxiajiantoushixin"></span></p>
+            <p>TOP<span class="iconfont iconxiangxiajiantoushixin" style="color: #fff;"></span></p>
         </view>
         <view class="footer_informationBox">
             <p>Copyright (C) 2020  Rights  烁炎文化传播有限公司 版权所有</p>

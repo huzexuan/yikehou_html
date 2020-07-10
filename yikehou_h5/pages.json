@@ -9,6 +9,12 @@
 		"path": "pages/course/index"
 	}, {
 		"path": "component/pages_header"
+	}, {
+		"path": "pages/AboutUs/index"
+	}, {
+		"path": "pages/new/index"
+	}, {
+		"path": "pages/AboutUs/joinHands"
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

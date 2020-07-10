@@ -99,7 +99,7 @@
       <div class="information_box">
         <div class="Box_content" style="position: relative;">
           <div class="information_user_img_box">
-            <img src alt class="information_user_img" />
+            <img :src="item.img" alt class="information_user_img" />
           </div>
           <div class="border_1" v-if="item.has_course > 0">
             <img src="./images/border_1.png" alt />

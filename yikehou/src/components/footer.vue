@@ -89,7 +89,7 @@
           <ul class="footer_menu">
             <li>课程中心</li>
             <ul class="footer_menu_item">
-              <li v-for="(item,index) in courseMenu" :key="index" @click="navId == 2 ? '' :_up('Course',item.id)">{{item.title}}</li>
+              <li v-for="(item,index) in courseMenu" :key="index" @click="navId == 2 ? '' :_up('Course',item.id)">{{item.title || ''}}</li>
             </ul>
           </ul>
           <ul class="footer_menu">
@@ -105,15 +105,15 @@
           <ul class="footer_menu_us">
             <li>
               <img src="./images/phone.png" alt />
-              {{item.phone}}
+              {{item.phone || ''}}
             </li>
             <li>
               <img src="./images/mailbox.png" alt />
-              {{item.email}}
+              {{item.email ||''}}
             </li>
             <li>
               <img src="./images/address.png" alt />
-              {{item.address}}
+              {{item.address || ''}}
             </li>
           </ul>
         </div>

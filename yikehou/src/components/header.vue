@@ -81,7 +81,7 @@
             </div>
             <div slot="reference" class="user_student">
               <img src="./images/user_student.png" alt />
-              {{user_name}}
+              {{user_name || ''}}
             </div>
           </el-popover>
         </div>
@@ -94,7 +94,7 @@
             </div>
             <div slot="reference" class="user_student">
               <img src="./images/user_school.png" alt />
-              {{school_name}}
+              {{school_name || ''}}
             </div>
           </el-popover>
         </div>
@@ -196,11 +196,9 @@ export default {
   created() {},
   methods: {
     student_login() {
-      // this.$message.warning('暂未开放');
       this.$router.push({ name: "Student" });
     },
     school_login() {
-      // this.$message.warning('暂未开放');
       this.$router.push({ name: "School" });
     },
     navPage(namePage) {

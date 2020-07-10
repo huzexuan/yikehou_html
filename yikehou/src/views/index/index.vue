@@ -97,7 +97,7 @@
   width: 100%;
   height: 978px;
   background: url(./images/serve_bg.jpg) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
   position: relative;
 }
 .serve_box {
@@ -106,7 +106,7 @@
   box-sizing: border-box;
   padding-top: 168px;
   background: url(./images/serve_box_bg.png) no-repeat 100% 100%;
-  background-size:100% 100%;
+  background-size: 100% 100%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -157,6 +157,9 @@
   color: #666;
   text-align: center;
   margin: 34px 0 120px;
+}
+.courseItem {
+  width: 100%;
 }
 .courseItem .courseItem_img {
   width: 958px;
@@ -241,12 +244,12 @@
     <el-header>
       <head_nav :navId="1"></head_nav>
     </el-header>
-    <el-main>
+    <div>
       <div class="height_div"></div>
       <div class="index_banner">
         <swiper ref="mySwiper" :options="swiperOptions">
           <swiper-slide v-for="(item,index) in bannerSwiper" :key="index">
-            <img :src="item.img" style="width:100%;height:100%" />
+            <img :src="item.img || ''" style="width:100%;height:100%" />
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -261,7 +264,7 @@
             <p class="notice_title">最新公告</p>
             <swiper ref="mySwiper" :options="notice_swiperOptions">
               <swiper-slide v-for="(item,index) in noticeList" :key="index">
-                <p class="ellipse" v-html="item.content">{{item.content}}</p>
+                <p class="ellipse" v-html="item.content || ''">{{item.content ||''}}</p>
               </swiper-slide>
             </swiper>
           </div>
@@ -285,8 +288,8 @@
               class="newsList_item"
               @click="up_newDes(item.id)"
             >
-              <p class="ellipse">{{item.title}}</p>
-              <p>{{item.updated_at}}</p>
+              <p class="ellipse">{{item.title || ''}}</p>
+              <p>{{item.updated_at || ''}}</p>
             </div>
           </div>
         </div>
@@ -294,9 +297,9 @@
       <!-- 服务 -->
       <div class="serve">
         <div class="serve_box">
-          <h1 class="wow fadeInUp">{{AboutUs.title}}</h1>
-          <p class="wow fadeInUp" v-html="AboutUs.content">{{AboutUs.content}}</p>
-          <div class="serve_btn wow fadeInUp" @click='up_aboutUs'>MORE</div>
+          <h1 class="wow fadeInUp">{{AboutUs.title || ''}}</h1>
+          <p class="wow fadeInUp" v-html="AboutUs.description || ''">{{AboutUs.description || ''}}</p>
+          <div class="serve_btn wow fadeInUp" @click="up_aboutUs">MORE</div>
         </div>
       </div>
       <!-- 课程中心 -->
@@ -304,19 +307,19 @@
         <p class="courseBox_title wow bounceInDown">
           <span>课程中心</span>COURES
         </p>
-        <p class="courseBox_del wow fadeInUp ">{{description}}</p>
+        <p class="courseBox_del wow fadeInUp">{{description || ''}}</p>
         <div class="courseList wow fadeInUp">
-          <div class="courseItem clearfix " v-for="(item,index) in courseList" :key="index">
-            <img :src="item.imgs_arr[0]" class="courseItem_img" />
+          <div class="courseItem clearfix" v-for="(item,index) in courseList" :key="index">
+            <img :src="item.imgs_arr[0] || ''" class="courseItem_img" />
             <div class="courseItem_content">
               <div class="float_box">
                 <div class="course_title">
-                  <span>{{item.title}}</span>
+                  <span>{{item.title || ''}}</span>
                   <span></span>
                 </div>
-                <p class="courseItem_title_del">{{item.description}}</p>
+                <p class="courseItem_title_del">{{item.description || ''}}</p>
                 <p class="courseItem_p_border"></p>
-                <div class="courseItem_del ellipse2" v-html="item.content">{{item.content}}</div>
+                <div class="courseItem_del ellipse2" v-html="item.content || ''">{{item.content || ''}}</div>
                 <div class="courseItem_btn" @click="course_btn(item.id)">MORE</div>
               </div>
             </div>
@@ -328,7 +331,7 @@
       <div class="footer_height"></div>
       <!-- footer -->
       <footer_nav></footer_nav>
-    </el-main>
+    </div>
   </div>
 </template>
 
@@ -347,6 +350,7 @@ export default {
           delay: 3000,
           disableOnInteraction: false
         },
+        loop: false,
         pagination: { el: ".swiper-pagination" }
       },
       notice_swiperOptions: {
@@ -408,10 +412,10 @@ export default {
         this.noticeList = _res.data.data;
       }
     },
+    // 关于我们
     async About() {
       let params = new URLSearchParams();
       params.append("cate", 1);
-      params.append("limit", 1);
       let _res = await ajax.Article(params);
       if (_res.code == 0) {
         this.AboutUs = _res.data.data[0];
@@ -447,11 +451,11 @@ export default {
     up_newDesList() {
       this.$router.push({ name: "New" });
     },
-    up_aboutUs(){
+    up_aboutUs() {
       this.$router.push({ name: "Aboutus" });
     },
     course_btn(id_num) {
-      this.$router.push({ name: "CourseDetail", params: { id: id_num} });
+      this.$router.push({ name: "CourseDetail", params: { id: id_num } });
     },
     up_courseList() {
       this.$router.push({ name: "Course" });

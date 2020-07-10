@@ -43,7 +43,7 @@
   margin-right: 35px;
 }
 .evaluate {
-  margin: 25px 0 34px 0;
+  /* margin: 25px 0 34px 0; */
   display: flex;
   align-items: center;
 }

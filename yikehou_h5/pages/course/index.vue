@@ -161,46 +161,46 @@
 				<li>启智</li>
 			</ul>
 			<scroll-view class="courseScrollView" scroll-y>
-				<view class="courseItem">
+				<navigator class="courseItem" url="./details" hover-class="none">
 					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">英语</p>
 						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
 						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
 					</view>
-				</view>
-				<view class="courseItem">
+				</navigator>
+				<navigator class="courseItem" url="./details" hover-class="none">
 					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">英语</p>
 						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
 						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
 					</view>
-				</view>
-				<view class="courseItem">
+				</navigator>
+				<navigator class="courseItem" url="./details" hover-class="none">
 					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">英语</p>
 						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
 						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
 					</view>
-				</view>
-				<view class="courseItem">
+				</navigator>
+				<navigator class="courseItem" url="./details" hover-class="none">
 					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">英语</p>
 						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
 						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
 					</view>
-				</view>
-				<view class="courseItem">
+				</navigator>
+				<navigator class="courseItem" url="./details" hover-class="none">
 					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">英语</p>
 						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
 						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
 					</view>
-				</view>
+				</navigator>
 			</scroll-view>
 		</view>
 		<view class="bg_height"></view>

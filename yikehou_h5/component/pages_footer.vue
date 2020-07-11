@@ -16,10 +16,18 @@
 				<image src="./images/footerIcon02.png"></image>
 				<p>课程中心</p>
 			</navigator>
-			<navigator hover-class="none" url="" class="footerNavBtn" open-type="navigate">
+			<navigator hover-class="none" url="/pages/school/me" class="footerNavBtn" open-type="navigate">
 				<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
 				<p>我的</p>
 			</navigator>
+			<!-- <navigator v-if="token" hover-class="none" url="" class="footerNavBtn" open-type="navigate">
+				<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
+				<p>我的</p>
+			</navigator>
+			<view class="footerNavBtn" v-else @click="uplogin">
+				<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
+				<p>我的</p>
+			</view> -->
         </view>
 	</view>
 </template>
@@ -30,16 +38,33 @@
 			},
 		data() {
 			return {
-				
+				token:''
 			}
 		},
 		methods: {
-			
-		}
+			uplogin(){
+				uni.showModal({
+				    title: '我的',
+				    content: '暂无信息，请登录',
+					confirmText:'学生登录',
+					cancelText:'学校登录',
+				    success: function (res) {
+				        if (res.confirm) {
+				            console.log('学生登录');
+				        } else if (res.cancel) {
+				            console.log('学校登录');
+				        }
+				    }
+				});
+			}
+		}	
 	}
 </script>
 
 <style>
+	.footer_box{
+		background: #fff;
+	}
 .footerTopBox {
     width:100%;
     height:45rpx;

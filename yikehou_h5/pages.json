@@ -15,7 +15,29 @@
 		"path": "pages/new/index"
 	}, {
 		"path": "pages/AboutUs/joinHands"
-	}],
+	}, {
+		"path": "pages/course/details"
+	}, {
+		"path": "pages/student/me"
+	}, {
+		"path": "pages/student/course"
+	}, {
+		"path": "pages/student/feedback"
+	}, {
+		"path": "pages/school/me"
+	}, {
+		"path": "pages/school/heat"
+	}, {
+		"path": "pages/school/condition"
+	}    ,{
+            "path" : "pages/school/information",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/school/feedback",
+            "style" : {}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationStyle": "custom",

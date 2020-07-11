@@ -1,7 +1,7 @@
 <script>
 	import WOW from './static/wow.js'
 	import $ from './static/jquery.min.js'
-	import API from "@/config/api.js"
+	import API from "./config/api.js"
 	export default {
 		onLaunch: function() {
 			console.log("App Launch");

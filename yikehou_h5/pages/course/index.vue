@@ -138,30 +138,23 @@
 					<span style="font-size:24rpx;color:#fff;font-weight: bold;" class="iconfont iconxiangzuojiantou"></span>请选择年级
 				</view>
 				<ul class="ClassListBox">
-					<li class="active" @click="classItem">一年级</li>
-					<li>一年级</li>
-					<li>一年级</li>
-					<li>一年级</li>
-					<li>一年级</li>
-					<li>一年级</li>
+					<li v-for="(item,index) in gradeList" :class="gradeId == item.id ?'active':''" @click="classItem(item.id)">{{item.title}}</li>
 				</ul>
 			</view>
 		</view>
 		<view class="courseBox">
 			<ul class="courseClassify">
-				<li class="active">启智</li>
-				<li>启智</li>
-				<li>启智</li>
-				<li>启智</li>
-				<li>启智</li>
-				<li>启智</li>
-				<li>启智</li>
-				<li>启智</li>
-				<li>启智</li>
-				<li>启智</li>
+				<li v-for="(item,index) in courseMenu" :key="index" :class="courseMenu_id == item.id ?'active':''" @click="_courseMenu(item.id)">{{item.title}}</li>
 			</ul>
-			<scroll-view class="courseScrollView" scroll-y>
-				<navigator class="courseItem" url="./details" hover-class="none">
+			<!-- <scroll-view class="courseScrollView" scroll-y> -->
+				<!-- <navigator class="courseItem" v-for="(item,index) in courseList_data" :key="index" :url="`/pages/course/details?id=${item.id}`" hover-class="none">
+					<image :src="item.imgs_arr[0]" mode="" class="courseItemImg"></image>
+					<view class="courseItemContent">
+						<p class="courseItemTitle">{{item.title}}</p>
+						<p class="courseItemDetail ellipse2" v-html="item.description">{{item.description}}</p>
+						<image src="./images/btn_icon.png" class="btn_icon" mode="" @click="up_course(item.id)"></image>
+					</view>
+				</navigator> -->
 					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">英语</p>
@@ -169,39 +162,7 @@
 						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
 					</view>
 				</navigator>
-				<navigator class="courseItem" url="./details" hover-class="none">
-					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
-					<view class="courseItemContent">
-						<p class="courseItemTitle">英语</p>
-						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
-						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
-					</view>
-				</navigator>
-				<navigator class="courseItem" url="./details" hover-class="none">
-					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
-					<view class="courseItemContent">
-						<p class="courseItemTitle">英语</p>
-						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
-						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
-					</view>
-				</navigator>
-				<navigator class="courseItem" url="./details" hover-class="none">
-					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
-					<view class="courseItemContent">
-						<p class="courseItemTitle">英语</p>
-						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
-						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
-					</view>
-				</navigator>
-				<navigator class="courseItem" url="./details" hover-class="none">
-					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
-					<view class="courseItemContent">
-						<p class="courseItemTitle">英语</p>
-						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
-						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
-					</view>
-				</navigator>
-			</scroll-view>
+			<!-- </scroll-view> -->
 		</view>
 		<view class="bg_height"></view>
 		<page_footer></page_footer>
@@ -209,15 +170,24 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
-			return {};
+			return {
+				gradeList: [],
+				gradeId: '',
+				courseMenu: [],
+				courseMenu_id: "",
+				courseList_data: []
+			};
 		},
-		onLoad() {
+		async onLoad() {
 			uni.setNavigationBarTitle({
 				title: "益课后-课程中心"
 			})
-			this.init()
+			await this.init()
+			await this.courseClassify()
+			this.courseList()
 		},
 		onReachBottom() {
 			/* 到底部加载 */
@@ -227,14 +197,34 @@
 		},
 		methods: {
 			async init() {
-				// let _res = await API.postJson('Article', {
-				// 	"cate": 3,
-				// 	"limit": 4,
-				// 	"page": 1
-				// });
-				// console.log(_res)
+				let _res = await API.postJson('NianjiList', {
+					"cate": 3,
+					"limit": 4,
+					"page": 1
+				});
+				if (_res.code == 0) {
+					this.gradeList = _res.data;
+					this.gradeId = _res.data[0].id;
+				}
 			},
-
+			// 课程分类
+			async courseClassify() {
+				let _res = await API.postJson('CateClassify');
+				if (_res.code == 0) {
+					this.courseMenu = _res.data;
+					this.courseMenu_id = _res.data[0].id;
+				}
+			},
+			// 课程列表
+			async courseList() {
+				let _res = await API.postJson('CateList', {
+					"cate": this.courseMenu_id,
+					"nianji": this.gradeId
+				});
+				if (_res.code == 0) {
+					this.courseList_data = _res.data.data;
+				}
+			},
 			up_courseClass() {
 				$('.as_courseClassBox').removeClass('fadeOutRightBig animated').addClass('fadeInRight animated').css('display',
 					'block')
@@ -242,8 +232,16 @@
 			no_courseClass() {
 				$('.as_courseClassBox').removeClass('fadeInRight animated').addClass('fadeOutRightBig animated')
 			},
-			classItem() {
-				console.log('一年级')
+			classItem(id) {
+				this.gradeId = id
+				this.courseList()
+			},
+			_courseMenu(id) {
+				this.courseMenu_id = id;
+				this.courseList()
+			},
+			up_course(id){
+				
 			}
 		}
 	};

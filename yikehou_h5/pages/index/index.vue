@@ -246,11 +246,8 @@
 				<input type="text" class="searchInput" :value="search" placeholder="你想学的课程"></input>
 			</view>
 			<swiper class="bannerswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-				<swiper-item>
-					<image src="./images/banner1.png" mode="" class="index_banner_img"></image>
-				</swiper-item>
-				<swiper-item>
-					<image src="./images/banner2.png" mode="" class="index_banner_img"></image>
+				<swiper-item v-for="(item,index) in bannerSwiper" :key="index">
+					<image :src="item.img" mode="" class="index_banner_img"></image>
 				</swiper-item>
 			</swiper>
 			<image src="./images/banner_bg.png" mode="" class="banner_bg"></image>
@@ -267,11 +264,8 @@
 			<image src="./images/noticeTitle.png" class="noticeTitle_img"></image>
 			<swiper class="noticeswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :vertical="vertical" :interval="interval"
 			 :duration="duration">
-				<swiper-item>
-					<p class="noticeText ellipse">1课程开始15分钟前不能更换和取消课程课程开始15分钟前不能更换和取消课程</p>
-				</swiper-item>
-				<swiper-item>
-					<p class="noticeText ellipse">2课程开始15分钟前不能更换和取消课程课程开始15分钟前不能更换和取消课程</p>
+				<swiper-item v-for="(item,index) in noticeList" :key="index">
+					<p class="noticeText ellipse">{{item.title}}</p>
 				</swiper-item>
 			</swiper>
 			<navigator url="" hover-class="none" class="noticeBtn" open-type="navigate">
@@ -311,10 +305,10 @@
 			<view class="AboutUs_bg">
 				<view class="AboutUs_content">
 					<p class="AboutUsTitle">
-						课后服务一站式平台
+						{{AboutUs.title}}
 					</p>
-					<p class="AboutUsText ellipse2">烁炎文化传播有限公司是一家专注于招生领域的教育服务平烁炎文化传播有限公司是一家专注于招生领域的教育服务平</p>
-					<navigator url="" class="AboutUsBtn" hover-class="none" open-type="navigate">MORE</navigator>
+					<p class="AboutUsText ellipse2" v-html="AboutUs.description">{{AboutUs.description}}</p>
+					<navigator url="/pages/AboutUs/index" class="AboutUsBtn" hover-class="none" open-type="navigate">MORE</navigator>
 				</view>
 			</view>
 		</view>
@@ -323,49 +317,23 @@
 			<view class="courseBoxTitle">
 				<view>
 					<span>课程中心</span>
-					<span>COURES</span>
+					<span @click="courseListBtn">COURES</span>
 				</view>
-				<navigator url="" class="courseAllBtn" hover-class="none" open-type="navigate">MORE</navigator>
+				<navigator url="/pages/course/index" class="courseAllBtn" hover-class="none" open-type="navigate">MORE</navigator>
 			</view>
 			<ul class="courseList">
-				<li>
-					<image src="./images/course_bg.jpg" class="courseItem_img"></image>
+				<li v-for="(item,index) in courseList" :key="index">
+					<image :src="item.imgs_arr[0]" class="courseItem_img"></image>
 					<p class="courseItemTitle">
-						<span>无人机主题课程</span>
+						<span>{{item.title}}</span>
 						<span></span>
 					</p>
 					<view class="courseItemBrief">
-						<p>3D打印将理想的无人机 打印出来</p>
+						<p>{{item.description}}</p>
 						<p></p>
 					</view>
-					<p class="courseItemDetails ellipse2">通过3D打印将理想的无人机 打印出来，帮你实现翱翔天际的梦想通过3D打印将理想的无人机 打印出来，帮你实现翱翔天际的梦想</p>
-					<navigator url="" class="courseItemBtn" hover-class="none" open-type="navigate">MORE</navigator>
-				</li>
-				<li>
-					<image src="./images/course_bg.jpg" class="courseItem_img"></image>
-					<p class="courseItemTitle">
-						<span>无人机主题课程</span>
-						<span></span>
-					</p>
-					<view class="courseItemBrief">
-						<p>3D打印将理想的无人机 打印出来</p>
-						<p></p>
-					</view>
-					<p class="courseItemDetails ellipse2">通过3D打印将理想的无人机 打印出来，帮你实现翱翔天际的梦想通过3D打印将理想的无人机 打印出来，帮你实现翱翔天际的梦想</p>
-					<navigator url="" class="courseItemBtn" hover-class="none" open-type="navigate">MORE</navigator>
-				</li>
-				<li>
-					<image src="./images/course_bg.jpg" class="courseItem_img"></image>
-					<p class="courseItemTitle">
-						<span>无人机主题课程</span>
-						<span></span>
-					</p>
-					<view class="courseItemBrief">
-						<p>3D打印将理想的无人机 打印出来</p>
-						<p></p>
-					</view>
-					<p class="courseItemDetails ellipse2">通过3D打印将理想的无人机 打印出来，帮你实现翱翔天际的梦想通过3D打印将理想的无人机 打印出来，帮你实现翱翔天际的梦想</p>
-					<navigator url="" class="courseItemBtn" hover-class="none" open-type="navigate">MORE</navigator>
+					<p class="courseItemDetails ellipse2" v-html="item.content">{{item.content}}</p>
+					<navigator :url="`/pages/course/details?id=${item.id}`" class="courseItemBtn" hover-class="none" open-type="navigate">MORE</navigator>
 				</li>
 			</ul>
 		</view>
@@ -375,6 +343,7 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
@@ -383,7 +352,11 @@
 				interval: 3000,
 				duration: 300,
 				vertical: true,
-				search: ''
+				search: '',
+				noticeList: [],
+				bannerSwiper: [],
+				AboutUs: {},
+				courseList: []
 			};
 		},
 		onLoad() {
@@ -391,6 +364,9 @@
 				title: "益课后-首页"
 			})
 			this.init()
+			this.banner()
+			this.About()
+			this.course()
 		},
 		onReachBottom() {
 			/* 到底部加载 */
@@ -400,12 +376,41 @@
 		},
 		methods: {
 			async init() {
-				// let _res = await API.postJson('Article', {
-				// 	"cate": 3,
-				// 	"limit": 4,
-				// 	"page": 1
-				// });
-				// console.log(_res)
+				let _res = await API.postJson('Article', {
+					"cate": 4,
+				});
+				if (_res.code == 0) {
+					this.noticeList = _res.data.data;
+				}
+			},
+			async banner() {
+				let _res = await API.postJson('advertising', {
+					"position_id": 1
+				});
+				if (_res.code == 0) {
+					this.bannerSwiper = _res.data;
+				}
+			},
+			async About() {
+				let _res = await API.postJson('Article', {
+					"cate": 1,
+				});
+				if (_res.code == 0) {
+					this.AboutUs = _res.data.data[0];
+				}
+			},
+			async course() {
+				let _res = await API.postJson('CateList', {
+					"limit": 3,
+				});
+				if (_res.code == 0) {
+					this.courseList = _res.data.data;
+				}
+			},
+			courseListBtn() {
+				uni.navigateTo({
+					url: "/pages/course/index",
+				});
 			},
 		}
 	};

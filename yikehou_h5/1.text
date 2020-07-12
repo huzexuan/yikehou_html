@@ -3,3 +3,8 @@
 <view class="bg_height"></view>
 <view class="bg_height"></view>
 <page_footer></page_footer>
+
+let _res = await API.postJson('', {
+});
+if (_res.code == 0) {
+}

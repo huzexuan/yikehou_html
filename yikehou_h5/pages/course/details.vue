@@ -118,6 +118,9 @@
 				vertical: true,
 			}
 		},
+		onLoad(Option){
+			console.log(Option)
+		},
 		methods: {
 
 		}

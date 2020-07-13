@@ -18,6 +18,7 @@
 	width: 96rpx;
 	height: 96rpx;
 	margin: 0 23rpx 0 43rpx;
+	border-radius: 50%;
 }
 #studentMeBox .studentMeBanner_user p{
 	color: #fff;
@@ -89,17 +90,17 @@
 			<view class="content">
 				<view class="studentMeBanner_top">
 					<view class="studentMeBanner_topl">
-						<image src="./images/user_img.png" mode="" class="user_img"></image>
+						<image :src="user.img" mode="" class="user_img"></image>
 						<view class="studentMeBanner_user">
-							<p>张甜甜</p>
-							<p>河北保定高开区小学 五年级六班</p>
+							<p>{{user.nickname}}</p>
+							<p>{{user.school_name}} {{user.nianjie}}{{user.class}}</p>
 						</view>
 					</view>
-					<button type="primary" class="studentMeBanner_topr"  @click="upload">选择照片</button>
+					<button type="primary" class="studentMeBanner_topr" @click="upload">选择照片</button>
 				</view>
 				<ul class="studentMeBanner_bottom">
-					<li>已选课程<span>4</span></li>
-					<li>剩余可选课程<span>2</span></li>
+					<li>已选课程<span>{{CourseNum.has_course}}</span></li>
+					<li>剩余可选课程<span>{{CourseNum.sheng}}</span></li>
 				</ul>
 			</view>
 		</view>
@@ -123,28 +124,58 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
-
+				user: uni.getStorageSync('user'),
+				CourseNum: {}
 			}
 		},
+		onShow() {
+			this.CourseNumber()
+		},
 		methods: {
+			async CourseNumber() {
+				let _res = await API.postJson('getHasCourseNumber', {
+					"token": this.user.token
+				});
+				if (_res.code == 0) {
+					this.CourseNum = _res.data;
+				}
+			},
 			upload: function() {
+				let _this = this
 				uni.chooseImage({
 					count: 1,
-					sizeType: ['copressed'],
+					sizeType: ['album'],
 					success(res) {
 						var imgFiles = res.tempFilePaths[0]
 						console.log(imgFiles)
-						// var uper = uni.uploadFile({
-						// 	url: 'http://demo.hcoder.net/index.php?c=uperTest',
-						// 	filePath: imgFiles,
-						// 	name: 'file',
-						// 	success(res1) {
-						// 		console.log(res1)
-						// 	}
-						// });
+						uni.uploadFile({
+							url: 'http://yikehou.132.chinaapp.cc/api/v1/student/updateImg', //仅为示例，非真实的接口地址
+							filePath: imgFiles,
+							name: 'img',
+							formData: {
+								'token': _this.user.token
+							},
+							success: (res) => {
+								let _res = JSON.parse(res.data)
+								if (_res.code == 0) {
+									_this.user.img = _res.data.img
+									uni.setStorageSync('user', _this.user);
+									console.log(uni.getStorageSync('user'))
+									uni.showToast({
+										title: '更改成功',
+										duration: 2000,
+										icon: 'none',
+										success() {
+
+										}
+									});
+								}
+							}
+						});
 					}
 				})
 			}

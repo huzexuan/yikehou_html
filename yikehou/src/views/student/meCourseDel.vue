@@ -264,7 +264,7 @@ export default {
       let params = new URLSearchParams();
       params.append("token", sessionStorage.getItem("token"));
       params.append("school_course_id", id);
-      let _res = await ajax.getHasCourseNumber(params);
+      let _res = await ajax.chooseCourse(params);
       if (_res.code == 0) {
         this.CourseNum = _res.data;
       }else{

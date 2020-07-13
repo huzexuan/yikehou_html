@@ -55,10 +55,12 @@
 		font-size: 18rpx;
 		margin-left: 45rpx;
 	}
-	#feedbackBox .feedbackTitle2{
+
+	#feedbackBox .feedbackTitle2 {
 		padding: 76rpx 0 36rpx;
 	}
-	#feedbackBox textarea{
+
+	#feedbackBox textarea {
 		width: 100%;
 		height: 443rpx;
 		box-sizing: border-box;
@@ -66,7 +68,8 @@
 		padding: 23rpx 15rpx;
 		margin-bottom: 65rpx;
 	}
-	#feedbackBox .submitBtn{
+
+	#feedbackBox .submitBtn {
 		width: 200rpx;
 		height: 60rpx;
 		background: #0168b7;
@@ -75,7 +78,7 @@
 		text-align: center;
 		line-height: 60rpx;
 		border-radius: 10rpx;
-		margin:0 auto 36rpx;
+		margin: 0 auto 36rpx;
 	}
 </style>
 
@@ -87,11 +90,7 @@
 		<view class="content">
 			<p class="feedbackTitle">选择评价的课程</p>
 			<ul class="feedbackListBox">
-				<li class="active">英语</li>
-				<li>英语</li>
-				<li>未来人才计划</li>
-				<li>未来人才计划</li>
-				<li>未来</li>
+				<li v-for="(item,index) in MyCourse" :key="index" :class=" MyCourse_id == item.id ? 'active' :''">{{item.title}}</li>
 			</ul>
 			<view class="evaluate_box">
 				<p class="feedback_title">评价课程</p>
@@ -117,7 +116,7 @@
 			</view>
 			<p class="feedbackTitle feedbackTitle2">留言反馈</p>
 			<textarea v-model="feedbackContent" placeholder="请填写您的反馈意见..."></textarea>
-			<view class="submitBtn">提交</view>
+			<view class="submitBtn" @click="submit">提交</view>
 		</view>
 		<view class="bg_height"></view>
 		<page_footer></page_footer>
@@ -125,15 +124,31 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
-				courseNum:0,
-				teacherNum:0,
-				feedbackContent:''
+				courseNum: 0,
+				teacherNum: 0,
+				feedbackContent: '',
+				MyCourse: [],
+				MyCourse_id: ''
 			}
 		},
+		onLoad() {
+			this.init()
+		},
 		methods: {
+			async init() {
+				let _res = await API.postJson('getMyCourse', {
+					"result": 2,
+					"token": uni.getStorageSync('user').token
+				});
+				if (_res.code == 0) {
+					this.MyCourse = _res.data;
+					this.MyCourse_id = _res.data[0].id;
+				}
+			},
 			//   评价课程
 			mouseOver1(index) {
 				this.courseNum = index;
@@ -154,6 +169,28 @@
 						.addClass("active_evaluate");
 				}
 			},
+			async submit() {
+				let _res = await API.postJson('FeedBack', {
+					"token": uni.getStorageSync('user').token,
+					"course_id": this.MyCourse_id,
+					"course_star": this.courseNum,
+					"teacher_star": this.teacherNum,
+					"content": this.feedbackContent
+				});
+				if (_res.code == 0) {
+					uni.showToast({
+						title: '评价成功',
+						duration: 2000,
+						icon: 'none'
+					});
+				}else{
+					uni.showToast({
+						title: _res.message,
+						duration: 2000,
+						icon: 'none'
+					});
+				}
+			}
 		}
 	}
 </script>

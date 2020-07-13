@@ -107,71 +107,61 @@
 		<view class="bg_height"></view>
 		<view class="content">
 			<view class="conditionScreen">
-				<picker class="inp" @change="nianjiPickerChange" :value="nianjiindex" :range="nianjiarray">
-					<view class="uni-input picker_style" v-if="nianjiarray[nianjiindex]">{{nianjiarray[nianjiindex]}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
+				<picker class="inp" @change="nianjiPickerChange" :value="nianji_index" :range="nianjiarray" range-key="title">
+					<view class="uni-input picker_style" v-if="nianji_text">{{nianji_text}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
 					<view class="picker_style" v-else>
 						年级<span class="iconfont iconxiangxiajiantoushixin"></span>
 					</view>
 				</picker>
-				<input class="inp" type="text" v-model="nianji" placeholder="班级" />
-				<picker class="inp" @change="studentPickerChange" :value="studentindex" :range="studentarray">
-					<view class="uni-input picker_style" v-if="studentarray[studentindex]">{{studentarray[studentindex]}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
+				<input class="inp" type="text" v-model="banji" placeholder="班级" />
+				<picker class="inp" @change="kechengPickerChange" :value="kecheng_index" :range="kechengarray" range-key="course_name">
+					<view class="uni-input picker_style" v-if="kecheng_text">{{kecheng_text}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
 					<view class="picker_style" v-else>
-						年级<span class="iconfont iconxiangxiajiantoushixin"></span>
+						课程<span class="iconfont iconxiangxiajiantoushixin"></span>
 					</view>
 				</picker>
-				<picker class="inp" @change="studentPickerChange" :value="studentindex" :range="studentarray">
-					<view class="uni-input picker_style" v-if="studentarray[studentindex]">{{studentarray[studentindex]}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
+				<picker class="inp" @change="timePickerChange" :value="time_index" :range="timearray" range-key="title">
+					<view class="uni-input picker_style" v-if="time_text">{{time_text}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
 					<view class="picker_style" v-else>
 						顺序<span class="iconfont iconxiangxiajiantoushixin"></span>
 					</view>
 				</picker>
 			</view>
 			<view class="conditionListBox">
-				<view class="conditionItem">
+				<view class="conditionItem" v-for="(item,index) in li_list" :key="index">
 					<view class="conditionItem_bottom">
-						<image src="./images/user_img.png" mode="" class="conditionItem_img"></image>
+						<image :src="item.student_info.img" mode="" class="conditionItem_img"></image>
 						<view class="conditionItem_bottom-r">
 							<view class="conditionItem_userBox">
 								<p>
-									<span>张甜甜</span>
-									<span>5年级4班</span>
+									<span>{{item.student_info.nickname}}</span>
+									<span>{{item.nianji_text}}{{item.class}}</span>
 								</p>
-								<view class="conditionItem_flag">英语</view>
+								<view class="conditionItem_flag">{{item.course_text}}</view>
 							</view>
 							<div class="evaluate">
 								<div class="evaluate_l">
 									课程评价：
-									<image src="./images/star.png" mode=""></image>
-									<image src="./images/star.png" mode=""></image>
-									<image src="./images/star.png" mode=""></image>
-									<image src="./images/star.png" mode=""></image>
-									<image src="./images/star.png" mode=""></image>
-								<!-- 	<image :src="item.course_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
+									<image :src="item.course_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
 									<image :src="item.course_star >= 2 ?'./images/star_active.png':'./images/star.png'" alt />
 									<image :src="item.course_star >= 3 ?'./images/star_active.png':'./images/star.png'" alt />
 									<image :src="item.course_star >= 4 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.course_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt /> -->
-									<span>1星</span>
+									<image :src="item.course_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt />
+									<span>{{item.course_star}}星</span>
 								</div>
 								<div class="evaluate_r">
 									教师评价：
-									<image src="./images/star.png" mode=""></image>
-									<image src="./images/star.png" mode=""></image>
-									<image src="./images/star.png" mode=""></image>
-									<image src="./images/star.png" mode=""></image>
-									<image src="./images/star.png" mode=""></image>
-									<!-- <image :src="item.teacher_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
+									<image :src="item.teacher_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
 									<image :src="item.teacher_star >= 2 ?'./images/star_active.png':'./images/star.png'" alt />
 									<image :src="item.teacher_star >= 3 ?'./images/star_active.png':'./images/star.png'" alt />
 									<image :src="item.teacher_star >= 4 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.teacher_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt /> -->
-									<span>1星</span>
+									<image :src="item.teacher_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt />
+									<span>{{item.teacher_star}}星</span>
 								</div>
 							</div>
 							<view class="leave">
 								<p>留言：</p>
-								<p>课程很好，能学到正式课以外的东西，希望下学期还开此课。</p>
+								<p>{{item.content}}</p>
 							</view>
 						</view>
 					</view>
@@ -184,24 +174,82 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
-				nianjiarray: ['中国', '美国', '巴西', '日本'],
-				studentarray: ['中国', '美国', '巴西', '日本'],
-				studentindex: -1,
-				nianjiindex: -1,
-				nianji: ''
+				nianjiarray: [],
+				nianji_index: 0,
+				nianji_text: '',
+				timearray: [{
+						id: 'asc',
+						title: "正序"
+					},
+					{
+						id: 'desc',
+						title: "倒序"
+					}
+				],
+				time_index: 0,
+				time_text: '',
+				kechengarray: [],
+				kecheng_index: 0,
+				kecheng_text: '',
+				banji: '',
+				li_list: []
 			}
 		},
+		onLoad() {
+			this.init()
+			this.MyCoursePluck()
+			this.list()
+		},
 		methods: {
-			studentPickerChange(e) {
-				this.studentindex = e.detail.value
-				console.log(e)
+			// 年级分类
+			async init() {
+				let _res = await API.postJson('NianjiList', {});
+				if (_res.code == 0) {
+					this.nianjiarray = _res.data;
+				}
+			},
+			// 课程
+			async MyCoursePluck() {
+				let _res = await API.postJson('getMyCoursePluck', {
+					"token": uni.getStorageSync('user').token
+				});
+				if (_res.code == 0) {
+					this.kechengarray = _res.data;
+				}
+			},
+			async list() {
+				let _res = await API.postJson('getFeedBack', {
+					"token": uni.getStorageSync('user').token,
+					"nianji": this.nianji_id,
+					"class": this.bianji_id,
+					"sort": this.time_id,
+					"kecheng_id": this.kecheng_id
+				});
+				if (_res.code == 0) {
+					this.li_list = _res.data.data;
+				}
+			},
+			timePickerChange(e) {
+				this.time_index = e.detail.value
+				this.time_text = this.timearray[e.detail.value].title
+				this.time_id = this.timearray[e.detail.value].id
+				this.list()
 			},
 			nianjiPickerChange(e) {
-				this.nianjiindex = e.detail.value
-				console.log(e)
+				this.nianji_index = e.detail.value
+				this.nianji_text = this.nianjiarray[e.detail.value].title
+				this.nianji_id = this.nianjiarray[e.detail.value].id
+				this.list()
+			},
+			kechengPickerChange(e) {
+				this.kecheng_index = e.detail.value
+				this.kecheng_text = this.kechengarray[e.detail.value].course_name
+				this.kecheng_id = this.kechengarray[e.detail.value].course_id
+				this.list()
 			}
 		}
 	}

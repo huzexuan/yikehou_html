@@ -52,6 +52,7 @@
 		width: 103rpx;
 		height: 103rpx;
 		margin-right: 22rpx;
+		border-radius: 50%;
 	}
 	#conditionBox .conditionItem_userBox{
 		width:527rpx;
@@ -91,44 +92,35 @@
 		<view class="bg_height"></view>
 		<view class="content">
 			<view class="conditionScreen">
-				<picker class="inp" @change="nianjiPickerChange":value="nianjiindex" :range="nianjiarray">
-					<view class="uni-input picker_style" v-if="nianjiarray[nianjiindex]">{{nianjiarray[nianjiindex]}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
+				<picker class="inp" @change="nianjiPickerChange" :value="nianji_index" :range="nianjiarray" range-key='title'>
+					<view class="uni-input picker_style" v-if="nianji_text">{{nianji_text}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
 					<view class="picker_style" v-else>
 						请选择年级<span class="iconfont iconxiangxiajiantoushixin"></span>
 					</view>
 				</picker>
-				<input class="inp" type="text" v-model="nianji" placeholder="请填写班级" />
-				<picker class="inp" @change="studentPickerChange" :value="studentindex" :range="studentarray">
-					<view class="uni-input picker_style" v-if="studentarray[studentindex]">{{studentarray[studentindex]}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
+				<input class="inp" type="text" v-model="banji" placeholder="请填写班级" />
+				<picker class="inp" @change="studentPickerChange" :value="student_index" :range="studentarray" range-key='nickname'>
+					<view class="uni-input picker_style" v-if="student_text">{{student_text}}<span class="iconfont iconxiangxiajiantoushixin"></span></view>
 					<view class="picker_style" v-else>
-						请选择年级<span class="iconfont iconxiangxiajiantoushixin"></span>
+						请选择学生<span class="iconfont iconxiangxiajiantoushixin"></span>
 					</view>
 				</picker>
 			</view>
 			<view class="conditionListBox">
-				<navigator hover-class="none" url="/pages/school/information" class="conditionItem">
-					<p class="conditionItem_title">报课数：<span>8</span></p>
+				<navigator v-for="(item,index) in studentlist" :key="index" hover-class="none" :url="`/pages/school/information?id=${item.id}`" class="conditionItem">
+					<p class="conditionItem_title">报课数：<span>{{item.has_course}}</span></p>
 					<view class="conditionItem_bottom">
-						<image src="./images/user_img.png" mode="" class="conditionItem_img"></image>
+						<image :src="item.img" mode="" class="conditionItem_img"></image>
 						<view class="conditionItem_bottom-r">
 							<view class="conditionItem_userBox">
 								<p>
-									<span>张甜甜</span>
-									<span>5年级4班</span>
+									<span>{{item.nickname}}</span>
+									<span>{{item.nianji}}{{item.class}}</span>
 								</p>
 								<p class="iconfont iconiconset0420"></p>
 							</view>
-							<ul class="conditionItem_courseList">
-								<li>英语</li>
-								<li>英语</li>
-								<li>英语</li>
-								<li>英语</li>
-								<li>英语</li>
-								<li>英语</li>
-								<li>英语</li>
-								<li>英语</li>
-								<li>英语</li>
-								<li>英语</li>
+							<ul class="conditionItem_courseList" v-if="item.has_course > 0" v-for="(i,num) in item.course" :key="num">
+								<li>{{i.title}}</li>
 							</ul>
 						</view>
 					</view>
@@ -141,24 +133,67 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
-				nianjiarray: ['中国', '美国', '巴西', '日本'],
-				studentarray: ['中国', '美国', '巴西', '日本'],
-				studentindex: -1,
-				nianjiindex:-1,
-				nianji: ''
+				nianjiarray: [],
+				nianji_index: 0,
+				nianji_text: '',
+				nianji_id: '',
+				studentarray: [],
+				student_index: 0,
+				student_text: '',
+				student_id: '',
+				banji: '',
+				studentlist:[]
 			}
 		},
+		onLoad() {
+			this.init()
+			this.student()
+			this.list()
+		},
 		methods: {
+			// 年级
+			async init() {
+				let _res = await API.postJson('NianjiList', {});
+				if (_res.code == 0) {
+					this.nianjiarray = _res.data;
+				}
+			},
+			// 学生
+			async student() {
+				let _res = await API.postJson('studentPullDownList', {
+					"token": uni.getStorageSync('user').token
+				});
+				if (_res.code == 0) {
+					this.studentarray = _res.data;
+				}
+			},
+			// 列表
+			async list() {
+				let _res = await API.postJson('getStudentList', {
+					"token": uni.getStorageSync('user').token,
+					"nianji": this.nianji_id,
+					"class": this.banji,
+					"id": this.student_id
+				});
+				if (_res.code == 0) {
+					this.studentlist = _res.data.data;
+				}
+			},
 			studentPickerChange(e) {
-				this.studentindex = e.detail.value
-				console.log(e)
+				this.student_index = e.detail.value
+				this.student_text = this.studentarray[e.detail.value].nickname
+				this.student_id = this.studentarray[e.detail.value].id
+				this.list()
 			},
 			nianjiPickerChange(e) {
-				this.nianjiindex = e.detail.value
-				console.log(e)
+				this.nianji_index = e.detail.value
+				this.nianji_text = this.nianjiarray[e.detail.value].title
+				this.nianji_id = this.nianjiarray[e.detail.value].id
+				this.list()
 			}
 		}
 	}

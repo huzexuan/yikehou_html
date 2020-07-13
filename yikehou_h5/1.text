@@ -8,3 +8,4 @@ let _res = await API.postJson('', {
 });
 if (_res.code == 0) {
 }
+import API from "../../config/api.js"

@@ -244,11 +244,11 @@ export default {
       params.append("nianji", this.gradeId);
       params.append("class", this.bianji_id || 0);
       params.append("sort", this.time_id);
+      params.append("kecheng_id", this.kecheng_id);
       let _res = await ajax.getFeedBack(params);
       if (_res.code == 0) {
         this.li_list = _res.data.data
       }
-      console.log('课程：'+this.kecheng_id)
     }
   },
   components: {

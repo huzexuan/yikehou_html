@@ -1,5 +1,5 @@
 <style>
-	.loginBox{
+	#loginBox{
 		width: 100%;
 		height:100vh;
 		background: url(./images/studentBg.jpg) no-repeat 100% 100%;
@@ -23,7 +23,7 @@
 	  margin: 54rpx 0 50rpx;
 	  color: #fff;
 	}
-	.loginBox .inp {
+	#loginBox .inp {
 	  width: 100%;
 	  height: 56rpx;
 	  box-sizing: border-box;
@@ -33,45 +33,45 @@
 	  border-radius: 10rpx;
 	  color: #fff !important;
 	}
-	.loginBox .inp_box {
+	#loginBox .inp_box {
 	  width: 403rpx;
 	  height: 56rpx;
 	  position: relative;
 	  margin: 0 auto 32rpx;
 	}
-	.loginBox .icon {
+	#loginBox .icon {
 	  position: absolute;
-	  top: 50%;
-	  margin-top: -15rpx;
+	  top: 0;
+	  line-height: 56rpx;
 	  display: flex;
 	  align-items: center;
 	  font-size: 20rpx;
 	}
-	.loginBox .icon image {
+	#loginBox .icon image {
 	  margin: 0 20rpx;
 	}
-	.loginBox .icon span{
+	#loginBox .icon span{
 		color: #fff;
 	}
-	.loginBox .inp:focus {
+	#loginBox .inp:focus {
 	  border: 2rpx solid #0b8ab9 !important;
 	}
-	.loginBox .operation {
+	#loginBox .operation {
 	  width: 403rpx;
 	  margin: auto;
 	  display: flex;
 	  align-items: center;
 	  justify-content: space-between;
 	}
-	.loginBox .no_password {
+	#loginBox .no_password {
 	  color: #00b8ff;
 	  font-size: 16rpx;
 	}
-	.loginBox .register_btn {
+	#loginBox .register_btn {
 	  width: 403rpx;
 	  margin: 20rpx auto 0;
 	}
-	.loginBox .register {
+	#loginBox .register {
 	  width: 100%;
 	  height: 56rpx;
 	  padding: 0;
@@ -87,57 +87,113 @@
 		width: 21rpx;
 		height: 23rpx;
 	}
-	uni-checkbox .uni-checkbox-input{
-		width: 20rpx !important;
-		height: 20rpx !important;
-	}
-	.uni-label-pointer{
-		color: #fff;
-	}
 </style>
 <template>
-	<view class="loginBox">
+	<view id="loginBox">
 		<view class="form_box">
 			<p class="title">学生登录</p>
 			<view class="inp_box">
-				<input type="text" class="inp" autocomplete="off" />
+				<input type="text" class="inp" v-model="user_name" autocomplete="off" />
 				<view class="icon">
 					<image src="./images/account.png" class="input_icon" alt />
 					<span>账号</span>
 				</view>
 			</view>
 			<view class="inp_box">
-				<input type="password" class="inp" />
+				<input type="password" v-model="password" class="inp" />
 				<view class="icon">
 					<image src="./images/password.png" class="input_icon" alt />
 					<span>密码</span>
 				</view>
 			</view>
 			<view class="operation">
-				<checkbox-group>
+				<checkbox-group @change="checkBox($event)">
 					<label>
-						<checkbox value="cb" checked="true" />选中
+						<checkbox :checked="checked"/>记住密码
 					</label>
 				</checkbox-group>
 				<view class="no_password" @click="">修改密码</view>
 			</view>
 			<view class="register_btn">
-				<button type="submit" class="register" :plain="true" @click="">登录</button>
+				<button type="submit" class="register" :plain="true" @click="submit">登录</button>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
-				checke: true
+				checked:false,
+				user_name: '',
+				password: ''
 			}
 		},
-		created() {},
+		onLoad(){
+			uni.setNavigationBarTitle({
+				title: "益课后-学生登录"
+			})
+			this.init()
+		},
 		methods: {
-
+			init(){
+				let user = uni.getStorageSync('userInfo')
+				if(user.userName && user.userPsw){
+					this.user_name = user.userName
+					this.password = user.userPsw
+					this.checked =  true
+				}
+			},
+			checkBox(e) {
+				this.checked = !this.checked
+			},
+			async submit() {
+				let _res = await API.postJson('studentLogin', {
+					"card_number": this.user_name,
+					"password": this.password
+				});
+				if (_res.code == 0) {
+					if (this.checked) {
+						let user={
+							userName:this.user_name,
+							userPsw:this.password
+						}
+						uni.setStorageSync('userInfo',user);
+						uni.setStorageSync('user',_res.data);
+						uni.showToast({
+							title: '登录成功',
+							duration: 2000,
+							icon: 'none',
+							success() {
+								uni.navigateTo({
+									url:'/pages/index/index'
+								})
+							}
+						});
+					} else {
+						uni.removeStorageSync('userInfo')
+						uni.setStorageSync('user',_res.data);
+						uni.showToast({
+							title: '登录成功',
+							duration: 2000,
+							icon: 'none',
+							success() {
+								uni.navigateTo({
+									url:'/pages/index/index'
+								})
+							}
+						});
+					}
+				} else {
+					uni.showToast({
+						title:_res.message,
+						duration: 2000,
+						icon: 'none',
+					});
+				}
+			},
 		}
 	}
 </script>

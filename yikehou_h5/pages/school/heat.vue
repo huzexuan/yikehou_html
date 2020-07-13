@@ -84,12 +84,7 @@
 		<view class="content">
 			<view class="heatClassBox">
 				<ul>
-					<li class="active">一年级</li>
-					<li>一年级</li>
-					<li>一年级</li>
-					<li>一年级</li>
-					<li>一年级</li>
-					<li>一年级</li>
+					<li v-for="(item,index) in gradeList" :key="index" :class="gradeId == item.id ?'active':''" @click="gradeTab(item.id)">{{item.title}}</li>
 				</ul>
 			</view>
 			<view class="heatListBox">
@@ -136,13 +131,32 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
-				
+				gradeList:[],
+				gradeId:''
 			}
 		},
+		onLoad(){
+			this.init()
+		},
 		methods: {
+			async init() {
+				let _res = await API.postJson('NianjiList', {
+					"cate": 3,
+					"limit": 4,
+					"page": 1
+				});
+				if (_res.code == 0) {
+					this.gradeList = _res.data;
+					this.gradeId = _res.data[0].id;
+				}
+			},
+			gradeTab(id){
+				this.gradeId = id
+			},
 			
 		}
 	}

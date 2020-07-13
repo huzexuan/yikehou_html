@@ -37,6 +37,14 @@
             "path" : "pages/school/feedback",
             "style" : {}
         }
+        ,{
+            "path" : "component/index_nav",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/new/newDetails",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

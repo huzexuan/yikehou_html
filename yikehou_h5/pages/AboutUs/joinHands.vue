@@ -45,14 +45,14 @@
 		margin-top: 16rpx;
 	}
 	#joinHandsBox .inputTitle{
-		width: 80rpx;
+		width: 90rpx;
 		text-align: right;
 		font-size: 26rpx;
 		color: #666;
 		margin-right: 12rpx;
 	}
 	#joinHandsBox .input{
-		width: 530rpx;
+		width: calc(100% - 112rpx);
 		height: 57rpx;
 		box-sizing: border-box;
 		border: 1rpx solid #bfbfbf;
@@ -60,7 +60,6 @@
 	}
 	#joinHandsBox .textarea{
 		height: 277rpx;
-		
 	}
 	#joinHandsBox .joinHandsBottomContent{
 		overflow: hidden;
@@ -88,25 +87,26 @@
 					<image src="./images/phone.png" class="joinHandsTopContent_oneIcon" mode=""></image>
 					<view class="joinHandsTopContentRight">
 						<p>益课后服务热线</p>
-						<p>0312-88888888</p>
+						<p>{{item.contact_phone}}</p>
 					</view>
 				</view>
 				<view class="joinHandsTopContent_item">
 					<image src="./images/mailbox.png" class="joinHandsTopContent_oneIcon" mode=""></image>
 					<view class="joinHandsTopContentRight">
-						<p>aaaaaaa@126.com</p>
+						<p>{{item.email}}</p>
 					</view>
 				</view>
 				<view class="joinHandsTopContent_item">
 					<image src="./images/Url.png" class="joinHandsTopContent_oneIcon" mode=""></image>
 					<view class="joinHandsTopContentRight">
-						<p>aaaaaaa@126.com</p>
+						<p>{{item.web_url}}</p>
 					</view>
 				</view>
 				<view class="joinHandsTopContent_item">
 					<image src="./images/address.png" class="joinHandsTopContent_oneIcon" mode=""></image>
 					<view class="joinHandsTopContentRight">
-						aaaaaaa@126.com<image src="./images/navigation.png" class="navigation_icon"></image>
+						{{item.address}}
+						<image src="./images/navigation.png" class="navigation_icon"></image>
 					</view>
 				</view>
 			</view>
@@ -143,17 +143,24 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
 				name: '',
 				phone: '',
 				mail: '',
-				content: ''
+				content: '',
+				item: uni.getStorageSync('setItem')
 			}
 		},
+		onLoad() {
+			uni.setNavigationBarTitle({
+				title: "益课后-合作共赢"
+			})
+		},
 		methods: {
-			submit() {
+			async submit() {
 				const {
 					name,
 					phone,
@@ -229,7 +236,19 @@
 					}
 				}
 				// 提交
-				
+				let _res = await API.postJson('addContact', {
+					"name": name,
+					"phone": phone,
+					"content": content,
+					"email": mail,
+				});
+				if (_res.code == 0) {
+					uni.showToast({
+						title: '留言成功',
+						duration: 2000,
+						icon: 'success',
+					});
+				}
 			}
 		}
 	}

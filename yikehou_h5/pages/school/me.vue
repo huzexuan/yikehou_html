@@ -85,16 +85,16 @@
 			<view class="content">
 				<view class="studentMeBanner_top">
 					<view class="studentMeBanner_topl">
-						<image src="./images/school_img.png" mode="" class="user_img"></image>
+						<image :src="user.img" mode="" class="user_img"></image>
 						<view class="studentMeBanner_user">
-							<p>张甜甜</p>
+							<p>{{user.nickname}}</p>
 						</view>
 					</view>
 					<button type="primary" class="studentMeBanner_topr"  @click="upload">上传学校LOGO</button>
 				</view>
 				<ul class="studentMeBanner_bottom">
-					<li>已选课程<span>4</span></li>
-					<li>剩余可选课程<span>2</span></li>
+					<li>已选课程<span>{{CourseNum.course_number}}</span></li>
+					<li>剩余可选课程<span>{{CourseNum.sheng_number}}</span></li>
 				</ul>
 			</view>
 		</view>
@@ -124,13 +124,26 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
-
+				user:uni.getStorageSync('user'),
+				CourseNum:{}
 			}
 		},
+		onLoad(){
+			this.CourseNumber()
+		},
 		methods: {
+			async CourseNumber() {
+				let _res = await API.postJson('SchoolcourseNumber', {
+					"token": this.user.token
+				});
+				if (_res.code == 0) {
+					this.CourseNum = _res.data;
+				}
+			},
 			upload: function() {
 				uni.chooseImage({
 					count: 1,

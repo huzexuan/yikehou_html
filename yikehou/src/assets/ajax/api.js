@@ -47,7 +47,7 @@ const api = {
         const addContact = await service.post('/api/v1/contact/addContact', _data);
         return addContact
     },
-    // 学生登录
+    // 学生登录 
     async studentLogin(_data) {
         const studentLogin = await service.post('/api/auth/studentLogin', _data);
         return studentLogin

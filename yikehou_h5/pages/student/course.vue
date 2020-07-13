@@ -56,12 +56,14 @@
 		font-size: 26rpx;
 		color: #fff;
 	}
-	#studentCourseBox .studentCourseList>p{
+
+	#studentCourseBox .studentCourseList>p {
 		color: #fff;
 		font-weight: bold;
 		margin-top: 50rpx;
 	}
-	#studentCourseBox .studentCourseItem_list li{
+
+	#studentCourseBox .studentCourseItem_list li {
 		width: 100rpx;
 		height: 44rpx;
 		box-sizing: border-box;
@@ -71,13 +73,16 @@
 		line-height: 44rpx;
 		margin-top: 29rpx;
 	}
-	#studentCourseBox .studentCourseItem_list li:nth-child(odd){
+
+	#studentCourseBox .studentCourseItem_list li:nth-child(odd) {
 		background: #01d7fc;
 	}
-	#studentCourseBox .studentCourseItem_list li:nth-child(even){
+
+	#studentCourseBox .studentCourseItem_list li:nth-child(even) {
 		background: #355daf;
 	}
-	#studentCourseBox .studentCourseSuggest{
+
+	#studentCourseBox .studentCourseSuggest {
 		width: 100%;
 		height: 175rpx;
 		box-sizing: border-box;
@@ -97,23 +102,23 @@
 		<page_head></page_head>
 		<view class="studentCourseBox_top">
 			<view class="user_evaluate">
-				<p class="ellipse2">小小辩论家小小辩论家</p>
+				<p class="ellipse2">小小辩论家</p>
 			</view>
-			<view class="user_name">张甜甜</view>
+			<view class="user_name">{{user.nickname}}</view>
 		</view>
 		<view class="content">
 			<view class="studentCourseListBox">
 				<view class="studentCourseTitle">所报课程</view>
-				<view class="studentCourseList">
+				<!-- <view class="studentCourseList">
 					<p>语言</p>
 					<ul class="studentCourseItem_list">
 						<li class="ellipse">英语</li>
 						<li class="ellipse">俄语</li>
 					</ul>
-				</view>
+				</view> -->
 			</view>
 			<view class="studentCourseSuggest">
-				课程建议：您报的课程未有体能类的，建议您可以选择体能类的课程报名
+				课程建议：暂无建议
 			</view>
 		</view>
 		<view class="bg_height"></view>
@@ -122,14 +127,25 @@
 </template>
 
 <script>
+	import API from "../../config/api.js"
 	export default {
 		data() {
 			return {
-
+				user: uni.getStorageSync('user')
 			}
 		},
+		onLoad() {
+			this.MyCourse()
+		},
 		methods: {
+			async MyCourse() {
+				let _res = await API.postJson('getMyCourse', {
+					"token": uni.getStorageSync('user').token
+				});
+				if (_res.code == 0) {
 
+				}
+			},
 		}
 	}
 </script>

@@ -97,7 +97,6 @@
 		props: {},
 		data() {
 			return {
-
 			}
 		},
 		methods: {
@@ -108,7 +107,6 @@
 				$('.headerNav').removeClass('fadeInDown animated').addClass('fadeOutUp animated')
 			},
 			harderNavBtn(url) {
-				
 				uni.navigateTo({
 					url: url
 				});

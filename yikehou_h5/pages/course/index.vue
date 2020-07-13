@@ -127,42 +127,44 @@
 		<view class="top_height"></view>
 		<page_head></page_head>
 		<view class="courseClassBox">
-			<view class="content" @click="up_courseClass">
-				<span>请选择年级</span>
-				<span style="font-size:24rpx;color: #000;font-weight: bold;" class="iconfont iconiconset0420"></span>
-			</view>
-			<view @click="no_courseClass" class="as_courseClassBox flex_bg" style="display: none;">
-				<view class="top_height"></view>
-				<view class="bg_height"></view>
-				<view class="s_courseContent">
-					<span style="font-size:24rpx;color:#fff;font-weight: bold;" class="iconfont iconxiangzuojiantou"></span>请选择年级
+			<block v-if="user.bs == 1">
+				<view class="content" @click="up_courseClass">
+					<span>请选择年级</span>
+					<span style="font-size:24rpx;color: #000;font-weight: bold;" class="iconfont iconiconset0420"></span>
 				</view>
-				<ul class="ClassListBox">
-					<li v-for="(item,index) in gradeList" :class="gradeId == item.id ?'active':''" @click="classItem(item.id)">{{item.title}}</li>
-				</ul>
-			</view>
+				<view @click="no_courseClass" class="as_courseClassBox flex_bg" style="display: none;">
+					<view class="top_height"></view>
+					<view class="bg_height"></view>
+					<view class="s_courseContent">
+						<span style="font-size:24rpx;color:#fff;font-weight: bold;" class="iconfont iconxiangzuojiantou"></span>请选择年级
+					</view>
+					<ul class="ClassListBox">
+						<li v-for="(item,index) in gradeList" :class="gradeId == item.id ?'active':''" @click="classItem(item.id)">{{item.title}}</li>
+					</ul>
+				</view>
+			</block>
+			<block v-else>
+				<view class="content">
+					<span>当前年级：{{user.nianjie}}</span>
+				</view>
+			</block>
 		</view>
 		<view class="courseBox">
 			<ul class="courseClassify">
 				<li v-for="(item,index) in courseMenu" :key="index" :class="courseMenu_id == item.id ?'active':''" @click="_courseMenu(item.id)">{{item.title}}</li>
 			</ul>
-			<!-- <scroll-view class="courseScrollView" scroll-y> -->
-				<!-- <navigator class="courseItem" v-for="(item,index) in courseList_data" :key="index" :url="`/pages/course/details?id=${item.id}`" hover-class="none">
-					<image :src="item.imgs_arr[0]" mode="" class="courseItemImg"></image>
+			<scroll-view class="courseScrollView" scroll-y>
+				<view class="courseItem" v-for="(item,index) in courseList_data" :key="index">
+					<navigator :url="`/pages/course/details?id=${item.id}`" hover-class="none">
+						<image :src="item.imgs_arr[0]" mode="" class="courseItemImg"></image>
+					</navigator>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">{{item.title}}</p>
 						<p class="courseItemDetail ellipse2" v-html="item.description">{{item.description}}</p>
 						<image src="./images/btn_icon.png" class="btn_icon" mode="" @click="up_course(item.id)"></image>
 					</view>
-				</navigator> -->
-					<image src="./images/item_img.jpg" mode="" class="courseItemImg"></image>
-					<view class="courseItemContent">
-						<p class="courseItemTitle">英语</p>
-						<p class="courseItemDetail ellipse2">英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语英语C</p>
-						<image src="./images/btn_icon.png" class="btn_icon" mode=""></image>
-					</view>
-				</navigator>
-			<!-- </scroll-view> -->
+				</view>
+			</scroll-view>
 		</view>
 		<view class="bg_height"></view>
 		<page_footer></page_footer>
@@ -178,22 +180,19 @@
 				gradeId: '',
 				courseMenu: [],
 				courseMenu_id: "",
-				courseList_data: []
+				courseList_data: [],
+				user: uni.getStorageSync('user')
 			};
 		},
 		async onLoad() {
 			uni.setNavigationBarTitle({
 				title: "益课后-课程中心"
 			})
-			await this.init()
+			if (this.user.bs == 1) {
+				await this.init()
+			}
 			await this.courseClassify()
 			this.courseList()
-		},
-		onReachBottom() {
-			/* 到底部加载 */
-		},
-		onPullDownRefresh() {
-			// 下拉刷新
 		},
 		methods: {
 			async init() {
@@ -217,12 +216,32 @@
 			},
 			// 课程列表
 			async courseList() {
-				let _res = await API.postJson('CateList', {
-					"cate": this.courseMenu_id,
-					"nianji": this.gradeId
-				});
-				if (_res.code == 0) {
-					this.courseList_data = _res.data.data;
+				if (this.user.bs == 2) {
+					let _res = await API.postJson('studentCateList', {
+						"cate": this.courseMenu_id,
+						"nianji":this.user.nianji_id,
+						"token":this.user.token
+					});
+					if (_res.code == 0) {
+						this.courseList_data = _res.data.data;
+					}
+				} else if(this.user.bs == 1){
+					let _res = await API.postJson('CateList', {
+						"cate": this.courseMenu_id,
+						"nianji": this.gradeId,
+						"token":this.user.token
+					});
+					if (_res.code == 0) {
+						this.courseList_data = _res.data.data;
+					}
+				}else{
+					let _res = await API.postJson('CateList', {
+						"cate": this.courseMenu_id,
+						"nianji": this.gradeId
+					});
+					if (_res.code == 0) {
+						this.courseList_data = _res.data.data;
+					}
 				}
 			},
 			up_courseClass() {
@@ -240,8 +259,9 @@
 				this.courseMenu_id = id;
 				this.courseList()
 			},
-			up_course(id){
-				
+			up_course(id) {
+
+				console.log(id)
 			}
 		}
 	};

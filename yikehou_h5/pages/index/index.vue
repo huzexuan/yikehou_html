@@ -57,20 +57,20 @@
 		justify-content: space-evenly;
 	}
 	#indexBox .loginBtn{
-		width: 243rpx;
-		height: 78rpx;
-		box-sizing: border-box;
-		padding: 2rpx;
+		width: 240rpx;
+		height: 74rpx;
+		padding: 4rpx;
 		border: 1rpx solid #0168b7;
 	}
 	#indexBox .loginBtn>view{
 		width: 100%;
 		height: 100%;
+		margin: auto;
 		background: #0168b7;
 		font-size: 26rpx;
 		color: #fff;
 		text-align: center;
-		line-height: 70rpx;
+		line-height: 74rpx;
 	}
 	#indexBox .noticeBox{
 		height: 95rpx;
@@ -95,24 +95,7 @@
 		font-size: 22rpx;
 		color: #999;
 	}
-	/* 菜单 */
-	#indexBox .index_menu{
-		padding: 50rpx 0;
-	}
-	#indexBox .index_menu ul{
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-	}
-	#indexBox .index_menu ul li p{
-		text-align: center;
-		line-height: 1;
-		margin-top: 26rpx;
-	}
-	#indexBox .index_menu_icon{
-		width: 121rpx;
-		height: 121rpx;
-	}
+	
 	/* 关于我们 */
 	#indexBox .AboutUsBox{
 		padding: 42rpx 0 ;
@@ -252,7 +235,7 @@
 			</swiper>
 			<image src="./images/banner_bg.png" mode="" class="banner_bg"></image>
 		</view>
-		<view class="loginBox">
+		<view class="loginBox" v-if="login">
 			<navigator hover-class="none" url="../login/student_login" class="loginBtn" open-type="navigate">
 				<view>学生登录</view>
 			</navigator>
@@ -260,6 +243,7 @@
 				<view>学校登录</view>
 			</navigator>
 		</view>
+		<indexNav></indexNav>
 		<view class="content noticeBox">
 			<image src="./images/noticeTitle.png" class="noticeTitle_img"></image>
 			<swiper class="noticeswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :vertical="vertical" :interval="interval"
@@ -272,34 +256,7 @@
 				更多<span style="font-size: 22rpx;" class="iconfont iconiconset0420"></span>
 			</navigator>
 		</view>
-		<view class="index_menu">
-			<ul>
-				<li>
-					<navigator url="" class="noticeBtn" hover-class="none" open-type="navigate">
-						<image src="./images/menu01.png" class="index_menu_icon"></image>
-						<p>全部课程</p>
-					</navigator>
-				</li>
-				<li>
-					<navigator url="" class="noticeBtn" hover-class="none" open-type="navigate">
-						<image src="./images/menu01.png" class="index_menu_icon"></image>
-						<p>全部课程</p>
-					</navigator>
-				</li>
-				<li>
-					<navigator url="" class="noticeBtn" hover-class="none" open-type="navigate">
-						<image src="./images/menu01.png" class="index_menu_icon"></image>
-						<p>全部课程</p>
-					</navigator>
-				</li>
-				<li>
-					<navigator url="" class="noticeBtn" hover-class="none" open-type="navigate">
-						<image src="./images/menu01.png" class="index_menu_icon"></image>
-						<p>全部课程</p>
-					</navigator>
-				</li>
-			</ul>
-		</view>
+
 		<view class="bg_height"></view>
 		<view class="AboutUsBox">
 			<view class="AboutUs_bg">
@@ -356,7 +313,9 @@
 				noticeList: [],
 				bannerSwiper: [],
 				AboutUs: {},
-				courseList: []
+				courseList: [],
+				login: true,
+				user: uni.getStorageSync('user'),
 			};
 		},
 		onLoad() {
@@ -367,6 +326,10 @@
 			this.banner()
 			this.About()
 			this.course()
+			this.set()
+		},
+		onShow() {
+			this.login = uni.getStorageSync('user') ? false : true
 		},
 		onReachBottom() {
 			/* 到底部加载 */
@@ -375,6 +338,12 @@
 			// 下拉刷新
 		},
 		methods: {
+			async set() {
+				let _res = await API.postJson('setting', {});
+				if (_res.code == 0) {
+					uni.setStorageSync('setItem', _res.data)
+				}
+			},
 			async init() {
 				let _res = await API.postJson('Article', {
 					"cate": 4,
@@ -400,11 +369,35 @@
 				}
 			},
 			async course() {
-				let _res = await API.postJson('CateList', {
-					"limit": 3,
-				});
-				if (_res.code == 0) {
-					this.courseList = _res.data.data;
+				if (this.user.bs == 2) {
+					let _res = await API.postJson('studentCateList', {
+						"cate": this.courseMenu_id,
+						"nianji":this.user.nianji_id,
+						"token":this.user.token,
+						"limit": 3,
+					});
+					if (_res.code == 0) {
+						this.courseList = _res.data.data;
+					}
+				} else if(this.user.bs == 1){
+					let _res = await API.postJson('CateList', {
+						"cate": this.courseMenu_id,
+						"nianji": this.gradeId,
+						"token":this.user.token,
+						"limit": 3,
+					});
+					if (_res.code == 0) {
+						this.courseList = _res.data.data;
+					}
+				}else{
+					let _res = await API.postJson('CateList', {
+						"cate": this.courseMenu_id,
+						"nianji": this.gradeId,
+						"limit": 3,
+					});
+					if (_res.code == 0) {
+						this.courseList = _res.data.data;
+					}
 				}
 			},
 			courseListBtn() {

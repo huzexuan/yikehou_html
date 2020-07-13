@@ -18,6 +18,26 @@
 	@import "./static/iconfont.css";
 	@import "./static/animate.min.css";
 
+	#loginBox .uni-input-input {
+		color: #fff;
+	}
+
+	#loginBox uni-checkbox .uni-checkbox-input {
+		width: 20rpx;
+		height: 20rpx;
+		background: #14184b;
+		border: 1rpx solid #0498db;
+	}
+
+	#loginBox uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked:before {
+		font-size: 20rpx;
+	}
+
+	#loginBox .uni-label-pointer {
+		color: #fff;
+		font-size: 20rpx;
+	}
+
 	* {
 		font-size: 24rpx;
 		color: #333;

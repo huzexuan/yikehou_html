@@ -235,7 +235,6 @@ export default {
     },
     // 列表
     async list() {
-    
       let params = new URLSearchParams();
       params.append("token", sessionStorage.getItem("token"));
       params.append("nianji", this.gradeId);

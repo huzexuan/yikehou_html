@@ -4,15 +4,15 @@
 		height:100vh;
 		background: url(./images/schoolBg.jpg) no-repeat 100% 100%;
 		background-size: 100% 100%;
-		position: relative;
+		box-sizing: border-box;
+		padding-top: 515rpx;
 	}
 	.form_box {
-	  position: absolute;
-	  right: 50%;
-	  top: 515rpx;
+	  margin:  auto ;
 	  width: 499rpx;
 	  height: 484rpx;
-	  margin-right: -249rpx;
+	  box-sizing: border-box;
+	  padding-top: 54rpx;
 	  color: #fff !important;
 	  background: url(./images/form_bg.png) no-repeat 100% 100%;
 	  background-size:100% 100%;
@@ -20,7 +20,7 @@
 	.title {
 	  font-size: 38rpx;
 	  text-align: center;
-	  margin: 54rpx 0 50rpx;
+	  margin-bottom: 50rpx;
 	  color: #fff;
 	}
 	#loginBox .inp {

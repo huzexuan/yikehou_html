@@ -18,7 +18,7 @@
 				<image src="./images/footerIcon02.png"></image>
 				<p>课程中心</p>
 			</navigator>
-			<block v-if="user">
+			<block v-if="user.bs !== 0">
 				<navigator v-if="user.bs == 1" hover-class="none" url="/pages/school/me" class="footerNavBtn" open-type="navigate">
 					<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
 					<p>我的</p>
@@ -50,6 +50,7 @@
 		},
 		created() {
 			this.user = JSON.parse(sessionStorage.getItem('user'))
+			this.item =  uni.getStorageSync('setItem')
 		},
 		methods: {
 			uplogin() {

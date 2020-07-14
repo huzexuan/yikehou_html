@@ -4,12 +4,10 @@
 		height:100vh;
 		background: url(./images/password.jpg) no-repeat 100% 100%;
 		background-size: 100% 100%;
-		position: relative;
+		box-sizing: border-box;
+		padding-top: 594rpx;
 	}
 	#password .pas_box {
-	  position: absolute;
-	  left: 0;
-	  top: 594rpx;
 	  width: 100%;
 	  color: #fff !important;
 	}

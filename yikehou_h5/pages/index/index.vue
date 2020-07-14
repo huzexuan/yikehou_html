@@ -235,7 +235,7 @@
 			</swiper>
 			<image src="./images/banner_bg.png" mode="" class="banner_bg"></image>
 		</view>
-		<view class="loginBox" v-if="!user">
+		<view class="loginBox" v-if="user.bs == 0">
 			<navigator hover-class="none" url="../login/student_login" class="loginBtn" open-type="navigate">
 				<view>学生登录</view>
 			</navigator>
@@ -330,7 +330,13 @@
 			this.set()
 		},
 		onShow() {
+			var obj = {
+				bs:0
+			}
 			this.user = JSON.parse(sessionStorage.getItem('user'))
+			if(this.user == null){
+				sessionStorage.setItem('user',JSON.stringify(obj) )
+			}
 			this.course()
 		},
 		methods: {

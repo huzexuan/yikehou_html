@@ -127,7 +127,7 @@
 		<view class="top_height"></view>
 		<page_head></page_head>
 		<view class="courseClassBox">
-			<block v-if="user.bs == 1">
+			<block v-if="user.bs !== 2">
 				<view class="content" @click="up_courseClass">
 					<span>请选择年级:{{classtitle}}</span>
 					<span style="font-size:24rpx;color: #000;font-weight: bold;" class="iconfont iconiconset0420"></span>
@@ -162,7 +162,7 @@
 					</navigator>
 					<view class="courseItemContent">
 						<p class="courseItemTitle">{{item.title || item.course_info.title}}</p>
-						
+
 						<block v-if="!item.course_info">
 							<p class="courseItemDetail ellipse2" v-if="item.description !== null" v-html="item.description">{{item.description}}</p>
 							<image v-if="item.bs_select == 0" src="./images/btn_icon.png" class="btn_icon" mode="" @click="up_course(item.id,item.title)"></image>
@@ -198,9 +198,7 @@
 			uni.setNavigationBarTitle({
 				title: "益课后-课程中心"
 			})
-			if (this.user.bs == 1) {
-				await this.init()
-			}
+			await this.init()
 			await this.courseClassify()
 			this.courseList()
 		},

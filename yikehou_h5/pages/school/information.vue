@@ -97,7 +97,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 
 	</view>
@@ -118,7 +118,7 @@
 			async init(id) {
 				let _res = await API.postJson('getStudentDetail', {
 					"id": id,
-					"token": uni.getStorageSync('user').token
+					"token": JSON.parse(sessionStorage.getItem('user')).token
 				});
 				if (_res.code == 0) {
 					this.item = _res.data

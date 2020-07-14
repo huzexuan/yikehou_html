@@ -194,7 +194,7 @@
                   </div>
                   <div class="inputItem3_bottom_b align_items_center">
                     <el-form-item class="gradeTab_num" label="联系电话">
-                      <el-input v-model="item.teacher_phone" placeholder="填写联系电话"></el-input>
+                      <el-input v-model="item.teacher_phon" maxlength="11" placeholder="填写联系电话"></el-input>
                     </el-form-item>
                   </div>
                 </div>

@@ -170,7 +170,7 @@ export default {
       teacherNum: 0,
       courseNum: 0,
       MyCourse: [],
-      MyCourse_id: "",
+      MyCourse_id: ""
     };
   },
   created() {
@@ -212,6 +212,18 @@ export default {
     },
     async up_form() {
       let content = $(".leave_inp").val();
+      if (this.courseNum == 0) {
+        this.$message.warning(`请为课程打星`);
+        return;
+      }
+      if (this.teacherNum == 0) {
+        this.$message.warning(`请为老师打星`);
+        return;
+      }
+      if (content == "" || content.length < 5) {
+        this.$message.warning(`请填写评论内容，最少6个字`);
+        return;
+      }
       let params = new URLSearchParams();
       params.append("token", sessionStorage.getItem("token"));
       params.append("course_id", this.MyCourse_id);
@@ -220,6 +232,7 @@ export default {
       params.append("content", content);
       let _res = await ajax.FeedBack(params);
       if (_res.code == 0) {
+        this.$message.success("评价成功");
       }
     }
   },

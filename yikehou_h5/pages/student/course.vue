@@ -102,26 +102,25 @@
 		<page_head></page_head>
 		<view class="studentCourseBox_top">
 			<view class="user_evaluate">
-				<p class="ellipse2">小小辩论家</p>
+				<p class="ellipse2">请耐心等待老师的评价</p>
 			</view>
 			<view class="user_name">{{user.nickname}}</view>
 		</view>
 		<view class="content">
 			<view class="studentCourseListBox">
 				<view class="studentCourseTitle">所报课程</view>
-				<!-- <view class="studentCourseList">
-					<p>语言</p>
+				<view class="studentCourseList" v-for="(item,index) in list" :key="index">
+					<p>{{item.cate}}</p>
 					<ul class="studentCourseItem_list">
-						<li class="ellipse">英语</li>
-						<li class="ellipse">俄语</li>
+						<li class="ellipse" v-for="(i,num) in item.list">{{i.title}}</li>
 					</ul>
-				</view> -->
+				</view>
 			</view>
 			<view class="studentCourseSuggest">
 				课程建议：暂无建议
 			</view>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -131,7 +130,8 @@
 	export default {
 		data() {
 			return {
-				user: uni.getStorageSync('user')
+				user: JSON.parse(sessionStorage.getItem('user')),
+				list:[]
 			}
 		},
 		onLoad() {
@@ -140,10 +140,10 @@
 		methods: {
 			async MyCourse() {
 				let _res = await API.postJson('getMyCourse', {
-					"token": uni.getStorageSync('user').token
+					"token": JSON.parse(sessionStorage.getItem('user')).token
 				});
 				if (_res.code == 0) {
-
+				this.list = _res.data
 				}
 			},
 		}

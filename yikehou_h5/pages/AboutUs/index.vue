@@ -64,7 +64,7 @@
 				</li>
 			</ul>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>

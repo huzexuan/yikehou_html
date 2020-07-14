@@ -19,7 +19,7 @@
 		width: 666rpx;
 		height: 70rpx;
 		box-sizing: border-box;
-		background: rgba(255, 255, 255, 0.6);
+		background: rgba(255, 255, 255, 0.7);
 		position: absolute;
 		top: 30rpx;
 		left: 50%;
@@ -226,7 +226,7 @@
 		<view class="index_banner">
 			<view class="searchBox">
 				<image src="./images/search_icon.png" mode="" class="search_icon"></image>
-				<input type="text" class="searchInput" :value="search" placeholder="你想学的课程"></input>
+				<input type="text" class="searchInput" v-model="search" @change="searchInp" placeholder="你想学的课程"></input>
 			</view>
 			<swiper class="bannerswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item v-for="(item,index) in bannerSwiper" :key="index">
@@ -235,7 +235,7 @@
 			</swiper>
 			<image src="./images/banner_bg.png" mode="" class="banner_bg"></image>
 		</view>
-		<view class="loginBox" v-if="login">
+		<view class="loginBox" v-if="!user">
 			<navigator hover-class="none" url="../login/student_login" class="loginBtn" open-type="navigate">
 				<view>学生登录</view>
 			</navigator>
@@ -243,7 +243,6 @@
 				<view>学校登录</view>
 			</navigator>
 		</view>
-		<indexNav></indexNav>
 		<view class="content noticeBox">
 			<image src="./images/noticeTitle.png" class="noticeTitle_img"></image>
 			<swiper class="noticeswiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :vertical="vertical" :interval="interval"
@@ -256,7 +255,7 @@
 				更多<span style="font-size: 22rpx;" class="iconfont iconiconset0420"></span>
 			</navigator>
 		</view>
-
+		<indexNav></indexNav>
 		<view class="bg_height"></view>
 		<view class="AboutUsBox">
 			<view class="AboutUs_bg">
@@ -264,7 +263,7 @@
 					<p class="AboutUsTitle">
 						{{AboutUs.title}}
 					</p>
-					<p class="AboutUsText ellipse2" v-html="AboutUs.description">{{AboutUs.description}}</p>
+					<p class="AboutUsText ellipse2" v-html="AboutUs.description">{{AboutUs.description || ''}}</p>
 					<navigator url="/pages/AboutUs/index" class="AboutUsBtn" hover-class="none" open-type="navigate">MORE</navigator>
 				</view>
 			</view>
@@ -280,21 +279,25 @@
 			</view>
 			<ul class="courseList">
 				<li v-for="(item,index) in courseList" :key="index">
-					<image :src="item.imgs_arr[0]" class="courseItem_img"></image>
+					<image v-if="item.imgs_arr" :src="item.imgs_arr[0]" class="courseItem_img"></image>
+					<image v-else :src="item.course_info.imgs_arr[0]" class="courseItem_img"></image>
 					<p class="courseItemTitle">
-						<span>{{item.title}}</span>
+						<span>{{item.title || item.course_info.title}}</span>
 						<span></span>
 					</p>
 					<view class="courseItemBrief">
-						<p>{{item.description}}</p>
+						<p v-if="item.description">{{item.description || item.course_info.description}}</p>
 						<p></p>
 					</view>
-					<p class="courseItemDetails ellipse2" v-html="item.content">{{item.content}}</p>
-					<navigator :url="`/pages/course/details?id=${item.id}`" class="courseItemBtn" hover-class="none" open-type="navigate">MORE</navigator>
+					<p class="courseItemDetails ellipse2" v-if="item.conten" v-html="item.content || item.course_info.content">{{item.content || item.course_info.content}}</p>
+					<navigator v-if="!item.course_info" :url="`/pages/course/details?id=${item.id}`" class="courseItemBtn" hover-class="none"
+					 open-type="navigate">MORE</navigator>
+					<navigator v-else :url="`/pages/course/details?id=${item.course_info.id}`" class="courseItemBtn" hover-class="none"
+					 open-type="navigate">MORE</navigator>
 				</li>
 			</ul>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -314,8 +317,7 @@
 				bannerSwiper: [],
 				AboutUs: {},
 				courseList: [],
-				login: true,
-				user: uni.getStorageSync('user'),
+				user: JSON.parse(sessionStorage.getItem('user')),
 			};
 		},
 		onLoad() {
@@ -325,17 +327,11 @@
 			this.init()
 			this.banner()
 			this.About()
-			this.course()
 			this.set()
 		},
 		onShow() {
-			this.login = uni.getStorageSync('user') ? false : true
-		},
-		onReachBottom() {
-			/* 到底部加载 */
-		},
-		onPullDownRefresh() {
-			// 下拉刷新
+			this.user = JSON.parse(sessionStorage.getItem('user'))
+			this.course()
 		},
 		methods: {
 			async set() {
@@ -369,27 +365,29 @@
 				}
 			},
 			async course() {
-				if (this.user.bs == 2) {
-					let _res = await API.postJson('studentCateList', {
-						"cate": this.courseMenu_id,
-						"nianji":this.user.nianji_id,
-						"token":this.user.token,
-						"limit": 3,
-					});
-					if (_res.code == 0) {
-						this.courseList = _res.data.data;
+				if (this.user) {
+					if (this.user.bs == 2) {
+						let _res = await API.postJson('studentCateList', {
+							"cate": this.courseMenu_id,
+							"nianji": this.user.nianji_id,
+							"token": this.user.token,
+							"limit": 3,
+						});
+						if (_res.code == 0) {
+							this.courseList = _res.data.data;
+						}
+					} else if (this.user.bs == 1) {
+						let _res = await API.postJson('CateList', {
+							"cate": this.courseMenu_id,
+							"nianji": this.gradeId,
+							"token": this.user.token,
+							"limit": 3,
+						});
+						if (_res.code == 0) {
+							this.courseList = _res.data.data;
+						}
 					}
-				} else if(this.user.bs == 1){
-					let _res = await API.postJson('CateList', {
-						"cate": this.courseMenu_id,
-						"nianji": this.gradeId,
-						"token":this.user.token,
-						"limit": 3,
-					});
-					if (_res.code == 0) {
-						this.courseList = _res.data.data;
-					}
-				}else{
+				} else {
 					let _res = await API.postJson('CateList', {
 						"cate": this.courseMenu_id,
 						"nianji": this.gradeId,
@@ -405,6 +403,11 @@
 					url: "/pages/course/index",
 				});
 			},
+			searchInp() {
+				uni.navigateTo({
+					url: '/pages/course/seach_coures?search=' + this.search
+				})
+			}
 		}
 	};
 </script>

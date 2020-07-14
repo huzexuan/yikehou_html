@@ -1,4 +1,7 @@
 <style>
+	#newIndex .content{
+		min-height: 890rpx;
+	}
 	#newIndex .newTabBox {
 		text-align: center;
 		margin: 55rpx 0 33rpx;
@@ -80,7 +83,7 @@
 				</li>
 			</ul>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -121,6 +124,11 @@
 			newTab(id) {
 				this.tabId = id
 				this.init()
+			},
+			newDelBtn(id){
+				uni.navigateTo({
+					url:'/pages/new/newDetails?id='+id
+				})
 			}
 		}
 	}

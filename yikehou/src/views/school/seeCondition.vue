@@ -179,6 +179,7 @@
             </div>
             <div class="seeCondition_item_bottom">
               <ul>
+                <li>所报课程</li>
                 <li v-for="(i,num) in item.course" :key="num">{{i.title}}</li>
               </ul>
             </div>

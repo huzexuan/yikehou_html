@@ -1,5 +1,7 @@
 <template>
+
 	<view class="footer_box">
+		<view class="bg_height"></view>
 		<view class="footerTopBox">
 			<p @click="top">TOP<span class="iconfont iconxiangxiajiantoushixin" style="color: #fff;"></span></p>
 		</view>
@@ -16,18 +18,22 @@
 				<image src="./images/footerIcon02.png"></image>
 				<p>课程中心</p>
 			</navigator>
-			<navigator v-if="user.bs == 1" hover-class="none" url="/pages/school/me" class="footerNavBtn" open-type="navigate">
-				<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
-				<p>我的</p>
-			</navigator>
-			<navigator v-else-if="user.bs == 2" hover-class="none" url="/pages/student/me" class="footerNavBtn" open-type="navigate">
-				<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
-				<p>我的</p>
-			</navigator>
-			<view class="footerNavBtn" v-else @click="uplogin">
-				<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
-				<p>我的</p>
-			</view>
+			<block v-if="user">
+				<navigator v-if="user.bs == 1" hover-class="none" url="/pages/school/me" class="footerNavBtn" open-type="navigate">
+					<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
+					<p>我的</p>
+				</navigator>
+				<navigator v-else="user.bs == 2" hover-class="none" url="/pages/student/me" class="footerNavBtn" open-type="navigate">
+					<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
+					<p>我的</p>
+				</navigator>
+			</block>
+			<block v-else>
+				<view class="footerNavBtn" @click="uplogin">
+					<image style="height: 40rpx;" src="./images/footerIcon03.png"></image>
+					<p>我的</p>
+				</view>
+			</block>
 		</view>
 	</view>
 </template>
@@ -38,15 +44,17 @@
 		props: {},
 		data() {
 			return {
-				token: '',
 				item: uni.getStorageSync('setItem'),
-				user: uni.getStorageSync('user')
+				user: JSON.parse(sessionStorage.getItem('user'))
 			}
+		},
+		created() {
+			this.user = JSON.parse(sessionStorage.getItem('user'))
 		},
 		methods: {
 			uplogin() {
 				uni.showModal({
-					title: '我的',
+					title: '温馨提示',
 					content: '暂无信息，请登录',
 					confirmText: '学生登录',
 					cancelText: '学校登录',
@@ -76,7 +84,10 @@
 
 <style>
 	.footer_box {
+		width: 100%;
 		background: #fff;
+		position: absolute;
+		bottom: 0;
 	}
 
 	.footerTopBox {

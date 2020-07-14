@@ -45,6 +45,14 @@
             "path" : "pages/new/newDetails",
             "style" : {}
         }
+        ,{
+            "path" : "pages/course/seach_coures",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/login/password",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

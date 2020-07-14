@@ -119,15 +119,15 @@
 								</p>
 								<p class="iconfont iconiconset0420"></p>
 							</view>
-							<ul class="conditionItem_courseList" v-if="item.has_course > 0" v-for="(i,num) in item.course" :key="num">
-								<li>{{i.title}}</li>
+							<ul class="conditionItem_courseList" v-if="item.has_course > 0" >
+								<li v-for="(i,num) in item.course" :key="num">{{i.title}}</li>
 							</ul>
 						</view>
 					</view>
 				</navigator>
 			</view>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -165,7 +165,7 @@
 			// 学生
 			async student() {
 				let _res = await API.postJson('studentPullDownList', {
-					"token": uni.getStorageSync('user').token
+					"token": JSON.parse(sessionStorage.getItem('user')).token
 				});
 				if (_res.code == 0) {
 					this.studentarray = _res.data;
@@ -174,7 +174,7 @@
 			// 列表
 			async list() {
 				let _res = await API.postJson('getStudentList', {
-					"token": uni.getStorageSync('user').token,
+					"token": JSON.parse(sessionStorage.getItem('user')).token,
 					"nianji": this.nianji_id,
 					"class": this.banji,
 					"id": this.student_id

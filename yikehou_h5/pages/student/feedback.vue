@@ -118,7 +118,7 @@
 			<textarea v-model="feedbackContent" placeholder="请填写您的反馈意见..."></textarea>
 			<view class="submitBtn" @click="submit">提交</view>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -142,7 +142,7 @@
 			async init() {
 				let _res = await API.postJson('getMyCourse', {
 					"result": 2,
-					"token": uni.getStorageSync('user').token
+					"token": JSON.parse(sessionStorage.getItem('user')).token
 				});
 				if (_res.code == 0) {
 					this.MyCourse = _res.data;
@@ -170,8 +170,32 @@
 				}
 			},
 			async submit() {
+				if (this.courseNum == 0) {
+					uni.showToast({
+						title: '请为课程打星',
+						duration: 2000,
+						icon: 'none'
+					});
+					return
+				}
+				if (this.teacherNum == 0) {
+					uni.showToast({
+						title: '请为老师打星',
+						duration: 2000,
+						icon: 'none'
+					});
+					return
+				}
+				if (this.feedbackContent == '' || this.feedbackContent.length < 5) {
+					uni.showToast({
+						title: '请填写评论内容，最少6个字',
+						duration: 2000,
+						icon: 'none'
+					});
+					return
+				}
 				let _res = await API.postJson('FeedBack', {
-					"token": uni.getStorageSync('user').token,
+					"token": JSON.parse(sessionStorage.getItem('user')).token,
 					"course_id": this.MyCourse_id,
 					"course_star": this.courseNum,
 					"teacher_star": this.teacherNum,
@@ -183,7 +207,7 @@
 						duration: 2000,
 						icon: 'none'
 					});
-				}else{
+				} else {
 					uni.showToast({
 						title: _res.message,
 						duration: 2000,

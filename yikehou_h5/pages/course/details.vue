@@ -56,6 +56,7 @@
 	#courseDetails .as_tokenBox .as_tokenBoxTop .as_tokenBoxTop_item>p:nth-child(1) {
 		font-size: 22rpx;
 		color: #333;
+		margin-bottom: 30rpx;
 	}
 
 	#courseDetails .as_courseBtn {
@@ -106,13 +107,13 @@
 				</block>
 				<block v-else>
 					<view class="as_courseBtn" @click="schoolBtn(item.id)" v-if="user.bs == 1">立即选课</view>
-					<view class="as_courseBtn" @click="studentBtn(item.id)" v-if="user.bs == 2">立即选课</view>
+					<view class="as_courseBtn" @click="studentBtn(item.school_course.id)" v-if="user.bs == 2">立即选课</view>
 				</block>
 			</view>
 			<p class="item_title">课程简介</p>
 			<p>少儿英语培训是一种针对3到12岁儿童的英语培训课程或项目</p>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -129,7 +130,7 @@
 				vertical: true,
 				id: "",
 				item: {},
-				user: uni.getStorageSync('user')
+				user: JSON.parse(sessionStorage.getItem('user'))
 			}
 		},
 		onLoad(Option) {
@@ -140,7 +141,7 @@
 			async init() {
 				let _res = await API.postJson('courseDetaill', {
 					"id": this.id,
-					"token": uni.getStorageSync('user').token
+					"token": JSON.parse(sessionStorage.getItem('user')).token
 				});
 				if (_res.code == 0) {
 					this.item = _res.data
@@ -148,7 +149,7 @@
 			},
 			async schoolBtn(id) {
 				let _res = await API.postJson('schoolchooseCourse', {
-					"token": uni.getStorageSync('user').token,
+					"token": JSON.parse(sessionStorage.getItem('user')).token,
 					"course_id": id
 				});
 				if (_res.code == 0) {
@@ -157,6 +158,7 @@
 						duration: 2000,
 						icon: 'none',
 					});
+					this.init()
 				}else{
 					uni.showToast({
 						title: _res.message,
@@ -167,7 +169,7 @@
 			},
 			async studentBtn(id) {
 				let _res = await API.postJson('chooseCourse', {
-					"token": uni.getStorageSync('user').token,
+					"token": JSON.parse(sessionStorage.getItem('user')).token,
 					"school_course_id": id
 				});
 				if (_res.code == 0) {
@@ -176,6 +178,7 @@
 						duration: 2000,
 						icon: 'none',
 					});
+					this.init()
 				}else{
 					uni.showToast({
 						title: _res.message,

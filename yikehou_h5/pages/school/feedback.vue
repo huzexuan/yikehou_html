@@ -45,6 +45,7 @@
 		width: 103rpx;
 		height: 103rpx;
 		margin-right: 22rpx;
+		border-radius: 50%;
 	}
 	#feedbackBox .conditionItem_userBox{
 		width:527rpx;
@@ -139,26 +140,21 @@
 								</p>
 								<view class="conditionItem_flag">{{item.course_text}}</view>
 							</view>
-							<div class="evaluate">
-								<div class="evaluate_l">
+							<view class="evaluate">
+								<view class="evaluate_l">
 									课程评价：
-									<image :src="item.course_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.course_star >= 2 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.course_star >= 3 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.course_star >= 4 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.course_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt />
+									
+									<image src="./images/star_active.png" v-for="count in item.course_star"></image>
+									<image src="./images/star.png" v-for="count in (5 - item.course_star)"></image>
 									<span>{{item.course_star}}星</span>
-								</div>
-								<div class="evaluate_r">
+								</view>
+								<view class="evaluate_r">
 									教师评价：
-									<image :src="item.teacher_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.teacher_star >= 2 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.teacher_star >= 3 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.teacher_star >= 4 ?'./images/star_active.png':'./images/star.png'" alt />
-									<image :src="item.teacher_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt />
+									<image src="./images/star_active.png" v-for="count in item.teacher_star"></image>
+									<image src="./images/star.png" v-for="count in (5 - item.teacher_star)"></image>
 									<span>{{item.teacher_star}}星</span>
-								</div>
-							</div>
+								</view>
+							</view>
 							<view class="leave">
 								<p>留言：</p>
 								<p>{{item.content}}</p>
@@ -168,7 +164,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -215,7 +211,7 @@
 			// 课程
 			async MyCoursePluck() {
 				let _res = await API.postJson('getMyCoursePluck', {
-					"token": uni.getStorageSync('user').token
+					"token": JSON.parse(sessionStorage.getItem('user')).token
 				});
 				if (_res.code == 0) {
 					this.kechengarray = _res.data;
@@ -223,7 +219,7 @@
 			},
 			async list() {
 				let _res = await API.postJson('getFeedBack', {
-					"token": uni.getStorageSync('user').token,
+					"token": JSON.parse(sessionStorage.getItem('user')).token,
 					"nianji": this.nianji_id,
 					"class": this.bianji_id,
 					"sort": this.time_id,

@@ -117,8 +117,13 @@
 				</view>
 				<view class="iconfont iconiconset0420"></view>
 			</navigator>
+			<view class="studentMeMenu_item" @click="logout">
+				<view class="studentMeMenu_l">
+					<image src="./images/meIcon04.png" mode="" class="meIcon"></image>退出登录
+				</view>
+			</view>
 		</view>
-		<view class="bg_height"></view>
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -128,7 +133,7 @@
 	export default {
 		data() {
 			return {
-				user: uni.getStorageSync('user'),
+				user: JSON.parse(sessionStorage.getItem('user')),
 				CourseNum: {}
 			}
 		},
@@ -151,9 +156,8 @@
 					sizeType: ['album'],
 					success(res) {
 						var imgFiles = res.tempFilePaths[0]
-						console.log(imgFiles)
 						uni.uploadFile({
-							url: 'http://yikehou.132.chinaapp.cc/api/v1/student/updateImg', //仅为示例，非真实的接口地址
+							url: 'http://yikehou.132.chinaapp.cc/api/v1/student/updateImg',
 							filePath: imgFiles,
 							name: 'img',
 							formData: {
@@ -163,8 +167,7 @@
 								let _res = JSON.parse(res.data)
 								if (_res.code == 0) {
 									_this.user.img = _res.data.img
-									uni.setStorageSync('user', _this.user);
-									console.log(uni.getStorageSync('user'))
+									sessionStorage.setItem('user', JSON.stringify(_this.user));
 									uni.showToast({
 										title: '更改成功',
 										duration: 2000,
@@ -178,6 +181,23 @@
 						});
 					}
 				})
+			},
+			logout() {
+				uni.showModal({
+					title: '温馨提示',
+					content: '是否确定退出登录',
+					confirmText: '确定',
+					cancelText: '取消',
+					success: function(res) {
+						if (res.confirm) {
+							sessionStorage.removeItem('user')
+							uni.navigateTo({
+								url: "/pages/index/index"
+							})
+						}
+					},
+
+				});
 			}
 		}
 	}

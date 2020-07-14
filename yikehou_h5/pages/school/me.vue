@@ -18,6 +18,7 @@
 	width: 96rpx;
 	height: 96rpx;
 	margin: 0 23rpx 0 43rpx;
+	border-radius: 100%;
 }
 #schoolMeBox .studentMeBanner_user p{
 	color: #fff;
@@ -90,7 +91,7 @@
 							<p>{{user.nickname}}</p>
 						</view>
 					</view>
-					<button type="primary" class="studentMeBanner_topr"  @click="upload">上传学校LOGO</button>
+					<button type="primary" class="studentMeBanner_topr" @click="upload">上传学校LOGO</button>
 				</view>
 				<ul class="studentMeBanner_bottom">
 					<li>已选课程<span>{{CourseNum.course_number}}</span></li>
@@ -117,8 +118,14 @@
 				</view>
 				<view class="iconfont iconiconset0420"></view>
 			</navigator>
+			<view class="studentMeMenu_item" @click="logout">
+				<view class="studentMeMenu_l">
+					<image src="./images/meIcon04.png" mode="" class="meIcon"></image>退出登录
+				</view>
+			</view>
 		</view>
-		<view class="bg_height"></view>
+
+		<view class="bottom_height"></view>
 		<page_footer></page_footer>
 	</view>
 </template>
@@ -128,11 +135,11 @@
 	export default {
 		data() {
 			return {
-				user:uni.getStorageSync('user'),
-				CourseNum:{}
+				user: JSON.parse(sessionStorage.getItem('user')),
+				CourseNum: {}
 			}
 		},
-		onLoad(){
+		onLoad() {
 			this.CourseNumber()
 		},
 		methods: {
@@ -145,22 +152,54 @@
 				}
 			},
 			upload: function() {
+				let _this = this
 				uni.chooseImage({
 					count: 1,
 					sizeType: ['copressed'],
 					success(res) {
 						var imgFiles = res.tempFilePaths[0]
-						console.log(imgFiles)
-						// var uper = uni.uploadFile({
-						// 	url: 'http://demo.hcoder.net/index.php?c=uperTest',
-						// 	filePath: imgFiles,
-						// 	name: 'file',
-						// 	success(res1) {
-						// 		console.log(res1)
-						// 	}
-						// });
+						uni.uploadFile({
+							url: 'http://yikehou.132.chinaapp.cc/api/v1/school/updateLogo', //仅为示例，非真实的接口地址
+							filePath: imgFiles,
+							name: 'img',
+							formData: {
+								'token': _this.user.token
+							},
+							success: (res) => {
+								let _res = JSON.parse(res.data)
+								if (_res.code == 0) {
+									_this.user.img = _res.data.img
+									sessionStorage.setItem('user', JSON.stringify(_this.user));
+									uni.showToast({
+										title: '更改成功',
+										duration: 2000,
+										icon: 'none',
+										success() {
+						
+										}
+									});
+								}
+							}
+						});
 					}
 				})
+			},
+			logout() {
+				uni.showModal({
+					title: '温馨提示',
+					content: '是否确定退出登录',
+					confirmText: '确定',
+					cancelText: '取消',
+					success: function(res) {
+						if (res.confirm) {
+								sessionStorage.removeItem('user')
+								uni.navigateTo({
+									url:"/pages/index/index"
+								})
+						}
+					},
+				
+				});
 			}
 		}
 	}

@@ -18,6 +18,15 @@
 	@import "./static/iconfont.css";
 	@import "./static/animate.min.css";
 
+	#password .uni-input-input {
+		color: #a4d6ef;
+	}
+
+	uni-page-body {
+		min-height: 100vh;
+		position: relative;
+	}
+
 	#loginBox .uni-input-input {
 		color: #fff;
 	}
@@ -59,6 +68,11 @@
 		width: 100%;
 		background: #f4f4f4;
 		height: 10rpx;
+	}
+
+	.bottom_height {
+		width: 100%;
+		height: 284rpx;
 	}
 
 	.ellipse {

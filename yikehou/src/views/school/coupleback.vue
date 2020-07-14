@@ -43,7 +43,7 @@
   margin-right: 35px;
 }
 .evaluate {
-  /* margin: 25px 0 34px 0; */
+  margin: 25px 0 34px 0;
   display: flex;
   align-items: center;
 }
@@ -130,20 +130,14 @@
               <div class="evaluate">
                 <div class="evaluate_l">
                   课程评价：
-                  <img :src="item.course_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
-                  <img :src="item.course_star >= 2 ?'./images/star_active.png':'./images/star.png'" alt />
-                  <img :src="item.course_star >= 3 ?'./images/star_active.png':'./images/star.png'" alt />
-                  <img :src="item.course_star >= 4 ?'./images/star_active.png':'./images/star.png'" alt />
-                  <img :src="item.course_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img src="./images/star_active.png" v-for="count in item.course_star" :key="count"/>
+									<img src="./images/star.png" v-for="count in (5 - item.course_star)" :key="count"/>
                   <span>{{item.course_star}}星</span>
                 </div>
                 <div class="evaluate_r">
                   教师评价：
-                  <img :src="item.teacher_star >= 1 ?'./images/star_active.png':'./images/star.png'" alt />
-                  <img :src="item.teacher_star >= 2 ?'./images/star_active.png':'./images/star.png'" alt />
-                  <img :src="item.teacher_star >= 3 ?'./images/star_active.png':'./images/star.png'" alt />
-                  <img :src="item.teacher_star >= 4 ?'./images/star_active.png':'./images/star.png'" alt />
-                  <img :src="item.teacher_star >= 5 ?'./images/star_active.png':'./images/star.png'" alt />
+                  <img src="./images/star_active.png" v-for="count in item.teacher_star" :key="count"/>
+									<img src="./images/star.png" v-for="count in (5 - item.teacher_star)" :key="count"/>
                   <span>{{item.teacher_star}}星</span>
                 </div>
               </div>
@@ -192,7 +186,7 @@ export default {
     };
   },
   async created() {
-    await this.init();
+    this.init();
     this.MyCoursePluck()
     this.list()
   },
@@ -203,7 +197,6 @@ export default {
       let _res = await ajax.NianjiList(params);
       if (_res.code == 0) {
         this.gradeList = _res.data;
-        this.gradeId=_res.data[0].id;
       }
     },
     // 课程

@@ -16,14 +16,19 @@ CONFIG.url = {
 	'getMyCourse': '/api/v1/student/getMyCourse', //学生报课列表
 	'FeedBack': '/api/v1/student/addFeedBack', //学生评价
 	'courseDetaill': '/api/v1/course/courseDetaill', //课程详情
-	'schoolchooseCourse' :'/api/v1/school/chooseCourse', //学校选课
-    'schoolLogin':'/api/auth/schoolLogin',//学校登录
-	'SchoolcourseNumber':'/api/v1/school/courseNumber',//学校选课数量
-    'studentPullDownList':'/api/v1/student/studentPullDownList',//学生下拉框
-	'getStudentList':'/api/v1/school/getStudentList',//学生报课情况
-	'getStudentDetail' :'/api/v1/student/getStudentDetail', //查看学生信息
-    'getMyCoursePluck':'/api/v1/school/getMyCoursePluck',//课程筛选
-    'getFeedBack':'/api/v1/school/getFeedBack', //学生反馈信息
+	'schoolchooseCourse': '/api/v1/school/chooseCourse', //学校选课
+	'schoolLogin': '/api/auth/schoolLogin', //学校登录
+	'SchoolcourseNumber': '/api/v1/school/courseNumber', //学校选课数量
+	'studentPullDownList': '/api/v1/student/studentPullDownList', //学生下拉框
+	'getStudentList': '/api/v1/school/getStudentList', //学生报课情况
+	'getStudentDetail': '/api/v1/student/getStudentDetail', //查看学生信息
+	'getMyCoursePluck': '/api/v1/school/getMyCoursePluck', //课程筛选
+	'getFeedBack': '/api/v1/school/getFeedBack', //学生反馈信息
+	'ArticleDetail': '/api/v1/article/getArticleDetail', //新闻详情
+	'schoolPassword': '/api/v1/school/updatePassword',// 修改密码学校端
+	'studentPassword': '/api/v1/student/updatePassword',// 修改密码学生端
+	'seeDegree' :'/api/v1/school/reduList', //热度排名
+
 
 };
 

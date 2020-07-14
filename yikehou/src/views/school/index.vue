@@ -80,6 +80,7 @@
   margin-bottom: 18px;
 }
 .courseList li .courseItem p:nth-child(2) {
+  height: 40px;
   color: #666;
 }
 .btn {

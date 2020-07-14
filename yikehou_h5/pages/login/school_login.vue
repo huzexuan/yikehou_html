@@ -109,10 +109,10 @@
 			<view class="operation">
 				<checkbox-group @change="checkBox($event)">
 					<label>
-						<checkbox :checked="checked"/>记住密码
+						<checkbox :checked="checked" />记住密码
 					</label>
 				</checkbox-group>
-				<view class="no_password" @click="">修改密码</view>
+				<view class="no_password" @click="up_pas">修改密码</view>
 			</view>
 			<view class="register_btn">
 				<button type="submit" class="register" :plain="true" @click="submit">登录</button>
@@ -126,28 +126,51 @@
 	export default {
 		data() {
 			return {
-				checked:false,
+				checked: false,
 				school_name: '',
-				password: ''
+				password: '',
+				has_pas: false
 			}
 		},
-		onLoad(){
+		onLoad(option) {
 			uni.setNavigationBarTitle({
 				title: "益课后-学校登录"
 			})
 			this.init()
+			this.has_pas = option.pas
+
+		},
+		onShow() {
+			let _this = this
+			if (_this.has_pas) {
+				uni.showToast({
+					title: "修改成功,请重新登录",
+					duration: 2000,
+					icon: 'none',
+					success() {
+						_this.has_pas = false
+					}
+				});
+			}
 		},
 		methods: {
-			init(){
-				let user = uni.getStorageSync('userInfo')
-				if(user.schoolName && user.userPsw){
-					this.school_name = user.schoolName
-					this.password = user.schoolPsw
-					this.checked =  true
+			init() {
+				let user = JSON.parse(sessionStorage.getItem('userInfo'))
+				if (user) {
+					if (user.schoolName && user.userPsw) {
+						this.school_name = user.schoolName
+						this.password = user.schoolPsw
+						this.checked = true
+					}
 				}
 			},
 			checkBox(e) {
 				this.checked = !this.checked
+			},
+			up_pas() {
+				uni.navigateTo({
+					url: "/pages/login/password?type=1"
+				})
 			},
 			async submit() {
 				let _res = await API.postJson('schoolLogin', {
@@ -156,39 +179,39 @@
 				});
 				if (_res.code == 0) {
 					if (this.checked) {
-						let user={
-							schoolName:this.school_name,
-							schoolPsw:this.password
+						let user = {
+							schoolName: this.school_name,
+							schoolPsw: this.password
 						}
-						uni.setStorageSync('userInfo',user);
-						uni.setStorageSync('user',_res.data);
+						sessionStorage.setItem('userInfo', JSON.stringify(user));
+						sessionStorage.setItem('user', JSON.stringify(_res.data));
 						uni.showToast({
 							title: '登录成功',
 							duration: 2000,
 							icon: 'none',
 							success() {
 								uni.navigateTo({
-									url:'/pages/index/index'
+									url: '/pages/index/index'
 								})
 							}
 						});
 					} else {
-						uni.removeStorageSync('userInfo')
-						uni.setStorageSync('user',_res.data);
+						sessionStorage.removeItem('userInfo')
+						sessionStorage.setItem('user', JSON.stringify(_res.data));
 						uni.showToast({
 							title: '登录成功',
 							duration: 2000,
 							icon: 'none',
 							success() {
 								uni.navigateTo({
-									url:'/pages/index/index'
+									url: '/pages/index/index'
 								})
 							}
 						});
 					}
 				} else {
 					uni.showToast({
-						title:_res.message,
+						title: _res.message,
 						duration: 2000,
 						icon: 'none',
 					});
